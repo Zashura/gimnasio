@@ -1,0 +1,69 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core" 
+    xmlns:ui="http://java.sun.com/jsf/facelets" 
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:p="http://primefaces.org/ui"
+    template="/plantillas/contenedor.xhtml">
+    
+    <ui:define name="titulo">
+        Asignaci&#243;n de Menu a Rol
+        
+        <style>			
+			*.rf-trn-sel {
+				background: #FFFFE0;
+			}
+		</style>
+    </ui:define>
+    
+    <ui:define name="contenido">
+        <h:form id="principal">
+        <br/>
+            <p:panel>
+		        <br/>
+		        <h:panelGroup>
+		        	<h:outputText style="font-weight: bold;" value="Aplicaci&#243;n:" /> &#160;&#160;
+	                <h:selectOneMenu  style="width: 30%;" value="#{asignacionRecursosController.aplicacion.codigo}">
+	                	<f:selectItem itemValue="Seleccione una aplicaci&#243;n" noSelectionOption="true"></f:selectItem>
+	                	<f:selectItems value="#{asignacionRecursosController.listaAplicaciones}" var="aplicacion" itemLabel="#{aplicacion.nombre}" itemValue="#{aplicacion.codigo}"></f:selectItems>
+	                	<a4j:ajax event="change" listener="#{asignacionRecursosController.seleccionarAplicacion}" render="arbolRecursos selectRoles"></a4j:ajax>
+	                </h:selectOneMenu>
+	                <br/>
+	                <h:outputText style="font-weight: bold; padding-right: 52px;" value="Rol:" /> &#160;&#160;
+	                <h:panelGroup id="selectRoles">
+		                <h:selectOneMenu style="width: 30%;" value="#{asignacionRecursosController.rol.codigo}" selectFirst="true">
+		                	<f:selectItem itemValue="Seleccione un Rol" noSelectionOption="true"></f:selectItem>
+		                	<f:selectItems value="#{asignacionRecursosController.roles}" var="rol" itemLabel="#{rol.nombre}" itemValue="#{rol.codigo}"></f:selectItems>
+		                	<a4j:ajax event="change" listener="#{asignacionRecursosController.seleccionarRol}" render="arbolRecursos"></a4j:ajax>
+		                </h:selectOneMenu>
+		            </h:panelGroup>
+		        </h:panelGroup>
+		        <br/><br/>
+		        <h:panelGroup id="arbolRecursos">
+		        	<h:panelGroup rendered="#{empty asignacionRecursosController.raices}">
+		        		<br/>
+			        	<h:outputText style="font-weight: bold;" value="No se han encontrado recursos para la aplicaci&#243;n seleccionada o no se ha seleccionado el rol" />
+			        </h:panelGroup>
+			        <h:panelGroup rendered="#{not empty asignacionRecursosController.raices and not empty asignacionRecursosController.rol}">
+			        
+				        <rich:tree toggleType="client" var="item"  selectionType="ajax">
+				        	<rich:treeModelRecursiveAdaptor roots="#{asignacionRecursosController.raices}" nodes="#{item.recursos}"  leaf="#{empty item.recursos}">
+				        		<rich:treeNode >
+				        			#{item.nombre}
+				        			<h:selectBooleanCheckbox value="#{item.asignado}">
+				        			<a4j:ajax listener="#{asignacionRecursosController.seleccionarRecurso(item)}" event="change" render="arbolRecursos"/>
+				        			</h:selectBooleanCheckbox>
+				        		</rich:treeNode>
+				        	</rich:treeModelRecursiveAdaptor>
+				        </rich:tree>
+
+
+
+			        </h:panelGroup>
+		        </h:panelGroup>
+		   </p:panel>
+		    <br/>
+        </h:form>
+	</ui:define>
+</ui:composition>

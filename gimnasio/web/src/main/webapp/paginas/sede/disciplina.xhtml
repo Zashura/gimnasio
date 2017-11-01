@@ -1,0 +1,127 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core" 
+    xmlns:ui="http://java.sun.com/jsf/facelets" 
+    xmlns:p="http://primefaces.org/ui"
+    template="/plantillas/contenedor.xhtml">
+    
+    <ui:define name="titulo" >
+        Disciplina
+    </ui:define>
+    
+    <ui:define name="contenido">
+    	<style>
+			.width1 { width:30%; }
+			.width2 { width:40%; }
+			.width3 { width:30%; }
+			.width4 { width:30%; text-align:right; }
+			.width5 { width:50%; text-align: right; }
+			.width6 { width:30%; text-align: center; }
+			.width7 { text-align: left; }
+			.width30 { width: 30%; text-align: right; vertical-align: top; padding-right: 15px; }
+			.width70 { width: 70%; vertical-align: top; }
+		</style>
+        <h:form id="principal">
+            <p:panel>
+		        <h:outputText value="Nombre:" />
+                &#160;&#160;<h:inputText id="nombre" value="#{disciplinaController.nombreBuscar}" style="width:30%"/>
+                &#160;&#160;<p:commandButton action="#{disciplinaController.findbyName}" value="Buscar" update="principal:tablaDisciplina"/>
+                &#160;&#160;<p:commandButton value="Agregar" update="disciplina:panelNuevoDisc" oncomplete="PF('popupDisciplina').show()"/>
+                
+            </p:panel>
+            <br/><br/>
+            
+            <p:dataTable id="tablaDisciplina" var="_sede" value="#{disciplinaController.listDisciplina}" noDataLabel="No se han encontrado registros" 
+         		rows="10" paginator="true"  rowIndexVar="rowIndex"
+         		currentPageReportTemplate="{startRecord} de {endRecord} "
+                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="5,10,15"
+                onrowmouseover="this.style.backgroundColor='#FFFFE0'"
+				onrowmouseout="this.style.backgroundColor='#F7FDFC'"
+				style=" align:center; width:100%;background-color:#F7FDFC;">
+            <p:column style="width:4%">
+                	<f:facet name="header">#</f:facet>
+                	#{rowIndex+1}
+            	</p:column>
+	            <p:column>
+	                <f:facet name="header">Disciplina</f:facet>
+	                #{_sede.disDescripcion}
+	            </p:column>
+	             
+	            <p:column>
+	                <f:facet name="header">Estado</f:facet>
+	                <center>
+	                <h:outputText value="#{_sede.disEstado == '1' ? 'Activa' : 'Inactiva'}" />
+	                </center> 
+	            </p:column>
+	            <p:column>
+	            <center>
+					<h:commandLink action="#{disciplinaController.delete(_sede)}" onclick="return confirm('Está seguro que desea eliminar la aplicaci&#243;n seleccionada?')">
+						<h:graphicImage value="/img/delete.gif" alt="Eliminar" />
+					</h:commandLink>
+					<p:commandLink update="disciplina:panelNuevoDisc" action="#{disciplinaController.editDisciplina(_sede)}" oncomplete="PF('popupDisciplina').show()">
+						<h:graphicImage value="/img/edit.gif" alt="Editar" />
+					</p:commandLink>
+					</center>
+				</p:column>
+	        </p:dataTable>
+		    
+        </h:form>
+    	
+    	<p:dialog widgetVar="popupDisciplina" id="popupDisciplina" modal="true" autosized="true" width="600px">
+        	<f:facet name="header">
+		        Disciplina
+	        </f:facet>
+	       	<h:form id="disciplina">
+	       	<br/>
+	       	<div align="center">
+        		<p:outputPanel id="panelNuevoDisc">
+		           	<h:panelGrid columns="2" columnClasses="width30, width70">
+		                <h:outputLabel for="descDis" value="Disciplina: " />
+		                <h:panelGroup>
+		                <h:inputText id="descDis" style="width:100%" value="#{disciplinaController.disciplina.disDescripcion}" required="true" requiredMessage="Campo obligatorio">
+		                	<f:ajax render="@this msmDescDis"  />
+		                </h:inputText>
+		                <p:message for="descDis" id="msmDescDis"/>
+						</h:panelGroup>
+		
+		                <h:outputLabel for="tipo" value="Tipo Disciplina: " />
+		                <h:panelGroup>
+						<h:selectOneMenu id="tipo" value="#{disciplinaController.tipoDisciplina.tidiCodigo}" style="width:100%">
+							<f:selectItem itemLabel="Seleccione..."	noSelectionOption="true" />
+							<f:selectItems value="#{disciplinaController.listTipoDisciplina}" var="cant" itemValue="#{cant.tidiCodigo}" itemLabel="#{cant.tidiDescripcion}" />
+							<p:ajax event="change" update="@this msmTipDis" />
+						</h:selectOneMenu>
+						<p:message for="tipo" id="msmTipDis"/>
+						</h:panelGroup>
+
+						<h:outputLabel for="cint" value="Cinturon: " />
+		                <h:panelGroup>
+		                <h:inputText id="cint" style="width:100%" value="#{disciplinaController.cinturon.cinDescripcion}" required="true" requiredMessage="Campo obligatorio">
+		                	<f:ajax render="@this msmCin"  />
+		                </h:inputText>
+		                <p:message for="cint" id="msmCin"/>
+						</h:panelGroup>
+						
+						<h:outputLabel for="grad" value="Grado: " />
+		                <h:panelGroup>
+		                <h:inputText id="grad" style="width:100%" value="#{disciplinaController.grado.graDescripcion}" required="true" requiredMessage="Campo obligatorio">
+		                	<f:ajax render="@this msmGrad"  />
+		                </h:inputText>
+		                <p:message for="grad" id="msmGrad"/>
+						</h:panelGroup>
+		                
+					</h:panelGrid>
+					<br/>
+		           	<div align="center">
+		            	<p:commandButton  action="#{disciplinaController.saveDisciplina()}" value="Aceptar" update="panelNuevoDisc principal:tablaDisciplina" oncomplete="if (!args.validationFailed)  {PF('popupDisciplina').hide()}"/>
+		            	<p:commandButton value="Cancelar" action="#{disciplinaController.cancelDisciplina()}" oncomplete="PF('popupDisciplina').hide()"/>
+		        	</div>
+		        	<br/>
+		        </p:outputPanel>
+		        </div>
+	        </h:form>
+    	</p:dialog>
+	    
+	</ui:define>
+</ui:composition>

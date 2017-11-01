@@ -1,0 +1,221 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core" 
+    xmlns:ui="http://java.sun.com/jsf/facelets" 
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:p="http://primefaces.org/ui"
+    template="/plantillas/contenedor.xhtml">
+    
+    <ui:define name="titulo">
+        Administraci&#243;n de Menus
+        
+        <style>
+			*.rf-trn-ico, *.rf-trn-hnd, *.rf-trn-hnd-ldn-fct {
+				vertical-align: middle;
+				margin: 0px;
+				cursor: default;
+				width: 16px;
+				height: 16px;
+				display: inline-block;
+			}
+			*.rf-trn-lbl {
+				padding: 0px 4px 0px 2px;
+				vertical-align: middle;
+				cursor: default;
+				display: inline-block;
+			}
+			.errors{border: 1px dotted #BB0000; color: #BB0000; padding: 15px 50px 15px; }
+			*.rf-trn-sel {
+				background: #FFFFE0;
+			}
+		</style>
+    </ui:define>
+    
+    <ui:define name="contenido">
+        <h:form id="principal">
+        	 <p:panel>        	
+		        <h:panelGrid columns="4">
+		        	<h:outputText style="font-weight: bold;" value="Aplicaci&#243;n:" />&#160;&#160;
+	                <h:selectOneMenu value="#{recursosController.aplicacion.codigo}">
+	                	<f:selectItem itemValue="Seleccione una aplicaci&#243;n" noSelectionOption="true"></f:selectItem>
+	                	<f:selectItems value="#{recursosController.listaAplicaciones}" var="aplicacion" itemLabel="#{aplicacion.nombre}" itemValue="#{aplicacion.codigo}"></f:selectItems>
+	                	<a4j:ajax event="change" listener="#{recursosController.seleccionarAplicacion}" render="panelRecursos msjRegimenErr" ></a4j:ajax>
+	                </h:selectOneMenu>
+		        </h:panelGrid>
+             </p:panel>
+            <br/>
+            <p:panel>
+		        <h:panelGroup id="panelRecursos">
+					<h:panelGroup id="msjRegimenErr">
+						<h:panelGroup
+							rendered="#{recursosController.existeRolAplicacionRecurso}">
+							<br />
+							<div style="width: 100%;" align="center">
+								<div
+									style="width: 85%; background-color: rgb(255, 238, 221); font-weight: bold;"
+									class="errors">
+
+									<h:outputText
+										value="No puede inactivar el recurso seleccionado debido a que presenta roles de usuarios asignados al mismo." />
+									<br />
+								</div>
+							</div>
+							<br />
+							<br />
+						</h:panelGroup>
+					</h:panelGroup>
+					<h:panelGroup rendered="#{empty recursosController.raices and not empty recursosController.aplicacion}">
+			        	<h:outputText style="font-weight: bold;" value="No se han encontrado recursos para la aplicaci&#243;n seleccionada, haga click " />
+			        	<a4j:commandLink value="aqu&#237;" render="panelNuevo msjRegimenErr" oncomplete="#{rich:component('popupNuevoRecurso')}.show();" actionListener="#{recursosController.limpiarMensaje()}"/>
+			        	<h:outputText style="font-weight: bold;" value=" para agregar." />
+			        </h:panelGroup>
+			        <h:panelGroup rendered="#{not empty recursosController.raices}">
+			       		<h:outputText style="font-weight: bold;" value="Haga click " />
+			        	<a4j:commandLink value="aqu&#237;" render="panelNuevo msjRegimenErr" oncomplete="#{rich:component('popupNuevoRecurso')}.show();" actionListener="#{recursosController.limpiarMensaje()}">
+			        		<f:setPropertyActionListener target="#{recursosController.recursoSeleccionado}" value="#{null}"></f:setPropertyActionListener>
+			        	</a4j:commandLink>
+			        	<h:outputText style="font-weight: bold;" value=" para agregar elemento ra&#237;z." />
+			        	<br/><br/>
+				        <rich:tree id="arbolRecursos" toggleType="client" var="item" render="msjRegimenErr" oncomplete="#{recursosController.limpiarMensaje()}">
+				        	<rich:treeModelRecursiveAdaptor roots="#{recursosController.raices}" nodes="#{item.recursos}" leaf="#{empty item.recursos}" >
+				        		<rich:treeNode >
+				        			<h:outputText value="#{item.nombre}  " />
+				        			<a4j:commandLink render="panelNuevo msjRegimenErr" oncomplete="#{rich:component('popupNuevoRecurso')}.show();" disabled="#{item.estado=='I'}" actionListener="#{recursosController.limpiarMensaje()}">
+										<h:graphicImage value="/img/new.png" alt="Nuevo" title="Nuevo" rendered="#{item.estado=='A'}"/>
+										<h:graphicImage value="/img/new-gris.png" alt="Nuevo" title="Nuevo" rendered="#{item.estado=='I'}"/>
+										<f:setPropertyActionListener target="#{recursosController.recursoSeleccionado}" value="#{item}"/>
+									</a4j:commandLink>
+									<a4j:commandLink render="panelEditar msjRegimenErr" oncomplete="#{rich:component('popupEditarRecurso')}.show();" disabled="#{item.estado=='I'}" actionListener="#{recursosController.limpiarMensaje()}">
+										<h:graphicImage value="/img/edit.gif" alt="Editar" title="Editar" rendered="#{item.estado=='A'}"/>
+										<h:graphicImage value="/img/edit-gris.gif" alt="Editar" title="Editar" rendered="#{item.estado=='I'}"/>
+										<f:setPropertyActionListener target="#{recursosController.recursoSeleccionado}" value="#{item}"/>
+									</a4j:commandLink>
+									<a4j:commandLink render="panelMover msjRegimenErr" oncomplete="#{rich:component('popupMoverRecurso')}.show();" disabled="#{item.estado=='I'}" actionListener="#{recursosController.limpiarMensaje()}">
+										<h:graphicImage value="/img/move.png" alt="Mover" title="Mover" rendered="#{item.estado=='A'}"/>
+										<h:graphicImage value="/img/move-gris.png" alt="Mover" title="Mover" rendered="#{item.estado=='I'}"/>
+										<f:setPropertyActionListener target="#{recursosController.recursoSeleccionado}" value="#{item}"/> 
+									</a4j:commandLink>																			
+									<a4j:commandLink render="panelRecursos arbolRecursos msjRegimenErr" action="#{recursosController.activarDesactivar(item, false)}" actionListener="#{recursosController.limpiarMensaje()}"
+									rendered="#{item.estado=='A'}" onclick="return confirm('¿Está seguro que desea inactivar el recurso #{item.nombre}?')">
+										<h:graphicImage value="/img/delete.gif" alt="Inactivar" title="Inactivar"/>
+										<f:setPropertyActionListener target="#{recursosController.recursoSeleccionado}" value="#{item}"/>
+									</a4j:commandLink>
+									<a4j:commandLink render="panelRecursos arbolRecursos msjRegimenErr" action="#{recursosController.activarDesactivar(item, true)}" actionListener="#{recursosController.limpiarMensaje()}"
+									rendered="#{item.estado=='I'}" onclick="return confirm('¿Está seguro que desea activar el recurso #{item.nombre}?')">
+										<h:graphicImage value="/img/tick.png" alt="Activar" title="Activar"/>
+										<f:setPropertyActionListener target="#{recursosController.recursoSeleccionado}" value="#{item}"/>
+									</a4j:commandLink>									
+				        		</rich:treeNode>
+				        	</rich:treeModelRecursiveAdaptor>				        	
+				        </rich:tree>
+			        </h:panelGroup>
+		        </h:panelGroup>
+		    </p:panel>  
+		    <br/>
+		    
+        </h:form>
+        <rich:popupPanel id="popupMoverRecurso" modal="true" ronmaskclick="#{rich:component('popupMoverRecurso')}.hide()" autosized="true" width="300">
+        	<f:facet name="header">
+		        Mover Recurso
+	        </f:facet>
+	       	<h:form name="mover">
+        		<rich:messages globalOnly="true" ajaxRendered="true" showDetail="true" showSummary="true" >
+        		</rich:messages>
+        		<h:panelGroup id="panelMover">         		       	
+        			<a4j:outputPanel rendered="#{recursosController.recursoSeleccionado == null}">
+        				<br/>
+        				<h:outputText value="Debe seleccionar un recurso para poder moverlo." />
+        				<br/><br/>
+        				<a4j:commandButton value="Aceptar" oncomplete="#{rich:component('popupMoverRecurso')}.hide(); return false;"/>
+        			</a4j:outputPanel>
+        			<a4j:outputPanel rendered="#{recursosController.recursoSeleccionado != null}">
+        				<br/>
+        				<h:outputText value="Recurso seleccionado: " />
+        				<h:outputText value="#{recursosController.recursoSeleccionado.nombre}" style="font-weight: bold;"/>
+        				<br/><br/>
+	        			<rich:tree toggleType="ajax" var="item"  selectionType="ajax">
+				        	<rich:treeModelRecursiveAdaptor roots="#{recursosController.raices}" nodes="#{item.recursos}" leaf="#{empty item.recursos}">
+				        		<rich:treeNode >
+				        			<h:outputText value="#{item.nombre}  "/>
+				        			<a4j:commandLink render="panelRecursos" action="#{recursosController.moverRecurso(item)}" rendered="#{recursosController.recursoSeleccionado != item}">
+										<h:graphicImage value="/img/in.png" alt="Mover aqu&#237;" title="Mover aqu&#237;"/>
+									</a4j:commandLink>
+				        		</rich:treeNode>
+				        	</rich:treeModelRecursiveAdaptor>
+				        </rich:tree>
+				        <br/>
+				        <center>				        
+				        <a4j:commandButton action="#{recursosController.moverRecurso(null)}" value="Mover a Raiz" render="panelRecursos" oncomplete="#{rich:component('popupMoverRecurso')}.hide();"/>
+				        <a4j:commandButton value="Salir" oncomplete="#{rich:component('popupMoverRecurso')}.hide(); return false;" render="panelRecursos"/>
+				        </center>
+			        </a4j:outputPanel>
+		        </h:panelGroup>
+	        </h:form>
+    	</rich:popupPanel>
+        <rich:popupPanel id="popupNuevoRecurso" modal="true" ronmaskclick="#{rich:component('popupNuevoRecurso')}.hide()" autosized="true">
+        	<f:facet name="header">
+		        Nuevo Recurso
+	        </f:facet>
+	       	<h:form name="nuevo">
+        		<rich:messages globalOnly="true" ajaxRendered="true" showDetail="true" showSummary="true"></rich:messages>
+        		<a4j:outputPanel id="panelNuevo">
+		           	<h:panelGrid columns="3">
+		
+		                <h:outputLabel for="nombre" value="Nombre:" />
+		                <h:inputText id="nombre" value="#{recursosController.nuevoRecurso.nombre}"  onkeyup="mayusculas(this);" maxlength="25" required="true" requiredMessage="Campo obligatorio"/>
+		                <rich:message for="nombre"/>
+		                
+		                <h:outputLabel for="descripcion" value="Descripci&#243;n:" />
+		                <h:inputTextarea id="descripcion" value="#{recursosController.nuevoRecurso.descripcion}" maxlength="255" required="true" onkeyup="mayusculas(this);" requiredMessage="Campo obligatorio"/>
+		                <rich:message for="descripcion"/>
+		                
+		                <h:outputLabel for="url" value="URL:" />
+		                <h:inputText id="url" value="#{recursosController.nuevoRecurso.url}" maxlength="150" required="true" requiredMessage="Campo obligatorio"/>
+		                <rich:message for="url"/>
+		            </h:panelGrid>
+		           	<h:panelGrid columns="2">
+		            	<a4j:commandButton action="#{recursosController.registrar}" value="Crear" render="panelRecursos" oncomplete="if('#{facesContext.maximumSeverity}'.indexOf('ERROR') &lt; 0) #{rich:component('popupNuevoRecurso')}.hide()"/>
+		            	<a4j:commandButton value="Cancelar" oncomplete="#{rich:component('popupNuevoRecurso')}.hide(); return false;"/>
+		        	</h:panelGrid>
+		        </a4j:outputPanel>
+	        </h:form>
+    	</rich:popupPanel>
+    	<rich:popupPanel id="popupEditarRecurso" modal="true" ronmaskclick="#{rich:component('popupEditarRecurso')}.hide()" autosized="true">
+        	<f:facet name="header">
+		        Editar Recurso
+	        </f:facet>
+	       	<h:form name="editar">
+        		<rich:messages globalOnly="true" ajaxRendered="true" showDetail="true" showSummary="true"></rich:messages>
+        		<h:panelGroup id="panelEditar">
+        			<a4j:outputPanel rendered="#{recursosController.recursoSeleccionado == null}">
+        				<br/>
+        				<h:outputText value="Debe seleccionar un recurso para poder editarlo." />
+        				<br/><br/>
+        				<a4j:commandButton value="Aceptar" oncomplete="#{rich:component('popupEditarRecurso')}.hide(); return false;"/>
+        			</a4j:outputPanel>
+	        		<a4j:outputPanel rendered="#{recursosController.recursoSeleccionado != null}">
+			           	<h:panelGrid columns="3">
+			
+			                <h:outputLabel for="nombre" value="Nombre:" />
+			                <h:inputText id="nombre" value="#{recursosController.recursoSeleccionado.nombre}" onkeyup="mayusculas(this);" maxlength="25" required="true" requiredMessage="Campo obligatorio"/>
+			                <rich:message for="nombre"/>
+			                
+			                <h:outputLabel for="descripcion" value="Descripcion:" />
+			                <h:inputTextarea id="descripcion" value="#{recursosController.recursoSeleccionado.descripcion}" onkeyup="mayusculas(this);" maxlength="255" required="true" requiredMessage="Campo obligatorio"/>
+			                <rich:message for="descripcion"/>
+			                
+			                <h:outputLabel for="url" value="URL:" />
+			                <h:inputText id="url" value="#{recursosController.recursoSeleccionado.url}" maxlength="150" required="true" requiredMessage="Campo obligatorio"/>
+			                <rich:message for="url"/>
+			            </h:panelGrid>
+			           	<h:panelGrid columns="2" style="width:100%">
+			            	<a4j:commandButton action="#{recursosController.actualizar}" value="Actualizar" render="panelRecursos" oncomplete="if('#{facesContext.maximumSeverity}'.indexOf('ERROR') &lt; 0) #{rich:component('popupEditarRecurso')}.hide();"/>
+			            	<a4j:commandButton action="#{recursosController.cancelar}" value="Cancelar" oncomplete="#{rich:component('popupEditarRecurso')}.hide(); return false;"/>
+			        	</h:panelGrid>
+			        </a4j:outputPanel>
+		        </h:panelGroup>
+	        </h:form>
+    	</rich:popupPanel>    	
+	</ui:define>
+</ui:composition>

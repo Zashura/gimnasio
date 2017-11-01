@@ -1,0 +1,374 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core" 
+    xmlns:ui="http://java.sun.com/jsf/facelets" 
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:p="http://primefaces.org/ui"
+    template="/plantillas/contenedor.xhtml">
+    
+    <ui:define name="titulo">
+       Usuarios
+        
+         <style>			
+			*.rf-trn-sel {
+				background: #FFFFE0;
+			}
+			.width30{
+	width:20%;
+	text-align: right;
+	}
+	.width70{
+	width:70%;
+	}
+		</style>
+    </ui:define>
+    
+    <ui:define name="contenido">
+        <h:form id="principal">
+            <p:panel>
+            		        		        		       
+		        <br/>
+		    	<a4j:commandButton value="Agregar Usuario" action="#{usuarioController.nuevo}" render="panelNuevo" oncomplete="#{rich:component('popupNuevoUsuario')}.show()"/>    
+		        <br/><br/>		        		          		       
+		        <fieldset style="width: 95%; text-align: left;">
+						<legend class="item-label" align="left" style="font-size: 11px;">
+							<b> B&#250;squeda de usuarios </b>
+						</legend>
+				
+				<h:panelGrid columns="2" columnClasses="width30,width70" width="70%">
+		        	<h:panelGroup><b><h:outputText value="Buscar por:" /></b></h:panelGroup>
+		        	<h:selectOneRadio value="#{usuarioController.opcionBusqueda}">
+			        	<f:selectItem itemLabel="Identificaci&#243;n" itemValue="1"/>
+			        	<f:selectItem itemLabel="Apellidos y nombres" itemValue="2"/>	
+			        	<a4j:ajax execute="@this" render="@this idLabel idCampo labelApell apellido labelNombre nombre tablaUsuarios" listener="#{usuarioController.limpiarVariablesBusqueda()}"></a4j:ajax>		  
+		        	</h:selectOneRadio>
+		        	<h:panelGroup id="idLabel"><b> <h:outputText value="Identificaci&#243;n:" rendered="#{usuarioController.opcionBusqueda==1}"/></b></h:panelGroup>
+		        	<h:panelGroup id="idCampo">		        	
+		        	<h:inputText id="identificacion" value="#{usuarioController.identificacionBuscar}" onkeyup="mayusculas(this);" style="width:30%" rendered="#{usuarioController.opcionBusqueda==1}" maxlength="10" >
+		        	<a4j:ajax execute="@this" render="@this identificacion" ></a4j:ajax>
+		        	</h:inputText>
+		        	<a4j:commandButton value="Buscar" action="#{usuarioController.buscarPorId}" render="tablaUsuarios" rendered="#{usuarioController.opcionBusqueda==1}"/>		        	
+		        	</h:panelGroup>
+		        		
+		        	<h:panelGroup id="labelApell"><b><h:outputText value="Apellidos:" rendered="#{usuarioController.opcionBusqueda==2}"/></b></h:panelGroup>
+		        	<h:panelGroup id="apellido">
+		        	<h:inputText  value="#{usuarioController.apellidoBuscar}" onkeyup="mayusculas(this);" style="width:70%" rendered="#{usuarioController.opcionBusqueda==2}">
+		        	<a4j:ajax execute="@this" render="@this apellido" ></a4j:ajax>
+		        	</h:inputText>
+		        	</h:panelGroup>		        	
+		        	<h:panelGroup id="labelNombre"><b><h:outputText value="Nombres:" rendered="#{usuarioController.opcionBusqueda==2}"/></b></h:panelGroup>
+		        	<h:panelGroup id="nombre">
+		        	<h:inputText  value="#{usuarioController.nombreBuscar}" onkeyup="mayusculas(this);" style="width:70%" rendered="#{usuarioController.opcionBusqueda==2}" >
+		        	<a4j:ajax execute="@this" render="@this nombre" ></a4j:ajax>
+		        	</h:inputText>
+		        	<a4j:commandButton action="#{usuarioController.buscar}" value="Buscar" render="tablaUsuarios" rendered="#{usuarioController.opcionBusqueda==2}" />
+		        	</h:panelGroup>		        	
+		        			        	       	       
+		        </h:panelGrid>																        		      
+      			<br/>
+      			</fieldset>
+				<br/>
+				<br/>
+				       
+            </p:panel>
+            <br/>
+            <p:dataTable id="tablaUsuarios" var="usuario" value="#{usuarioController.listaUsuarios}" noDataLabel="No se han encontrado registros"
+            	rows="10" paginator="true"  rowIndexVar="rowIndex"
+         		currentPageReportTemplate="{startRecord} de {endRecord} "
+                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="5,10,15"
+                onrowmouseover="this.style.backgroundColor='#FFFFE0'"
+				onrowmouseout="this.style.backgroundColor='#F7FDFC'"
+				style=" align:center; width:100%;background-color:#F7FDFC;">
+				<p:column style="width:3%">
+                	<f:facet name="header">#</f:facet>
+                	#{rowIndex+1}
+            	</p:column>
+	            <p:column style="width:20%">
+	                <f:facet name="header">Apellidos</f:facet>
+	                #{usuario.apellidos}
+	            </p:column>
+	            <p:column style="width:20%">
+	                <f:facet name="header">Nombres</f:facet>
+	                #{usuario.nombres}
+	            </p:column>
+	            <p:column style="width:10%">
+	                <f:facet name="header">Identificaci&#243;n</f:facet>
+	                #{usuario.identificacion}
+	            </p:column>
+	            <p:column style="width:10%">
+	                <f:facet name="header">Tel&#233;fono</f:facet>
+	                #{usuario.telefono}
+	            </p:column>
+	            <p:column style="width:10%">
+	                <f:facet name="header">Celular</f:facet>
+	                #{usuario.celular}
+	            </p:column>
+	            <p:column style="width:20%">
+	                <f:facet name="header">Sede</f:facet>
+	                #{usuario.sede.nombre}
+	            </p:column>
+	            <p:column>
+	                <f:facet name="header">Estado</f:facet>
+	                <h:outputText value="#{usuario.estado == 'A' ? 'Activo' : 'Inactivo'}" /> 
+	            </p:column>
+	            <p:column style="width:10%">
+	            	<a4j:commandLink rendered="#{usuario.estado == 'I'}" render="tablaUsuarios" action="#{usuarioController.activar}" onclick="return confirm('Está seguro que desea activar el usuario seleccionado?')">
+						<h:graphicImage value="/img/tick.gif" alt="Activar" title="Activar Usuario"/>
+						<f:setPropertyActionListener target="#{usuarioController.usuarioSeleccionado}" value="#{usuario}"/>
+					</a4j:commandLink>
+					<a4j:commandLink rendered="#{usuario.estado == 'A'}" render="tablaUsuarios" action="#{usuarioController.eliminar}" onclick="return confirm('Está seguro que desea desactivar el usuario seleccionado?')">
+						<h:graphicImage value="/img/delete.gif" alt="Eliminar"  title="Desctivar Usuario"/>
+						<f:setPropertyActionListener target="#{usuarioController.usuarioSeleccionado}" value="#{usuario}"/>
+					</a4j:commandLink>
+					<a4j:commandLink render="panelEditar" oncomplete="#{rich:component('popupEditarUsuario')}.show()" action="#{usuarioController.editarUsuario}">
+						<h:graphicImage value="/img/edit.gif" alt="Editar"  title="Editar Usuario"/>
+						<f:setPropertyActionListener target="#{usuarioController.usuarioSeleccionado}" value="#{usuario}"/>
+					</a4j:commandLink>
+					<a4j:commandLink render="panelRoles" action="#{usuarioController.inicializarRoles}" oncomplete="#{rich:component('popupRolesUsuario')}.show()" actionListener="#{usuarioController.listarAplicaciones()}">
+						<h:graphicImage value="/img/roles.png" alt="Roles" title="Asignar Roles"/>
+						<f:setPropertyActionListener target="#{usuarioController.usuarioSeleccionado}" value="#{usuario}"/>
+					</a4j:commandLink>
+					<a4j:commandLink render="panelSedes" oncomplete="#{rich:component('popupSedesUsuario')}.show()" actionListener="#{usuarioController.listarSedes()}">
+						<h:graphicImage value="/img/home.png" alt="Sedes" title="Asignar Sede"/>
+						<f:setPropertyActionListener target="#{usuarioController.usuarioSeleccionado}" value="#{usuario}"/>
+					</a4j:commandLink>
+				</p:column>
+	        </p:dataTable>
+        </h:form>
+        <rich:popupPanel id="popupNuevoUsuario" modal="true" ronmaskclick="#{rich:component('popupNuevoUsuario')}.hide()" autosized="true">
+        	<f:facet name="header">
+		        Nuevo Usuario
+	        </f:facet>
+	       	<h:form name="nuevo">
+        		<rich:messages globalOnly="true" ajaxRendered="true" showDetail="true" showSummary="true"></rich:messages>
+        		<a4j:outputPanel id="panelNuevo">
+		           	<h:panelGrid columns="3">
+		                
+		                <h:outputLabel for="apellidos" value="Apellidos" />
+		                <h:inputText id="apellidos" value="#{usuarioController.nuevoUsuario.apellidos}" onkeyup="mayusculas(this);" maxlength="120" required="true" requiredMessage="Campo obligatorio"/>
+		                <rich:message for="apellidos"/>
+		
+		                <h:outputLabel for="nombres" value="Nombres:" />
+		                <h:inputText id="nombres" value="#{usuarioController.nuevoUsuario.nombres}" onkeyup="mayusculas(this);" maxlength="120" required="true" requiredMessage="Campo obligatorio"/>
+		                <rich:message for="nombres"/>
+		                
+		                <h:outputLabel for="identificacion" value="Identificaci&#243;n:" />
+		                <h:inputText id="identificacion" value="#{usuarioController.nuevoUsuario.identificacion}" onkeyup="mayusculas(this);" maxlength="10" required="true" requiredMessage="Campo obligatorio" />
+		                <rich:message for="identificacion"/>
+		                
+		                <h:outputLabel for="direccion" value="Direcci&#243;n:" />
+		                <h:inputTextarea id="direccion" value="#{usuarioController.nuevoUsuario.direccion}" onkeyup="mayusculas(this);" maxlength="255" required="true" requiredMessage="Campo obligatorio"/>
+		                <rich:message for="direccion"/>
+		                
+		                <h:outputLabel for="telefono" value="Tel&#233;fono:" />
+		                <h:inputText id="telefono" value="#{usuarioController.nuevoUsuario.telefono}" maxlength="10" validatorMessage="Valor ingresado no v&#225;lido"  required="true" requiredMessage="Campo obligatorio">
+		                <f:ajax execute="@this" render="msjTelefono telefono" />               
+						<f:validateRegex pattern="[0-9]{10}" /> 
+						</h:inputText>
+		                <rich:message for="telefono" id="msjTelefono"/>
+		                
+		                <h:outputLabel for="celular" value="Celular:" />
+		                <h:inputText id="celular" value="#{usuarioController.nuevoUsuario.celular}" maxlength="10" validatorMessage="Valor ingresado no v&#225;lido" required="true" requiredMessage="Campo obligatorio">
+		                <f:ajax execute="@this" render="msjCelular celular" />               
+						<f:validateRegex pattern="[0-9]{10}" /> 
+		                </h:inputText>
+		                <rich:message for="celular" id="msjCelular"/>
+		                
+		                <h:outputLabel for="correo" value="Correo Electr&#243;nico:" />
+		                <!-- <h:inputText id="correo" value="#{usuarioController.nuevoUsuario.correoElectronico}" maxlength="50" required="true" requiredMessage="Campo obligatorio"/>
+		                <rich:message for="correo"/> -->
+						<h:inputText id="correo"
+								value="#{usuarioController.nuevoUsuario.correoElectronico}"
+								maxlength="50" required="true"
+								requiredMessage="Campo obligatorio"
+								validatorMessage="Correo electr&#243;nico inv&#225;lido">
+								<f:validateRegex
+									pattern="^(([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5}){1,25})+([;.](([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5}){1,25})+)*$" />
+								<a4j:ajax render="mensajesErroresUsuario" execute="@this"
+									event="blur"
+									listener="#{usuarioController.validarCorreoElectronico(usuarioController.nuevoUsuario, false)}"></a4j:ajax>
+						</h:inputText>
+						<rich:message for="correo" />
+		                
+		                <h:outputLabel for="fechaNacimiento" value="Fecha de Nacimiento:" />
+		                <rich:calendar id="fechaNacimiento" value="#{usuarioController.nuevoUsuario.fechaNacimiento}" locale="US"
+		                    popup="true" datePattern="dd/MM/yyyy" required="true" requiredMessage="Campo obligatorio"
+		                    showApplyButton="false" cellWidth="24px" cellHeight="22px" style="width:200px">
+		                </rich:calendar>
+		                <rich:message for="fechaNacimiento"/>
+
+		            </h:panelGrid>
+		            <h:panelGroup id="mensajesErroresUsuario">
+						<h:panelGroup rendered="#{usuarioController.correoExiste}">
+							<br />
+							<div class="danger">
+								<h:outputLabel
+									value="El correo electr&#243;nico ingresado ya se encuentra registrado. Por favor verifique." />
+							</div>
+							<br />
+						</h:panelGroup>
+					</h:panelGroup>
+		           	<h:panelGrid columns="2">
+		            	<a4j:commandButton action="#{usuarioController.registrar}" value="Crear" render="tablaAplicaciones" oncomplete="if('#{facesContext.maximumSeverity}'.indexOf('ERROR') &lt; 0) #{rich:component('popupNuevoUsuario')}.hide()"/>
+		            	<a4j:commandButton value="Cancelar" oncomplete="#{rich:component('popupNuevoUsuario')}.hide()" immediate="true"/>
+		        	</h:panelGrid>
+		        </a4j:outputPanel>
+	        </h:form>
+    	</rich:popupPanel>
+	    
+    	<rich:popupPanel id="popupEditarUsuario" modal="true" ronmaskclick="#{rich:component('popupEditarUsuario')}.hide()" autosized="true">
+        	<f:facet name="header">
+		        Editar Usuario
+	        </f:facet>
+		    <h:form name="formEditar">
+        		<rich:messages globalOnly="true" ajaxRendered="true" showDetail="true" showSummary="true"></rich:messages>
+        		<a4j:outputPanel id="panelEditar">
+		           	<h:panelGrid columns="3">
+		           		
+		                <h:outputLabel for="apellidos" value="Apellidos" />
+		                <h:inputText id="apellidos" value="#{usuarioController.usuarioSeleccionado.apellidos}" onkeyup="mayusculas(this);" maxlength="25" required="true" requiredMessage="Campo obligatorio"/>
+		                <rich:message for="apellidos"/>
+		
+		                <h:outputLabel for="nombres" value="Nombres:" />
+		                <h:inputText id="nombres" value="#{usuarioController.usuarioSeleccionado.nombres}" onkeyup="mayusculas(this);" maxlength="25" required="true" requiredMessage="Campo obligatorio"/>
+		                <rich:message for="nombres"/>
+		                
+		                <h:outputLabel for="identificacion" value="Identificaci&#243;n:" />
+		                <h:inputText id="identificacion" value="#{usuarioController.usuarioSeleccionado.identificacion}" onkeyup="mayusculas(this);" maxlength="10" required="true" requiredMessage="Campo obligatorio"/>
+		                <rich:message for="identificacion" />
+		                
+		                <h:outputLabel for="direccion" value="Direcci&#243;n:" />
+		                <h:inputTextarea id="direccion" value="#{usuarioController.usuarioSeleccionado.direccion}" onkeyup="mayusculas(this);" maxlength="255" required="true" requiredMessage="Campo obligatorio"/>
+		                <rich:message for="direccion"/>
+		                
+		                <h:outputLabel for="telefono" value="Tel&#233;fono:" />
+		                <h:inputText id="telefono" value="#{usuarioController.usuarioSeleccionado.telefono}" maxlength="10" required="true" validatorMessage="Valor ingresado no v&#225;lido"  requiredMessage="Campo obligatorio">
+		                <f:ajax execute="@this" render="msjTelefonoE telefono" />               
+						<f:validateRegex pattern="[0-9]{10}" /> 
+		                </h:inputText>
+		                <rich:message for="telefono" id="msjTelefonoE"/>
+		                
+		                <h:outputLabel for="celular" value="Celular:" />
+		                <h:inputText id="celular" value="#{usuarioController.usuarioSeleccionado.celular}" maxlength="10" required="true" validatorMessage="Valor ingresado no v&#225;lido" requiredMessage="Campo obligatorio">
+		                <f:ajax execute="@this" render="msjCelularE celular" />               
+						<f:validateRegex pattern="[0-9]{10}" /> 
+		                </h:inputText>
+		                <rich:message for="celular" id="msjCelularE"/>
+		                
+		                <h:outputLabel for="correo" value="Correo Electr&#243;nico:" />
+		                <!-- <h:inputText id="correo" value="#{usuarioController.usuarioSeleccionado.correoElectronico}" maxlength="50" required="true" requiredMessage="Campo obligatorio"/> -->
+		                <h:inputText id="correo"
+							value="#{usuarioController.usuarioSeleccionado.correoElectronico}"
+							maxlength="50" required="true"
+							requiredMessage="Campo obligatorio"
+							validatorMessage="Correo electr&#243;nico inv&#225;lido">
+							<f:validateRegex
+								pattern="^(([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5}){1,25})+([;.](([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5}){1,25})+)*$" />
+							<a4j:ajax render="mensajesErroresUsuarioEdit" execute="@this"
+								event="change"
+								listener="#{usuarioController.validarCorreoElectronico(usuarioController.usuarioSeleccionado, true)}"></a4j:ajax>
+						</h:inputText>
+		                <rich:message for="correo"/>
+		                
+		                <h:outputLabel for="fechaNacimiento" value="Fecha de Nacimiento:" />
+		                <rich:calendar id="fechaNacimiento" value="#{usuarioController.usuarioSeleccionado.fechaNacimiento}" locale="US"
+		                    popup="true" datePattern="dd/MM/yyyy" required="true" requiredMessage="Campo obligatorio"
+		                    showApplyButton="false" cellWidth="24px" cellHeight="22px" style="width:200px">
+		                </rich:calendar>
+		                <rich:message for="fechaNacimiento"/>
+		            </h:panelGrid>
+		            <br />
+					<h:panelGroup id="mensajesErroresUsuarioEdit">
+						<h:panelGroup rendered="#{usuarioController.correoExiste}">
+							<br />
+							<div class="danger">
+								<h:outputLabel
+									value="El correo electr&#243;nico ingresado ya se encuentra registrado. Por favor verifique." />
+							</div>
+							<br />
+						</h:panelGroup>
+					</h:panelGroup>
+					<br />
+		            <h:panelGrid columns="2">
+		            	<a4j:commandButton execute="@form" action="#{usuarioController.actualizar}" value="Actualizar" render="tablaUsuarios" oncomplete="if('#{facesContext.maximumSeverity}'.indexOf('ERROR') &lt; 0) #{rich:component('popupEditarUsuario')}.hide()"/>
+		            	<a4j:commandButton value="Cancelar" oncomplete="#{rich:component('popupEditarUsuario')}.hide()" immediate="true"/>
+		        	</h:panelGrid>
+	            </a4j:outputPanel>
+	        </h:form>
+    	</rich:popupPanel>
+    	<rich:popupPanel id="popupRolesUsuario" modal="true" ronmaskclick="#{rich:component('popupRolesUsuario')}.hide()" autosized="true"  domElementAttachment="form" followByScroll="true" width="600" >
+        	<f:facet name="header">
+		        Asignar Roles a Usuario
+	        </f:facet>
+		    <h:form name="formRoles">
+		    	<rich:messages globalOnly="true" ajaxRendered="true" showDetail="true" showSummary="true"></rich:messages>
+        		<a4j:outputPanel id="panelRoles">
+			    	<h:panelGrid columns="2">
+				    	<h:outputText value="Seleccione la Aplicaci&#243;n:" />
+		                <rich:select value="#{usuarioController.aplicacion.codigo}">
+		                	<f:selectItems value="#{usuarioController.listaAplicaciones}" var="aplicacion" itemLabel="#{aplicacion.nombre}" itemValue="#{aplicacion.codigo}"></f:selectItems>
+		                	<a4j:ajax event="selectitem" listener="#{usuarioController.seleccionarAplicacion}" render="tablaRoles"></a4j:ajax>
+		                </rich:select>
+		            </h:panelGrid>
+	                <br/>
+	                <rich:dataTable id="tablaRoles" var="_rol" value="#{usuarioController.roles}" noDataLabel="No se han encontrado roles para la aplicaci&#243;n"  rows="10" iterationStatusVar="it" onrowmouseover="this.style.backgroundColor='#FFFFE0'"
+										onrowmouseout="this.style.backgroundColor='#F7FDFC'"
+										style=" align:center; width:100%;background-color:#F7FDFC;">
+				<rich:column style="width:3%">
+                	<f:facet name="header">#</f:facet>
+                	#{it.index+1}
+            	</rich:column>
+			            <rich:column>
+			                <f:facet name="header">Rol</f:facet>
+			                #{_rol.nombre}
+			            </rich:column>
+			            <rich:column>
+							<f:facet name="header">Seleccionar</f:facet>
+							<h:selectBooleanCheckbox value="#{_rol.asignado}">
+								<f:ajax event="click" listener="#{usuarioController.asignarRol(_rol)}"></f:ajax>
+							</h:selectBooleanCheckbox>
+						</rich:column>
+						<f:facet name="footer">
+                	<rich:dataScroller align="left" for="tablaRoles" maxPages="10"  />
+            	</f:facet>
+			        </rich:dataTable>
+			        <br/>
+			        <center>
+			        	<a4j:commandButton value="Finalizar" oncomplete="#{rich:component('popupRolesUsuario')}.hide()" immediate="true"/>
+			        </center>
+			    </a4j:outputPanel>
+		    </h:form>
+		</rich:popupPanel>
+		 
+		<rich:popupPanel id="popupSedesUsuario" modal="true" ronmaskclick="#{rich:component('popupSedesUsuario')}.hide()" autosized="false"
+		resizeable="false" domElementAttachment="form" followByScroll="true" width="600" height="300">
+        	<f:facet name="header">
+		        Mover Sede
+	        </f:facet>
+	       	<h:form name="mover">
+        		<rich:messages globalOnly="true" ajaxRendered="true" showDetail="true" showSummary="true"></rich:messages>
+        		<a4j:outputPanel id="panelSedes">
+		           	<h:panelGrid columns="3">
+		
+						<rich:tree toggleType="ajax" var="item"  selectionType="ajax">
+				        	<rich:treeModelRecursiveAdaptor roots="#{usuarioController.estructura}" nodes="#{item.sedes}" leaf="#{empty item.sedes}">
+				        		<rich:treeNode >
+				        			<h:outputText value="#{item.nombre}  "/>
+				        			<a4j:commandLink render="panelSedes" action="#{usuarioController.seleccionarSede(item)}">
+										<h:graphicImage value="/img/in.png" alt="Mover aqu&#237;" title="Mover aqu&#237;"/>
+									</a4j:commandLink>
+				        		</rich:treeNode>
+				        	</rich:treeModelRecursiveAdaptor>
+				        </rich:tree>
+
+		            </h:panelGrid>
+		           	<h:panelGrid columns="2">
+		            	<a4j:commandButton value="Finalizar" render="tablaUsuarios" oncomplete="if('#{facesContext.maximumSeverity}'.indexOf('ERROR') &lt; 0) #{rich:component('popupSedesUsuario')}.hide()"/>
+		        	</h:panelGrid>
+		        </a4j:outputPanel>
+	        </h:form>
+    	</rich:popupPanel>		 
+	</ui:define>
+</ui:composition>

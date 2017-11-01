@@ -1,0 +1,34 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core" 
+    xmlns:ui="http://java.sun.com/jsf/facelets" 
+    xmlns:p="http://primefaces.org/ui"
+    template="/plantillas/contenedor.xhtml">
+	
+    <ui:define name="titulo">
+        Error del Sistema
+    </ui:define>
+    <ui:define name="contenido">
+        <h:form>
+    		<div class="ui-messages-error ui-corner-all">
+	            <span class="ui-messages-error-icon"></span>
+	            <span class="ui-messages-error-summary">Error inesperado:</span>
+	            <span class="ui-messages-error-detail">#{errorController.mensaje}</span>
+	        </div>
+	        <br/>
+	        <p:commandButton value="Ver Detalle" onclick="PF('panelDetalle').show();"/>
+	        <p:commandButton value="Volver" onclick="history.back();"/>
+	        <br/>
+	    	</h:form>
+        	<h:form>
+        	<p:dialog header="Detalle de Error" widgetVar="panelDetalle" modal="true" width="750" height="400">
+    			<f:facet name="controls">
+			            <h:outputLink value="#" onclick="PF('panelDetalle').hide(); return false;">
+			                X
+			            </h:outputLink>
+			     </f:facet>
+			     <pre style="font-size: 10px;">#{errorController.stackTrace}</pre>
+			</p:dialog>   
+            </h:form>
+    </ui:define>
+</ui:composition>

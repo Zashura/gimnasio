@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="inscripcion" language="groovy" pageWidth="595" pageHeight="842" columnWidth="451" leftMargin="72" rightMargin="72" topMargin="72" bottomMargin="72">
+	<property name="ireport.zoom" value="1.2100000000000009"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="26"/>
+	<parameter name="URL_LOGO" class="java.lang.String"/>
+	<parameter name="NOMBRE_OPERADOR" class="java.lang.String"/>
+	<parameter name="CIUDAD" class="java.lang.String"/>
+	<parameter name="CODIGO_INSCRIPCION" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT E.NOMBRES AS NOMBRE_ESTUDIANTE,
+       E.CEDULA AS CEDULA_ESTUDIANTE,
+       U.DIRECCION_COMPLETA DIRECCION,
+       R.NOMBRES||' '||R.APELLIDOS AS NOMBRE_REPRESENTANTE,
+       R.CEDULA AS CEDULA_REPRESENTANTE,
+       R.CELULAR AS CELULAR_REPRESENTANTE,
+       R.CONVENCIONAL AS TELEFONO_REPRESENTANTE,
+       (SELECT D.NOMBRE FROM INS_ITEM_CATALOGO D WHERE D.CODIGO = U.AREA) AS AREA,
+       (SELECT D.NOMBRE FROM INS_ITEM_CATALOGO D WHERE D.CODIGO = R.CODIGO_PARENTESCO) AS AUTOREPRESENTADO,
+       (SELECT D.DESCRIPCION FROM INS_NIVEL_ESTUDIO D WHERE D.CODIGO = E.COD_NIVEL_ESTUDIO) AS NIVEL
+  FROM INS_INSCRIPCION I,
+  	   INS_REGISTRO_ESTUDIANTE E,
+  	   INS_REPRESENTANTE R,
+  	   INS_UBICACION U
+ WHERE I.CODIGO = E.COD_INSCRIPCION
+   AND I.CODIGO = R.COD_INSCRIPCION
+   AND I.CODIGO = U.COD_INSCRIPCION
+   AND I.CODIGO = $P{CODIGO_INSCRIPCION}]]>
+	</queryString>
+	<field name="NOMBRE_ESTUDIANTE" class="java.lang.String"/>
+	<field name="CEDULA_ESTUDIANTE" class="java.lang.String"/>
+	<field name="DIRECCION" class="java.lang.String"/>
+	<field name="NOMBRE_REPRESENTANTE" class="java.lang.String"/>
+	<field name="CEDULA_REPRESENTANTE" class="java.lang.String"/>
+	<field name="CELULAR_REPRESENTANTE" class="java.lang.String"/>
+	<field name="TELEFONO_REPRESENTANTE" class="java.lang.String"/>
+	<field name="AREA" class="java.lang.String"/>
+	<field name="AUTOREPRESENTADO" class="java.lang.String"/>
+	<field name="NIVEL" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="157" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="153" height="53"/>
+				<imageExpression><![CDATA[$P{URL_LOGO}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="0" y="106" width="451" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CERTIFICADO DE INSCRIPCIÓN]]></text>
+			</staticText>
+			<textField pattern="dd MMMMM yyyy">
+				<reportElement x="0" y="63" width="451" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{CIUDAD} + ", " + new SimpleDateFormat("dd/MM/yyyy").format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="37" splitType="Stretch">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement positionType="Float" x="0" y="0" width="451" height="10"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Arial"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA["El aspirante " + $F{NOMBRE_ESTUDIANTE} + ", con número de cédula " + $F{CEDULA_ESTUDIANTE} + ", realizó en esta sede de inscripción el proceso de registro para Educación Inicial. El(La) Señor(a) " + $F{NOMBRE_REPRESENTANTE} + ", con número de cédula " + $F{CEDULA_REPRESENTANTE} + " que es "+ $F{NIVEL} + " del aspirante, será su representante legal, además se registró que el domicilio del aspirante es: " + $F{DIRECCION} + ", y su número de contacto es " + ($F{CELULAR_REPRESENTANTE} == null ? $F{TELEFONO_REPRESENTANTE} : $F{CELULAR_REPRESENTANTE}) + ".\n"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement positionType="Float" x="0" y="10" width="451" height="10"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font fontName="Arial" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AREA}.equalsIgnoreCase("Urbano") ? "Nota de Descargo: El Ministerio de Educación (MinEduc) realizará la asignación usando como primer parámetro las instituciones educativas escogidas en el momento de la inscripción. Si no existiere oferta disponible en dichas instituciones el MinEduc podrá asignar al aspirante otra institución educativa de su circuito o distrito.\n" : "\n"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="false">
+				<reportElement positionType="Float" x="0" y="20" width="451" height="10"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font fontName="Arial" isItalic="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{AUTOREPRESENTADO}.equalsIgnoreCase("Padre") || $F{AUTOREPRESENTADO}.equalsIgnoreCase("Madre") ? "" : "Nota de Descargo: El Sr(a) " + $F{NOMBRE_REPRESENTANTE} + " declara ser " + $F{AUTOREPRESENTADO} + " del inscrito y por lo tanto..."]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="115" splitType="Stretch">
+			<line>
+				<reportElement x="37" y="63" width="162" height="1"/>
+			</line>
+			<line>
+				<reportElement x="248" y="64" width="162" height="1"/>
+			</line>
+			<textField>
+				<reportElement x="37" y="64" width="162" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{NOMBRE_OPERADOR}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="248" y="65" width="43" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Nombre:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="248" y="84" width="43" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<text><![CDATA[Cédula:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="291" y="84" width="119" height="1"/>
+			</line>
+			<line>
+				<reportElement x="291" y="102" width="119" height="1"/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

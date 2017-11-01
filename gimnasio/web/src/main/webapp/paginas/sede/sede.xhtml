@@ -1,0 +1,259 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core" 
+    xmlns:ui="http://java.sun.com/jsf/facelets" 
+    xmlns:p="http://primefaces.org/ui"
+    template="/plantillas/contenedor.xhtml">
+    
+    <ui:define name="titulo" >
+        Sedes
+    </ui:define>
+    
+    <ui:define name="contenido">
+    	<style>
+			.width1 { width:30%; }
+			.width2 { width:40%; }
+			.width3 { width:30%; }
+			.width4 { width:30%; text-align:right; }
+			.width5 { width:50%; text-align: right; }
+			.width6 { width:30%; text-align: center; }
+			.width7 { text-align: left; }
+			.width30 { width: 30%; text-align: right; vertical-align: top; padding-right: 15px; }
+			.width70 { width: 70%; vertical-align: top; }
+		</style>
+        <h:form id="principal">
+            <p:panel>
+		        <h:outputText value="Nombre:" />
+                &#160;&#160;<h:inputText id="nombre" value="#{sedeController.nombreBuscar}" style="width:30%"/>
+                &#160;&#160;<p:commandButton action="#{sedeController.findbyName}" value="Buscar" update="principal:tablaAplicaciones"/>
+                &#160;&#160;<p:commandButton value="Agregar" update="nuevo:panelNuevo" oncomplete="PF('popupNuevaAplicacion').show()"/>
+                
+            </p:panel>
+            <br/><br/>
+            <p:dataTable id="tablaAplicaciones" var="_sede" value="#{sedeController.listaCluParXSedIn}" noDataLabel="No se han encontrado registros" 
+         		rows="10" paginator="true"  rowIndexVar="rowIndex"
+         		currentPageReportTemplate="{startRecord} de {endRecord} "
+                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="5,10,15"
+                onrowmouseover="this.style.backgroundColor='#FFFFE0'"
+				onrowmouseout="this.style.backgroundColor='#F7FDFC'"
+				style=" align:center; width:100%;background-color:#F7FDFC;">
+            <p:column style="width:4%">
+                	<f:facet name="header">#</f:facet>
+                	#{rowIndex+1}
+            	</p:column>
+	            <p:column>
+	                <f:facet name="header">Sede</f:facet>
+	                #{_sede.clubSedIn.clubSede.sedDescripcion}
+	            </p:column>
+	             <p:column>
+	                <f:facet name="header">Provincia</f:facet>
+	                #{_sede.clubParroquia.clubCanton.clubProvincia.proDescripcion}
+	            </p:column>
+	             <p:column>
+	                <f:facet name="header">Cant&#243;n</f:facet>
+	                #{_sede.clubParroquia.clubCanton.canDescripcion}
+	            </p:column>
+	             <p:column>
+	                <f:facet name="header">Parroquia</f:facet>
+	                #{_sede.clubParroquia.parDescripcion}
+	            </p:column>
+	            <p:column>
+	                <f:facet name="header">Estado</f:facet>
+	                <center>
+	                <h:outputText value="#{_sede.clubSedIn.clubSede.sedEstado == '1' ? 'Activa' : 'Inactiva'}" />
+	                </center> 
+	            </p:column>
+	            <p:column>
+	            <center>
+					<h:commandLink action="#{sedeController.delete(_sede)}" onclick="return confirm('Está seguro que desea eliminar la aplicaci&#243;n seleccionada?')">
+						<h:graphicImage value="/img/delete.gif" alt="Eliminar" />
+					</h:commandLink>
+					<p:commandLink update="nuevo:panelNuevo" action="#{sedeController.edit(_sede)}" oncomplete="PF('popupNuevaAplicacion').show()">
+						<h:graphicImage value="/img/edit.gif" alt="Editar" />
+					</p:commandLink>
+					<p:commandLink update="listDisciplina:panelLisNuevoDisc" action="#{sedeController.addDisciplina(_sede)}" oncomplete="PF('popupListDisciplina').show()">
+						<h:graphicImage value="/img/new.png" alt="Agregar Disciplinas" />
+					</p:commandLink>
+					</center>
+				</p:column>
+	        </p:dataTable>
+        </h:form>
+        <p:dialog widgetVar="popupNuevaAplicacion" id="popupNuevaAplicacion" modal="true" autosized="true" width="600px">
+        	<f:facet name="header">
+		        Nueva Sede
+	        </f:facet>
+	       	<h:form id="nuevo">
+	       	<br/>
+	       	<div align="center">
+        		<p:outputPanel id="panelNuevo">
+		           	<h:panelGrid columns="2" columnClasses="width30, width70">
+		                <h:outputLabel for="prefijo" value="Descripci&#243;n:" />
+		                <h:panelGroup>
+		                <h:inputText id="prefijo" style="width:100%" value="#{sedeController.clubSede.sedDescripcion}" required="true" requiredMessage="Campo obligatorio">
+		                	<f:ajax render="@this msmDesc"  />
+		                </h:inputText>
+		                <p:message for="prefijo" id="msmDesc"/>
+						</h:panelGroup>
+		
+		                <h:outputLabel for="nombre" value="Nemonico:" />
+		                <h:panelGroup>
+		                <h:inputText id="nombre" style="width:100%" value="#{sedeController.clubSede.sedNemonico}" maxlength="3" required="true" requiredMessage="Campo obligatorio"/>
+		                <p:message for="nombre"/>
+		                </h:panelGroup>
+
+						<h:outputLabel for="provincia" value="Provincia:" />
+						<h:panelGroup>
+						<h:selectOneMenu id="provincia" value="#{sedeController.clubProvincia.proCodigo}"	style="width:100%">
+							<f:selectItem itemLabel="Seleccione la provincia"	noSelectionOption="true" />
+							<f:selectItems value="#{sedeController.listaProvincia}" var="prov" itemValue="#{prov.proCodigo}" itemLabel="#{prov.proDescripcion}" />
+							<p:ajax event="change" listener="#{sedeController.findCanton()}" update="canton" />
+						</h:selectOneMenu>
+		                <p:message for="provincia"/>
+		                 </h:panelGroup>
+		                
+		                <h:outputLabel for="canton" value="Cant&#243;n:" />
+		                <h:panelGroup>
+						<h:selectOneMenu id="canton" value="#{sedeController.clubCanton.canCodigo}" style="width:100%" disabled="#{sedeController.clubProvincia.proCodigo==0}">
+							<f:selectItem itemLabel="Seleccione el cantón"	noSelectionOption="true" />
+							<f:selectItems value="#{sedeController.listaCanton}" var="cant" itemValue="#{cant.canCodigo}" itemLabel="#{cant.canDescripcion}" />
+							<p:ajax event="change"	listener="#{sedeController.findParroquia()}" update="parroquia" />
+						</h:selectOneMenu>
+						<p:message for="canton"/>
+						</h:panelGroup>
+		                
+		                <h:outputLabel for="parroquia" value="Parroquia:" />
+		                <h:panelGroup>
+						<h:selectOneMenu id="parroquia" value="#{sedeController.clubParroquia.parCodigo}" style="width:100%" disabled="#{sedeController.clubCanton.canCodigo==0}">
+							<f:selectItem itemLabel="Seleccione la parroquia" noSelectionOption="true" />
+							<f:selectItems value="#{sedeController.listaParroquia}" var="parr" itemValue="#{parr.parCodigo}" itemLabel="#{parr.parDescripcion}" />
+							<p:ajax event="change" update="@this" />
+						</h:selectOneMenu>
+						<p:message for="parroquia" />
+						</h:panelGroup>
+						
+					</h:panelGrid>
+					<br/>
+		           	<div align="center">
+		            	<p:commandButton  action="#{sedeController.save()}" value="Aceptar" update="panelNuevo principal:tablaAplicaciones" oncomplete="if (!args.validationFailed)  {PF('popupNuevaAplicacion').hide()}"/>
+		            	<p:commandButton value="Cancelar" action="#{sedeController.cancel()}" oncomplete="PF('popupNuevaAplicacion').hide()"/>
+		        	</div>
+		        	<br/>
+		        </p:outputPanel>
+		        </div>
+	        </h:form>
+    	</p:dialog>
+    	
+    	<p:dialog widgetVar="popupListDisciplina" id="popupListDisciplina" modal="true" autosized="true" width="600px">
+        	<f:facet name="header">
+		        Disciplinas
+	        </f:facet>
+	       	<h:form id="listDisciplina">
+	       	<br/>
+	       	<p:commandButton value="Agregar" update="disciplina:panelNuevoDisc" oncomplete="PF('popupDisciplina').show()"/>
+	       	<div align="center">
+        		<p:outputPanel id="panelLisNuevoDisc">
+		           	<p:dataTable id="tablaDisciplina" var="_sede" value="#{sedeController.listDisciplina}" noDataLabel="No se han encontrado registros" 
+         		rows="10" paginator="true"  rowIndexVar="rowIndex"
+         		currentPageReportTemplate="{startRecord} de {endRecord} "
+                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="5,10,15"
+                onrowmouseover="this.style.backgroundColor='#FFFFE0'"
+				onrowmouseout="this.style.backgroundColor='#F7FDFC'"
+				style=" align:center; width:100%;background-color:#F7FDFC;">
+            <p:column style="width:4%">
+                	<f:facet name="header">#</f:facet>
+                	#{rowIndex+1}
+            	</p:column>
+	            <p:column>
+	                <f:facet name="header">Disciplina</f:facet>
+	                #{_sede.disDescripcion}
+	            </p:column>
+	             
+	            <p:column>
+	                <f:facet name="header">Estado</f:facet>
+	                <center>
+	                <h:outputText value="#{_sede.disEstado == '1' ? 'Activa' : 'Inactiva'}" />
+	                </center> 
+	            </p:column>
+	            <p:column>
+	            <center>
+					<h:commandLink action="#{sedeController.delete(_sede)}" onclick="return confirm('Está seguro que desea eliminar la aplicaci&#243;n seleccionada?')">
+						<h:graphicImage value="/img/delete.gif" alt="Eliminar" />
+					</h:commandLink>
+					<p:commandLink update="disciplina:panelNuevoDisc" action="#{sedeController.editDisciplina(_sede)}" oncomplete="PF('popupDisciplina').show()">
+						<h:graphicImage value="/img/edit.gif" alt="Editar" />
+					</p:commandLink>
+					</center>
+				</p:column>
+	        </p:dataTable>
+		           	 	
+		           	<br/>
+		           	<div align="center">
+		            	<p:commandButton value="Aceptar" oncomplete="PF('popupListDisciplina').hide()"/>
+		        	</div>
+		        	<br/>
+		        </p:outputPanel>
+		        </div>
+	        </h:form>
+    	</p:dialog>
+    	
+    	
+    	<p:dialog widgetVar="popupDisciplina" id="popupDisciplina" modal="true" autosized="true" width="600px">
+        	<f:facet name="header">
+		        Disciplina
+	        </f:facet>
+	       	<h:form id="disciplina">
+	       	<br/>
+	       	<div align="center">
+        		<p:outputPanel id="panelNuevoDisc">
+		           	<h:panelGrid columns="2" columnClasses="width30, width70">
+		                <h:outputLabel for="descDis" value="Disciplina: " />
+		                <h:panelGroup>
+		                <h:inputText id="descDis" style="width:100%" value="#{sedeController.disciplina.disDescripcion}" required="true" requiredMessage="Campo obligatorio">
+		                	<f:ajax render="@this msmDescDis"  />
+		                </h:inputText>
+		                <p:message for="descDis" id="msmDescDis"/>
+						</h:panelGroup>
+		
+		                <h:outputLabel for="tipo" value="Tipo Disciplina: " />
+		                <h:panelGroup>
+						<h:selectOneMenu id="tipo" value="#{sedeController.tipoDisciplina.tidiCodigo}" style="width:100%">
+							<f:selectItem itemLabel="Seleccione..."	noSelectionOption="true" />
+							<f:selectItems value="#{sedeController.listTipoDisciplina}" var="cant" itemValue="#{cant.tidiCodigo}" itemLabel="#{cant.tidiDescripcion}" />
+							<p:ajax event="change" update="@this msmTipDis" />
+						</h:selectOneMenu>
+						<p:message for="tipo" id="msmTipDis"/>
+						</h:panelGroup>
+
+						<h:outputLabel for="cint" value="Cinturon: " />
+		                <h:panelGroup>
+		                <h:inputText id="cint" style="width:100%" value="#{sedeController.cinturon.cinDescripcion}" required="true" requiredMessage="Campo obligatorio">
+		                	<f:ajax render="@this msmCin"  />
+		                </h:inputText>
+		                <p:message for="cint" id="msmCin"/>
+						</h:panelGroup>
+						
+						<h:outputLabel for="grad" value="Grado: " />
+		                <h:panelGroup>
+		                <h:inputText id="grad" style="width:100%" value="#{sedeController.grado.graDescripcion}" required="true" requiredMessage="Campo obligatorio">
+		                	<f:ajax render="@this msmGrad"  />
+		                </h:inputText>
+		                <p:message for="grad" id="msmGrad"/>
+						</h:panelGroup>
+		                
+		                
+					</h:panelGrid>
+					<br/>
+		           	<div align="center">
+		            	<p:commandButton  action="#{sedeController.saveDisciplina()}" value="Aceptar" update="panelNuevoDisc listDisciplina:tablaDisciplina" oncomplete="if (!args.validationFailed)  {PF('popupDisciplina').hide()}"/>
+		            	<p:commandButton value="Cancelar" action="#{sedeController.cancelDisciplina()}" oncomplete="PF('popupDisciplina').hide()"/>
+		        	</div>
+		        	<br/>
+		        </p:outputPanel>
+		        </div>
+	        </h:form>
+    	</p:dialog>
+	    
+	</ui:define>
+</ui:composition>

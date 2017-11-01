@@ -1,0 +1,153 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core" 
+    xmlns:ui="http://java.sun.com/jsf/facelets" 
+    xmlns:p="http://primefaces.org/ui"
+    template="/plantillas/contenedor.xhtml">
+    
+    <ui:define name="titulo" >
+        Horario
+    </ui:define>
+    
+    <ui:define name="contenido">
+   		<script>
+        	PrimeFaces.locales['es'] = {
+                closeText: 'Cerrar',
+                prevText: 'Anterior',
+                nextText: 'Siguiente',
+                monthNames: ['Enero','Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+                dayNames: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
+                dayNamesShort: ['Dom','Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                dayNamesMin: ['D','L','M','M','J','V','S'],
+                weekHeader: 'Semana',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: '',
+                timeOnlyTitle: 'Sólo hora',
+                timeText: 'Tiempo',
+                hourText: 'Hora',
+                minuteText: 'Minuto',
+                secondText: 'Segundo',
+                currentText: 'Fecha actual',
+                ampm: false,
+                month: 'Mes',
+                week: 'Semana',
+                day: 'Día',
+                allDayText : 'Todo el día'
+        	};
+        </script>
+    	<style>
+			.width1 { width:30%; }
+			.width2 { width:40%; }
+			.width3 { width:30%; }
+			.width4 { width:30%; text-align:right; }
+			.width5 { width:50%; text-align: right; }
+			.width6 { width:30%; text-align: center; }
+			.width7 { text-align: left; }
+			.width30 { width: 30%; text-align: right; vertical-align: top; padding-right: 15px; }
+			.width70 { width: 70%; vertical-align: top; }
+		</style>
+        <h:form id="principal">
+            <p:panel>
+		        <h:outputText value="Nombre:" />
+                &#160;&#160;<h:inputText id="nombre" value="#{horarioController.nombreBuscar}" style="width:30%"/>
+                &#160;&#160;<p:commandButton action="#{horarioController.findbyName}" value="Buscar" update="principal:tablaAplicaciones"/>
+                &#160;&#160;<p:commandButton value="Agregar" update="nuevo:panelNuevo" oncomplete="PF('popupNuevaAplicacion').show()"/>
+                
+            </p:panel>
+            <br/><br/>
+            <p:dataTable id="tablaAplicaciones" var="_per" value="#{horarioController.listHorarioDia}" noDataLabel="No se han encontrado registros" 
+         		rows="10" paginator="true"  rowIndexVar="rowIndex"
+         		currentPageReportTemplate="{startRecord} de {endRecord} "
+                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="5,10,15"
+                onrowmouseover="this.style.backgroundColor='#FFFFE0'"
+				onrowmouseout="this.style.backgroundColor='#F7FDFC'"
+				style=" align:center; width:100%;background-color:#F7FDFC;">
+            <p:column style="width:4%">
+                	<f:facet name="header">#</f:facet>
+                	#{rowIndex+1}
+            	</p:column>
+            	 <p:column>
+	                <f:facet name="header">Dia</f:facet>
+	                #{_per.clubDia.diaDescripcion}
+	            </p:column>
+	            <p:column>
+	                <f:facet name="header">Hora Inicio</f:facet>
+	                #{_per.clubHorario.horHoraInicio}
+	            </p:column>
+	             <p:column>
+	                <f:facet name="header">Hora Fin</f:facet>
+	                #{_per.clubHorario.horHoraFin}
+	            </p:column>
+	            <p:column>
+	                <f:facet name="header">Estado</f:facet>
+	                <center>
+	                <h:outputText value="#{_per.hodiEstado == '1' ? 'Activa' : 'Inactiva'}" />
+	                </center> 
+	            </p:column>
+	            <p:column>
+	            <center>
+					<h:commandLink action="#{horarioController.delete(_per)}" onclick="return confirm('Está seguro que desea eliminar la aplicaci&#243;n seleccionada?')">
+						<h:graphicImage value="/img/delete.gif" alt="Eliminar" />
+					</h:commandLink>
+					<p:commandLink update="nuevo:panelNuevo" action="#{horarioController.edit(_per)}" oncomplete="PF('popupNuevaAplicacion').show()">
+						<h:graphicImage value="/img/edit.gif" alt="Editar" />
+					</p:commandLink>
+					</center>
+				</p:column>
+	        </p:dataTable>
+        </h:form>
+        
+        <p:dialog widgetVar="popupNuevaAplicacion" id="popupNuevaAplicacion" modal="true" autosized="true" width="600px">
+        	<f:facet name="header">
+		        Horario
+	        </f:facet>
+	       	<h:form id="nuevo">
+	       	<br/>
+	       	<div align="center">
+        		<p:outputPanel id="panelNuevo">
+		           	<h:panelGrid columns="2" columnClasses="width30, width70">
+		                <h:outputLabel for="dia" value="Dia:" />
+		                <h:panelGroup>
+						<h:selectOneMenu id="dia" value="#{horarioController.dia.diaCodigo}" style="width:100%"
+							required="true" requiredMessage="Campo obligatorio">
+							<f:selectItem itemLabel="Seleccione..."	noSelectionOption="true" />
+							<f:selectItems value="#{horarioController.listDias}" var="sem" itemValue="#{sem.diaCodigo}" itemLabel="#{sem.diaDescripcion}" />
+							<p:ajax event="change" update="@this msmId"/>
+						</h:selectOneMenu>
+		                <p:message for="dia" id="msmId"/>
+		                 </h:panelGroup>
+		
+		                <h:outputLabel for="ini" value="Hora Inicio:" />
+		                <h:panelGroup>
+		                 <p:calendar id="ini" value="#{horarioController.horario.horHoraInicio}" pattern="HH:mm" timeOnly="true" required="true" requiredMessage="Campo obligatorio">
+		                	<f:ajax render="@this msmIni"  />
+		                </p:calendar>
+		                <p:message for="ini" id="msmIni"/>
+						</h:panelGroup>
+
+						<h:outputLabel for="fin" value="Hora Fin:" />
+		                <h:panelGroup>
+		                <p:calendar id="fin" value="#{horarioController.horario.horHoraFin}" pattern="HH:mm" timeOnly="true" required="true" requiredMessage="Campo obligatorio">
+		                	<f:ajax render="@this msmFin"  />
+		                </p:calendar>
+		                <p:message for="fin" id="msmFin"/>
+						</h:panelGroup>
+						
+					</h:panelGrid>
+					<br/>
+		           	<div align="center">
+		            	<p:commandButton  action="#{horarioController.save()}" value="Aceptar" update="panelNuevo principal:tablaAplicaciones" oncomplete="if (!args.validationFailed)  {PF('popupNuevaAplicacion').hide()}"/>
+		            	<p:commandButton value="Cancelar" action="#{horarioController.cancel()}" oncomplete="PF('popupNuevaAplicacion').hide()"/>
+		        	</div>
+		        	<br/>
+		        </p:outputPanel>
+		        </div>
+	        </h:form>
+    	</p:dialog>
+	    
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,1282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="resolucionFavorable" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4039fbe9-39c0-4da5-92f3-fb6f2ae6adbe">
+	<property name="ireport.zoom" value="1.0245201830476065"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="2421"/>
+	<subDataset name="Table Dataset 1" uuid="1d5dd3d6-4e3a-4d67-b58c-a0744447eb53"/>
+	<parameter name="ciudad" class="java.lang.String"/>
+	<parameter name="fechaEmision" class="java.lang.String"/>
+	<parameter name="nombreInstitucion" class="java.lang.String"/>
+	<parameter name="rangoGeneral" class="java.lang.String"/>
+	<parameter name="mensaje" class="java.lang.String"/>
+	<parameter name="autoridadInstitucion" class="java.lang.String"/>
+	<parameter name="distrito" class="java.lang.String"/>
+	<parameter name="numeroResolucion" class="java.lang.String"/>
+	<parameter name="matriculaPension" class="java.util.Map"/>
+	<parameter name="anioFormulario" class="java.lang.String"/>
+	<parameter name="anioFormularioAnterior" class="java.lang.String"/>
+	<parameter name="matriculaPensionNuevo" class="java.util.Map"/>
+	<parameter name="anioFormularioInicio" class="java.lang.String"/>
+	<parameter name="amie" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="802" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="99f118a7-b0ba-4072-9c86-391117aa1bf4" x="70" y="102" width="460" height="52"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[el artículo 3 numeral 1 de la Constitución de la República del Ecuador establece como uno de los deberes primordiales del Estado garantizar sin discriminación alguna el efectivo goce de los derechos establecidos en la Constitución y en los instrumentos internacionales en particular la educación.]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="a9a4ca1a-617a-4ab1-8cf1-4e793a415a90" x="0" y="16" width="555" height="82"/>
+				<textElement textAlignment="Center" markup="none">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["RESOLUCIÓN No. "+$P{numeroResolucion}+"\n"+
+"JUNTA DISTRITAL REGULADORA DE PENSIONES Y MATRÍCULAS "+"\n"+
+"ESTABLECIMIENTOS EDUCATIVOS PARTICULARES Y FISCOMISIONALES"+"\n"+
+"DISTRITO "+$P{distrito}+
+"\n"+"\n"+
+"CONSIDERANDO:"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="7de4d89b-0572-47d5-8dec-a8f50af69bb4" x="26" y="102" width="42" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Que,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f4c1f5df-b527-4b71-94e5-2bf3c53003de" x="70" y="154" width="460" height="51"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[el artículo 26 de la norma citada reconoce que la educación es un derecho de las personas a lo largo de su vida y un deber ineludible e inexcusable del Estado.  Constituye un área prioritaria de la política pública y de la inversión estatal, garantía de la igualdad e inclusión social condición indispensable para el buen vivir.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2169a0b9-8593-4cce-8f3f-07cfcd1dbcf4" x="26" y="154" width="30" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Que,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5627b96e-9ec8-4714-8b0f-bafe6445eb15" x="70" y="209" width="460" height="51"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[la Carta Magna en su artículo 28 prescribe que la educación responderá al interés público y no estará al servicio de intereses individuales y corporativos y que se garantizará el acceso universal, permanencia, movilidad y egreso a esta sin discriminación alguna y la obligatoriedad en el nivel inicial, básico y bachillerato o su equivalente.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="21827af3-6ab8-4c8f-85f3-491f4fde0d7e" x="26" y="210" width="30" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Que,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f59331d7-cce6-4d36-a0af-e2032b1b453f" x="26" y="268" width="30" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Que,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="260aaaae-b679-46e8-86ff-50b33d2d58b6" x="70" y="268" width="460" height="76"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[el artículo 226 de la Constitución de la República del Ecuador dispone que las instituciones del Estado, sus organismos, dependencias, las servidoras o servidores públicos y las personas que actúen en virtud de una potestad estatal ejercerán solamente las competencias y facultades que les sean atribuidas en la Constitución y la ley; y, que estas tendrán el deber de coordinar acciones para el cumplimiento de sus fines y hacer efectivo el goce y ejercicio de los derechos reconocidos en la Constitución.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="57d30cfa-ef86-4eac-a513-0be716c85665" x="70" y="348" width="461" height="30"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[el artículo 345 de la norma ibídem establece a la educación como un servicio público que se presta a través de instituciones públicas, fiscomisionales y particulares.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f8bf6681-40b9-4a8c-9358-5d707d1f961c" x="25" y="350" width="30" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Que,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5becd400-7414-4669-9851-40d0eb6ff208" x="70" y="383" width="460" height="62"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[el artículo 11 del Código de la Niñez y Adolescencia señala que el interés superior del niño es un principio que está orientado a satisfacer el ejercicio efectivo del conjunto de los derechos de los niños, niñas y adolescentes; e impone a todas las autoridades administrativas y judiciales y a las instituciones públicas y privadas, el deber de ajustar sus decisiones y acciones para su cumplimiento.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0923cff6-07b0-49f2-9f94-eb03b0c6da17" x="26" y="384" width="30" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Que,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="eb9788e1-371c-464e-90f5-353dca728a73" x="26" y="445" width="30" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Que,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="b8e4aad3-ef91-4fec-b6ec-7db25027d83e" x="70" y="444" width="461" height="91"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[el derecho a la educación de los niños, niñas y adolescentes es tener una educación de calidad, que demanda de un sistema educativo que garantice el acceso y permanencia de todo niño y niña a la educación básica, así como del adolescente hasta el bachillerato o su equivalente; debiendo el Estado y los organismos pertinentes asegurar que los planteles educativos ofrezcan servicios con equidad, calidad y oportunidad y que se garantice también el derecho de los progenitores a elegir la educación que más convenga a sus hijos y a sus hijas, según lo establecido en el artículo 37 del Código de la Niñez y Adolescencia. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c9aeeae3-a0d5-4688-a980-1302454fbb8f" x="26" y="539" width="30" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Que,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bb5b82a5-ba0d-4ac1-88df-ad994f773755" x="70" y="538" width="460" height="52"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[el literal u), del  artículo 22 de la Ley Orgánica de Educación lntercultural prevé como una de las atribuciones y deberes de la Autoridad Educativa Nacional, expedir de conformidad con la Constitución de la República y la Ley, acuerdos y resoluciones que regulen y reglamenten el funcionamiento del Sistema Nacional de Educación.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="20b6df46-a3ae-4b08-84b3-c32e8f4ba1a7" x="26" y="593" width="30" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Que,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f295fbb0-7503-4a21-af0d-c739189d5d25" x="70" y="591" width="460" height="101"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[el artículo 25 de la Ley Orgánica de Educación lntercultural establece que la Autoridad Educativa Nacional ejerce la rectoría del Sistema Nacional de Educación a nivel nacional y le corresponde garantizar y asegurar el cumplimiento cabal de las garantías y derechos constitucionales en materia educativa, ejecutando acciones directas y conducentes a la vigencia plena, permanente de la Constitución de la República; conformada por cuatro niveles de gestión, uno de carácter central y tres de gestión desconcentrada que son: zonal intercultural y bilingüe, distrital intercultural y bilingüe; y circuitos educativos interculturales y bilingües.
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="620cbbb7-29be-43e6-abc6-fe500dffa14b" x="26" y="689" width="30" height="24"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Que,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="54c98168-4b78-4034-a748-0ac5ed901480" x="70" y="689" width="462" height="88"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[el tercer inciso del artículo 56 de la Ley Orgánica ibídem dispone que las instituciones educativas particulares están autorizadas a cobrar pensiones y matrículas, de conformidad con la Ley y los reglamentos que, para el efecto, dicte la Autoridad Educativa Nacional; en concordancia con lo previsto en el artículo 57 de la misma Ley, el literal a), que reconoce como un derecho de las instituciones educativas particulares cobrar pensiones y matrículas de conformidad con el reglamento que emita la Autoridad Educativa Nacional. ]]></text>
+			</staticText>
+		</band>
+		<band height="802">
+			<staticText>
+				<reportElement uuid="373809df-c51a-4370-9296-5e6688132c60" x="26" y="41" width="30" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Que,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="470354ba-ede0-4c5a-82b3-534024ff6f4a" x="70" y="41" width="460" height="72"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[el artículo 118 del Reglamento General a la Ley Orgánica de Educación Intercultural prevé que el Nivel Central de la Autoridad Educativa Nacional debe definir rangos para el cobro de pensiones y matrículas, en los que se deben ubicar las instituciones educativas particulares y fiscomisionales del Sistema Educativo Nacional, en función del cumplimiento de los estándares de calidad educativa y otros indicadores que consten en la normativa de aplicación obligatoria expedida para el efecto.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5f7a803d-e663-41d0-8723-ad840b48db89" x="70" y="111" width="460" height="39"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[el artículo 127 del Reglamento General a la Ley Orgánica de Educación Intercultural determina los deberes y atribuciones de las Juntas Distritales Reguladoras de Pensiones y Matrículas de la Educación Particular y Fiscomisional.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="da0d3622-414a-4b99-8030-9196d9356f9e" x="26" y="113" width="30" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Que,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="45704642-de9d-4d2a-9cdd-7f88dad7b2a3" x="70" y="152" width="460" height="85"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[el artículo 132 del Reglamento General a la Ley Orgánica de Educación Intercultural, en lo principal determina que los valores de matrícula y pensión en los diferentes establecimientos particulares y fiscomisionales, sus autoridades se sujetarán al rango en el que hubiere sido ubicada la institución educativa mediante resolución.  Estos  valores deben ser registrados en la Dirección Distrital respectiva antes del inicio del período de matrícula ordinaria, y no pueden  incrementarse durante el año lectivo bajo ningún concepto. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f4ac706c-2231-401e-b17e-95fda2e67c3c" x="26" y="152" width="30" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Que,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7f377a29-18b4-4f4d-be64-7660e833c959" x="26" y="231" width="30" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Que,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="536dd060-10e8-4665-80ca-b9b85df23b76" x="70" y="311" width="460" height="58"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[a través del Acuerdo Ministerial No. 482-12 de 28 de noviembre de 2012, esta Cartera de Estado expidió los estándares educativos de Gestión Escolar, Desempeño Profesional, Aprendizaje e Infraestructura, disponiendo su cumplimiento a todas las instituciones educativas públicas, fiscomisionales y particulares, en todos los niveles y modalidades del Sistema Educativo Nacional. ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="71afc0e2-c569-4b99-a912-ad423ba96182" x="26" y="312" width="30" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Que,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5fb7ced2-1da2-4ce5-b3e8-c3d1ce96b8fc" x="71" y="367" width="460" height="40"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[el Acuerdo Ministerial No. 00094-A de 22 de abril de 2015, ha sido derogado por la disposición derogatoria del Acuerdo Ministerial Nro. MINEDUC-MINEDUC-2017-00006-A de 26 de enero de 2017.
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="79d46642-b86e-4df1-84fa-dc86ecce2a99" x="29" y="367" width="30" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Que,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8324552e-88a5-4d7a-80b5-525ac22d8b97" x="29" y="550" width="30" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Que,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="fe993c44-c0d9-429f-91ef-f0964184f19b" x="72" y="549" width="460" height="60"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[el artículo 4 del Acuerdo Ministerial Nro.MINEDUC-MINEDUC-2017-00006-A, señala que el costo de la educación se constituirá de la suma de los siguientes componentes, sin que pueda generarse ninguno adicional a los descritos a continuación: a) Gestión educativa; b) Costo administrativo; c) Costo de consejería estudiantil; d) Costos financieros;  e) Provisión para reservas y f) Excedente.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="aba58e12-5fed-4769-86c6-e3e63a2aef1b" x="27" y="620" width="30" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Que,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="049e1a42-ad96-45f0-be31-4c7b642bb7aa" x="71" y="620" width="460" height="65"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[el artículo 5 del Acuerdo Ministerial Nro. MINEDUC-MINEDUC-2017-00006-A, señala que el costo de la gestión educativa para las instituciones que ofertan servicios de desarrollo integral para la primera infancia (de cero a treinta y seis meses inclusive) se incorporarán adicionalmente los siguientes factores: 1) Costo de alimentación y nutrición para los niños de la primera infancia (de cero a treinta y seis meses inclusive), y 2) Costo de materiales y otros insumos de aseo.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ce1125f9-ed2b-4763-b886-02f5f7061965" x="70" y="231" width="460" height="89"/>
+				<textElement textAlignment="Justified">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<text><![CDATA[el literal dd) del numeral 3 del artículo 42 del Estatuto Orgánico de Gestión Organizacional por Procesos del Ministerio de Educación instituye como atribución y responsabilidad de la Dirección Distrital, la de resolver, en primera instancia, previo informe  técnico, educativo y económico debidamente motivado, los costos de los servicios educativos, tales como: matrícula, pensión y servicios complementarios, para las instituciones educativas particulares y fiscomisionales, de acuerdo con la normativa establecida en el presente reglamento y por la Autoridad Educativa Nacional.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="82ea1efc-abde-4e52-bbc7-960a74d5f698" x="27" y="12" width="504" height="20" forecolor="#FFFFFF"/>
+				<textElement/>
+				<text><![CDATA[Static text]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6503fe94-ec86-41b6-8697-ed4d364b2894" x="70" y="686" width="459" height="94"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[el artículo 13 del acuerdo en mención establece que el costo de la educación por estudiante resultará del cálculo del costo total de la educación correspondiente a un período lectivo, dividido para el número promedio de estudiantes matriculados, en los tres últimos períodos lectivos. Para este cálculo las instituciones educativas nuevas, aquellas instituciones que dejaron de percibir ayuda financiera de organizaciones de derecho público o privado y las instituciones educativas que solicitan por primera vez el cobro de pensiones y/o matrículas, considerarán un estimado de estudiantes durante los tres (3) primeros años de operación, teniendo como máximo el límite de la capacidad de infraestructura efectivamente instalada.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="0a262805-f49f-40ff-adc6-3f24f062f14e" x="27" y="688" width="34" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Que,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="fc3ee116-899b-4949-94b7-07b3f822d52f" x="72" y="485" width="460" height="63"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[a través del Acuerdo Ministerial Nro. MINEDUC-MINEDUC-2017-00006-A de 26 de enero de 2017, se establece los parámetros generales que deberán observar los establecimientos educativos particulares y fiscomisionales del Sistema Nacional Educativo para el cobro de pensiones, matrículas y servicios educativos, respectivamente, con el fin de transparentar la estructura y componentes del costo de la educación.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8ecd8985-9bf2-4085-bffa-5f6a313be3aa" x="30" y="408" width="30" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Que,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="a26158c8-c640-4f50-a11a-01fb0efc6e7d" x="29" y="488" width="30" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Que,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1de16dec-4ef9-43b5-b23e-9983935cb272" x="71" y="407" width="460" height="78"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[el numeral 7 del artículo 19 del Acuerdo Interministerial Nro. 0015-14, indica que uno de los requerimientos para obtener la autorización de creación y funcionamiento en las instituciones que oferten el servicio institucionalizado de desarrollo integral para la primera infancia, serán aquellos requisitos contenidos en la normativa vigente para la regulación de costo de matrícula y pensión del MINEDUC, por lo que es competente el Ministerio de Educación para fijar los parámetros de costos de las entidades que ofertan servicios de desarrollo integral para la primera infancia.]]></text>
+			</staticText>
+		</band>
+		<band height="802">
+			<staticText>
+				<reportElement uuid="591de738-5aa1-4342-b2bb-20dcfbcf2568" stretchType="RelativeToBandHeight" x="23" y="268" width="30" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Que,]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="329499fc-55fb-42b7-b58d-2995bebac4cd" stretchType="RelativeToBandHeight" x="68" y="267" width="460" height="81"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["mediante declaración efectuada electrónicamente por "+$P{autoridadInstitucion}+" en calidad de máxima autoridad del establecimiento educativo  "+$P{nombreInstitucion}+" y con autorización del representante legal de la Institución Educativa, declaró el costo de la educación en el establecimiento educativo referido, con desagregación de cada uno de sus componentes, expresando de forma solemne que cuenta con los respaldos debidos, reales y legalmente válidos que sustenten dicho cálculo y que la institución educativa cumple con los estándares de calidad establecidos por la Autoridad Educativa Nacional, requisito indispensable para la aprobación de la presente resolución."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="74ccfdf0-053f-4c21-9104-a4e612957b2e" stretchType="RelativeToBandHeight" x="27" y="353" width="502" height="53"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[En ejercicio de las facultades que confiere el artículo 226 de la Constitución de la República del Ecuador, el artículo 127 del Reglamento General a la Ley Orgánica de Educación Intercultural y lo dispuesto en el literal dd) del numeral 3 del artículo 42 del Estatuto Orgánico de Gestión Organizacional por Procesos del Ministerio de Educación,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6d595347-fabc-48f7-9ff5-772fa700644b" stretchType="RelativeToBandHeight" x="227" y="411" width="103" height="17"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[RESUELVE:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="de8e7ab6-a810-4c18-8674-fdaee499d3a3" stretchType="RelativeToBandHeight" x="26" y="437" width="55" height="16"/>
+				<textElement textAlignment="Justified">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Artículo 1.-]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f50f8663-8f78-4e1e-81fc-e6ce7ade9b3b" x="25" y="117" width="30" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Que,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="f6426a48-244b-459c-9ff3-51aba788a172" x="69" y="117" width="460" height="101"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[el artículo 22 del acuerdo en mención determina que los servicios complementarios corresponden a aquellos que puede ofrecer el establecimiento educativo, por jornada extendida y/o servicios adicionales a los educativos y que aunque no sean utilizados por todos, estarán a disposición de la totalidad de los estudiantes y cubiertos por quienes hagan uso efectivo de ellos. En este caso, los establecimientos educativos no son los receptores finales de los valores sino que, a lo sumo, actúan como sus agentes de cobro. Estos servicios complementarios y/o adicionales serán utilizados opcionalmente por los estudiantes, sin que la institución educativa obligue a su uso o utilización y podrán ser: a) Alimentación; b) Transporte, c) Exámenes de certificación de Bachillerato Internacional; d) Deberes dirigidos; e) Seguro Médico; f) Clases complementarias; y, g) Otros. ]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="70d69934-c968-4391-989d-7f457730e193" stretchType="RelativeToBandHeight" x="26" y="437" width="504" height="40"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["	     Toda vez que esta Junta Distrital Reguladora de Pensiones y Matrículas ha comprobado la veracidad de los documentos, la institución y/o establecimiento educativo "+$P{nombreInstitucion}+" con código AMIE "+$P{amie}+" se mantiene dentro del Rango (1 - 2 – 3)."+".- " +$P{mensaje}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="f18db20e-f144-4947-83a2-d7cdfa097d26" x="23" y="19" width="504" height="20" forecolor="#FFFFFF"/>
+				<textElement/>
+				<text><![CDATA[Static text]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bcd569a2-636d-4618-9156-0c7c1aa908ba" x="25" y="221" width="30" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Que,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="28194cbd-a4ac-4b00-9d8e-c84629dd94ab" x="69" y="221" width="460" height="44"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[la entidad que oferta los servicios de desarrollo integral para la primera infancia ha cumplido con los requisitos establecidos en el Reglamento General a la Ley Orgánica de Educación Intercultural, referentes a la creación y el funcionamiento de las instituciones educativas particulares y fiscomisionales.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7b7c070f-ad04-4c6d-baef-3c1067b435b9" x="27" y="46" width="34" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Que,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="aec8e285-b3e9-4b33-b889-094a7931d58d" x="70" y="44" width="459" height="69"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[el artículo 14 del acuerdo antes referido señala que por concepto de matrícula corresponderá hasta un máximo de setenta y cinco por ciento (75%) del valor de la pensión mensual neta;  en concordancia con lo que dispone el tercer inciso del artículo 132 del Reglamento General a la Ley Orgánica de Educación Intercultural que dispone: “…el valor de la matrícula no debe exceder el 75% del monto de la pensión neta fijada en el rango correspondiente, y será cancelado una sola vez al año”.]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="ab873769-4f13-4986-9b2f-ecbc076b4f89" stretchType="RelativeToBandHeight" x="25" y="667" width="504" height="40"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["	     Autorizar el cobro de los siguientes valores máximos para el período lectivo  "+$P{anioFormulario}+", de acuerdo a la siguiente tabla:"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="24aea16c-9ed4-441c-8939-0a77359d13ab" stretchType="RelativeToBandHeight" x="25" y="667" width="55" height="16"/>
+				<textElement textAlignment="Justified">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Artículo 2.-]]></text>
+			</staticText>
+		</band>
+		<band height="802">
+			<staticText>
+				<reportElement uuid="7a2d4d9d-98bf-43c1-820c-4091e792c0c4" mode="Opaque" x="26" y="80" width="162" height="25" forecolor="#000000" backcolor="#BDD6EE"/>
+				<box leftPadding="6" rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[NIVEL DE EDUCACIÓN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="2a346661-9a0d-4098-bcbb-889ad32ca075" mode="Opaque" x="415" y="80" width="115" height="25" backcolor="#BDD6EE"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VALOR DE PENSIÓN AUTORIZADO (US$)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="5ac2423f-eb6a-4745-b94d-b0f2095eb4fd" mode="Opaque" x="26" y="180" width="162" height="25" forecolor="#000000" backcolor="#BDD6EE"/>
+				<box leftPadding="6" rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[BÁSICA SUPERIOR(8vo A 10mo)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c9988a75-f649-4ca2-b6b4-135ac4d92a2a" mode="Opaque" x="188" y="80" width="114" height="25" backcolor="#BDD6EE"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RANGO EN EL CUAL SE UBICA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6fb25d5a-b381-42d6-9d3e-5783fb00786f" mode="Opaque" x="26" y="205" width="162" height="25" forecolor="#000000" backcolor="#BDD6EE"/>
+				<box leftPadding="6" rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[BACHILLERATO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7486af04-9fce-482e-9396-5aa883dba4f9" mode="Opaque" x="302" y="80" width="114" height="25" backcolor="#BDD6EE"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VALOR DE MATRÍCULA AUTORIZADO (US$)]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="f0acdce9-2c11-4ff0-9a79-186b8ecf9a6c" x="188" y="105" width="114" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Double.valueOf($P{matriculaPension}.get("valRango").toString())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="cfcc0384-62b7-435c-b2a1-58962e37d000" mode="Opaque" x="26" y="105" width="162" height="25" forecolor="#000000" backcolor="#BDD6EE"/>
+				<box leftPadding="6" rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[HASTA 36 MESES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="141c95a0-bc18-471c-83cd-6c817990f398" mode="Opaque" x="26" y="130" width="162" height="25" forecolor="#000000" backcolor="#BDD6EE"/>
+				<box leftPadding="6" rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[INICIAL]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="60145016-604a-44c7-b5dd-4e9149e9381a" mode="Opaque" x="26" y="155" width="162" height="25" forecolor="#000000" backcolor="#BDD6EE"/>
+				<box leftPadding="6" rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[GENERAL BÁSICA (1ero A 7mo)]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="2655403e-c857-4d8a-8edb-9f81452a2a6d" x="302" y="105" width="114" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Double.valueOf($P{matriculaPension}.get("pmMhm").toString())]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="776849f0-85c9-4747-9b8a-7af518445281" x="416" y="105" width="114" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Double.valueOf($P{matriculaPension}.get("pmPhm").toString())]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="28a46811-90e2-49b6-b82f-a5fbb6f5b076" x="416" y="130" width="114" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Double.valueOf($P{matriculaPension}.get("pmPin").toString())]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="ac3d8746-0720-4a7c-abe5-ee195347c68f" x="188" y="130" width="114" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Double.valueOf($P{matriculaPension}.get("valRango").toString())]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="6d23c1bb-472c-43f2-8478-436e36bfd553" x="302" y="130" width="114" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Double.valueOf($P{matriculaPension}.get("pmMin").toString())]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="5fff710e-5fd7-4d0a-b555-f5d990c8bdff" x="416" y="180" width="114" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Double.valueOf($P{matriculaPension}.get("pmPbs").toString())]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="ed9f9572-ca25-4caa-9d42-25ff44eef61b" x="416" y="155" width="114" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Double.valueOf($P{matriculaPension}.get("pmPbg").toString())]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="4fe63a71-c413-4740-beca-d4fed3494407" x="188" y="180" width="114" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Double.valueOf($P{matriculaPension}.get("valRango").toString())]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="61c3e4a7-1817-46d5-845a-9ed02318b432" x="302" y="180" width="114" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Double.valueOf($P{matriculaPension}.get("pmMbs").toString())]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="75697181-b8a3-470e-b5a2-073bc86940c5" x="188" y="155" width="114" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Double.valueOf($P{matriculaPension}.get("valRango").toString())]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="a2c344e1-d7e4-4ec7-aa90-98168a0fe20a" x="302" y="155" width="114" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Double.valueOf($P{matriculaPension}.get("pmMbg").toString())]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="50829fb8-8448-4c30-958c-aae61d12a1e9" x="188" y="205" width="114" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Double.valueOf($P{matriculaPension}.get("valRango").toString())]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="e7018976-a310-4b30-ae86-e01ed2d78dcf" x="302" y="205" width="114" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Double.valueOf($P{matriculaPension}.get("pmMba").toString())]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="f965491a-069c-49b3-914e-c21f395d952a" x="416" y="205" width="114" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Double.valueOf($P{matriculaPension}.get("pmPba").toString())]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="b4713808-1379-431a-8b57-ce39728905b3" stretchType="RelativeToBandHeight" mode="Opaque" x="26" y="45" width="504" height="35" backcolor="#BDD6EE"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["VALORES PARA EL AÑO LECTIVO "+$P{anioFormulario}+"\n"+
+"Valores para los estudiantes que ya se encontraban en la institución educativa"]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="6a1c2fcd-aae2-4f55-b6bf-0197acf5b723" stretchType="RelativeToBandHeight" x="23" y="247" width="504" height="73"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["                    Revisada la información remitida por la institución educativa "+$P{nombreInstitucion}+" , y verificado el cumplimiento de lo dispuesto en el artículo 11 del Acuerdo en mención, se procede con el incremento adicional obtenido en el año lectivo anterior; dicho incremento será aplicado exclusivamente a los estudiantes nuevos que ingresaron desde el período lectivo "+$P{anioFormularioInicio}+" en adelante. "]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="f907df80-a7ed-4331-b227-a5917e46a633" x="24" y="247" width="72" height="13"/>
+				<textElement textAlignment="Justified">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Artículo 3.-]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d62157a9-2257-4116-9107-268ee66bb730" stretchType="RelativeToBandHeight" x="27" y="644" width="57" height="13"/>
+				<textElement textAlignment="Justified">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Artículo 5.-]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="50d68d40-b804-4e2b-a551-4268482345a5" stretchType="RelativeToBandHeight" x="25" y="645" width="504" height="53"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["	       Disponer a los directivos de la institución y/o establecimiento educativo "+$P{nombreInstitucion}+" que el valor prorrateado fijado para pensión será el único cobrado y se lo realizará en diez mensualidades, a excepción del nivel correspondiente a servicios de desarrollo integral para la primera infancia (0 a 36 meses) en donde el valor fijado para pensión será cobrado durante (Ej. 10 – 12) meses efectivamente prestados "]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="c1305a9f-851b-46b0-b1de-b56398449dc3" stretchType="RelativeToBandHeight" x="25" y="703" width="57" height="13"/>
+				<textElement textAlignment="Justified">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Artículo 6.-]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="f8269899-b778-4796-8495-1cded50e73cd" stretchType="RelativeToBandHeight" x="24" y="703" width="505" height="65"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["	     Requerir y encargar a los directivos de la mencionada institución y/o establecimiento educativo la exhibición pública y en un lugar visible de la institución educativa la certificación del registro de los valores de pensiones y matrículas vigente para el año lectivo, a fin de que sea conocida por los representantes legales de los estudiantes y la comunidad; sin perjuicio que se realice la publicación en la página web institucional."]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="e2020677-72dd-4ca4-b546-434fd202c7da" x="357" y="540" width="171" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Double.valueOf($P{matriculaPensionNuevo}.get("pmPbg").toString())]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="fda72dc5-d8a6-43a9-9fa6-f2e0e3c69f8d" x="186" y="590" width="171" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Double.valueOf($P{matriculaPensionNuevo}.get("pmMba").toString())]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="502e3f65-eec4-4095-8f7b-e12bc096ff4f" stretchType="RelativeToBandHeight" mode="Opaque" x="24" y="430" width="504" height="35" backcolor="#BDD6EE"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Solo para los estudiantes nuevos que ingresaron a la Institución Educativa a partir del año "+$P{anioFormularioAnterior}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="da465fa8-1958-49f8-8231-3d2da700fd03" mode="Opaque" x="24" y="565" width="162" height="25" forecolor="#000000" backcolor="#BDD6EE"/>
+				<box leftPadding="6" rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[BÁSICA SUPERIOR(8vo A 10mo)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c9dac2e0-e7fd-4dad-aec1-b6eadf6deece" mode="Opaque" x="24" y="465" width="162" height="25" forecolor="#000000" backcolor="#BDD6EE"/>
+				<box leftPadding="6" rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[NIVEL DE EDUCACIÓN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d77a567f-3198-4e6d-9df2-96bc25a3b05f" mode="Opaque" x="24" y="490" width="162" height="25" forecolor="#000000" backcolor="#BDD6EE"/>
+				<box leftPadding="6" rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[HASTA 36 MESES]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="691b5bc0-36f7-4a33-bb1d-3a4d45f644aa" x="186" y="490" width="171" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Double.valueOf($P{matriculaPensionNuevo}.get("pmMhm").toString())]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="6848e5d5-5168-410c-b39c-f4c766af5bf0" x="186" y="540" width="171" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Double.valueOf($P{matriculaPensionNuevo}.get("pmMbg").toString())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="a60201fc-6fb7-4554-a3f6-0ec317c09b1f" mode="Opaque" x="357" y="465" width="171" height="25" backcolor="#BDD6EE"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PENSIÓN]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="edfba648-e0d4-41cd-936e-a889f67af2db" x="357" y="565" width="171" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Double.valueOf($P{matriculaPensionNuevo}.get("pmPbs").toString())]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="a2150671-953e-42a1-b3cc-59d720266f58" x="357" y="490" width="171" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Double.valueOf($P{matriculaPensionNuevo}.get("pmPhm").toString())]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="b74ea99b-7c46-495a-9d65-9a50f7060543" x="357" y="515" width="171" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Double.valueOf($P{matriculaPensionNuevo}.get("pmPin").toString())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="9529b71c-a876-4b43-a805-01d19d8fc574" mode="Opaque" x="24" y="515" width="162" height="25" forecolor="#000000" backcolor="#BDD6EE"/>
+				<box leftPadding="6" rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[INICIAL]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="57cc6139-f1b1-4516-a27c-5264e0d5463b" stretchType="RelativeToBandHeight" mode="Opaque" x="24" y="395" width="504" height="35" backcolor="#BDD6EE"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["VALORES (US$) AUTORIZADOS PARA EL AÑO LECTIVO "+$P{anioFormulario}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="84ec8e07-f9d1-4e88-99eb-731bf01d8fd8" mode="Opaque" x="24" y="590" width="162" height="25" forecolor="#000000" backcolor="#BDD6EE"/>
+				<box leftPadding="6" rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[BACHILLERATO]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="3467e3f9-e15c-4c90-a608-2fd87e218c3f" x="186" y="515" width="171" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Double.valueOf($P{matriculaPensionNuevo}.get("pmMin").toString())]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="12d19e9d-ade8-49e8-bb54-98bc7e4b8970" x="186" y="565" width="171" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Double.valueOf($P{matriculaPensionNuevo}.get("pmMbs").toString())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="035a24fb-d133-435a-8b64-8592777056de" mode="Opaque" x="24" y="540" width="162" height="25" forecolor="#000000" backcolor="#BDD6EE"/>
+				<box leftPadding="6" rightPadding="0">
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+				</textElement>
+				<text><![CDATA[GENERAL BÁSICA (1ero A 7mo)]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement uuid="59bd320d-12d7-462f-9181-7aa56f8cfd3e" x="357" y="590" width="171" height="25"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[Double.valueOf($P{matriculaPensionNuevo}.get("pmPba").toString())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="1d53a478-84f2-4f64-8c1c-385b40513abe" mode="Opaque" x="186" y="465" width="171" height="25" backcolor="#BDD6EE"/>
+				<box>
+					<pen lineWidth="0.5"/>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[MATRÍCULA]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="c75f0b59-cc51-4ab2-b7ce-f96ac46afb0a" stretchType="RelativeToBandHeight" x="26" y="325" width="504" height="47"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["                    Autorizar el cobro de los siguientes valores máximos para el período lectivo "+$P{anioFormulario}+" exclusivamente a los estudiantes nuevos que ingresaron por primera vez a cualquier grado de la oferta educativa, de acuerdo a la siguiente tabla: "]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="c5af1449-44dd-4be3-8e04-009ce7064037" x="27" y="325" width="72" height="13"/>
+				<textElement textAlignment="Justified">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Artículo 4.-]]></text>
+			</staticText>
+		</band>
+		<band height="802">
+			<staticText>
+				<reportElement uuid="9f0e350a-9638-4c95-bd8d-6664cd952f5d" stretchType="RelativeToBandHeight" x="28" y="178" width="128" height="13"/>
+				<textElement textAlignment="Justified">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DISPOSICIÓN GENERAL.-]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="af0b6690-9322-4359-be53-c8ba82478e0c" stretchType="RelativeToBandHeight" x="26" y="325" width="110" height="13"/>
+				<textElement textAlignment="Justified">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DISPOSICIÓN FINAL.-]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="07ddaa69-876e-4a29-8b48-ca8d4b3f16a7" stretchType="RelativeToBandHeight" x="136" y="325" width="394" height="25"/>
+				<textElement textAlignment="Justified">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<text><![CDATA[La presente Resolución surtirá los efectos pertinentes desde el día de su suscripción.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1924e644-cee6-4b84-80d8-efdeb2491bd5" stretchType="RelativeToBandHeight" x="26" y="350" width="155" height="15"/>
+				<textElement textAlignment="Justified">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NOTIFÍQUESE Y CÚMPLASE.-]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="d3564342-1704-41ed-82f7-fca03e9230ce" stretchType="RelativeToBandHeight" x="26" y="350" width="502" height="35"/>
+				<textElement markup="none">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA["			              Dado en la ciudad de " + $P{ciudad} + ", "+ $P{fechaEmision}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="cbb2f14e-18bd-47ff-8c7b-51298cfc7c51" stretchType="RelativeToBandHeight" x="28" y="202" width="60" height="13"/>
+				<textElement textAlignment="Justified">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[PRIMERA. -]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="8af93a6d-2288-48e4-ba51-28badf9a3ca5" stretchType="RelativeToBandHeight" x="26" y="270" width="504" height="53"/>
+				<textElement textAlignment="Justified">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<text><![CDATA[	       Este nivel distrital, en coordinación con la Subsecretaría de Apoyo, Seguimiento y  Regulación de la Educación, efectuará controles aleatorios y periódicos in situ en las instituciones educativas para verificar la veracidad de la información proporcionada a través del sistema informático.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="53b75508-129b-49aa-b8ab-ad09ec17c6c2" stretchType="RelativeToBandHeight" x="26" y="269" width="61" height="13"/>
+				<textElement textAlignment="Justified">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SEGUNDA.-]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="31973986-c951-4538-8567-7b8290dc2dc1" x="37" y="541" width="225" height="15"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[JEFE DE ASESORÍA JURÍDICA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="c6f3037e-9ddd-4568-b07b-2054de8b6690" x="307" y="541" width="225" height="15"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[JEFE DE APOYO, SEGUIMIENTO Y]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="2cc282c7-d9d7-42c2-a883-45427e663f82" positionType="Float" x="305" y="532" width="227" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="2919bfac-67f3-4f6c-a4c9-d68de8eb5ae9" x="43" y="624" width="504" height="15"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SECRETARIO]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="caec1353-4f94-4036-bb13-06ed15d24d61" positionType="Float" x="197" y="442" width="181" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="a7982447-35f5-4a01-8d22-db21606820c8" x="307" y="556" width="225" height="15"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[REGULACIÓN DE LA EDUCACIÓN]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="58208b7b-d380-4cd3-9584-e7f519593153" positionType="Float" x="185" y="613" width="181" height="1"/>
+			</line>
+			<staticText>
+				<reportElement uuid="0fff9002-32a9-49fa-bb75-350aa841c438" x="24" y="455" width="504" height="15"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[DIRECTOR DISTRITAL]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="62ee7cba-3565-4036-853d-0da4519d7378" positionType="Float" x="37" y="532" width="225" height="1"/>
+			</line>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="bc67983c-c886-4722-808e-0eb4b367ddee" stretchType="RelativeToBandHeight" x="25" y="203" width="504" height="53"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["                    La presente Resolución es equivalente a la certificación de registro a la que hace referencia el artículo 132 del Reglamento General a la Ley Orgánica de Educación Intercultural, estableciendo oficialmente el rango de ubicación de la institución educativa, así como el valor de las pensiones y matrículas correspondientes, mismo que es aplicable para el año lectivo "+$P{anioFormulario}+"."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="2d679683-3692-486f-a99a-fce749cb2ff2" x="13" y="5" width="504" height="20" forecolor="#FFFFFF"/>
+				<textElement/>
+				<text><![CDATA[Static text]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="2033866a-9d54-4149-bf25-4b90bcce7720" stretchType="RelativeToBandHeight" x="30" y="33" width="505" height="65"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["	     Responsabilizar del cumplimiento de la presente resolución a los directivos del establecimiento educativo "+$P{nombreInstitucion}+", advirtiendo que todo cobro de rubros no autorizados por la Autoridad Educativa Nacional deberá ser reembolsado a quien lo hubiere efectuado, sin perjuicio de las sanciones que por tal motivo puede establecer la Autoridad Educativa Nacional."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="24351100-fb80-49aa-9453-172ea57dbd04" stretchType="RelativeToBandHeight" x="31" y="33" width="57" height="13"/>
+				<textElement textAlignment="Justified">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Artículo 7.-]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement uuid="c2d71d6a-3fb3-4388-a799-e09e6ec0c184" stretchType="RelativeToBandHeight" x="30" y="106" width="504" height="40"/>
+				<textElement textAlignment="Justified" markup="none">
+					<font size="9" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["	    Notificar con el contenido de la presente Resolución, a la máxima autoridad y/o representante legal del Establecimiento Educativo "+$P{nombreInstitucion}+"."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="623fc30e-ebde-4038-a7f7-b94303f78909" stretchType="RelativeToBandHeight" x="33" y="106" width="57" height="13"/>
+				<textElement textAlignment="Justified">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Artículo 8.-]]></text>
+			</staticText>
+		</band>
+	</detail>
+</jasperReport>

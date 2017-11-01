@@ -1,0 +1,25 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core" 
+    xmlns:ui="http://java.sun.com/jsf/facelets" 
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+    template="/plantillas/contenedor.xhtml">
+    <ui:define name="titulo">
+        Permiso denegado
+    </ui:define>
+    <ui:define name="contenido">
+		<h:form>
+			<br />
+			<div align="center" style="width: 100%">
+				<div style="width: 85%; background-color: rgb(255, 238, 221);"
+					class="errors">
+					<h:outputLabel
+						value="LO SENTIMOS, UD. NO TIENE LOS PERMISOS NECESARIOS PARA ACCEDER A ESTA P&#193;GINA."
+						style="font-weight: bold;" />
+				</div>
+			</div>
+			<br />
+		</h:form>
+	</ui:define>
+</ui:composition>

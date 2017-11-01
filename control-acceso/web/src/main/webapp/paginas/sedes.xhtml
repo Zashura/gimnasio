@@ -1,0 +1,154 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core" 
+    xmlns:ui="http://java.sun.com/jsf/facelets" 
+    xmlns:a4j="http://richfaces.org/a4j"
+    xmlns:rich="http://richfaces.org/rich"
+     xmlns:p="http://primefaces.org/ui"
+    template="/plantillas/contenedor.xhtml">
+    
+    <ui:define name="titulo">
+        Administraci&#243;n de Sitios
+        
+         <style>			
+			*.rf-trn-sel {
+				background: #FFFFE0;
+			}
+		</style>
+    </ui:define>
+    <ui:define name="contenido">
+        <h:form id="principal">
+
+            <p:panel>
+		        <h:panelGroup id="panelSedes">
+			        <h:panelGroup rendered="#{empty sedeController.estructura}">
+			        	<h:outputText style="font-weight: bold;" value="No se han encontrado sedes ingresadas; seleccionada, haga click " />
+			        	<a4j:commandLink value="aqu&#237;" render="panelNuevo" oncomplete="#{rich:component('popupNuevaSede')}.show();"/>
+			        	<h:outputText style="font-weight: bold;" value=" para agregar una nueva." />
+			        </h:panelGroup>
+			        <h:panelGroup rendered="#{not empty sedeController.estructura}">
+			       		<h:outputText value="Haga click " />
+			        	<a4j:commandLink value="aqu&#237;" render="panelNuevo" oncomplete="#{rich:component('popupNuevaSede')}.show();">
+			        		<f:setPropertyActionListener target="#{sedeController.sedeSeleccionada}" value="#{null}"></f:setPropertyActionListener>
+			        	</a4j:commandLink>
+			        	<h:outputText value=" para agregar elemento ra&#237;z." />
+			        	<br/><br/>
+				        <rich:tree id="arbolEstructura" toggleType="client" var="item">
+				        	<rich:treeModelRecursiveAdaptor roots="#{sedeController.estructura}" nodes="#{item.sedes}" leaf="#{empty item.sedes}">
+				        		<rich:treeNode >
+				        			<h:outputText value="#{item.nombre}    "/>
+				        			<a4j:commandLink render="panelNuevo" oncomplete="#{rich:component('popupNuevaSede')}.show();">
+										<h:graphicImage value="/img/new.png" alt="Nuevo" title="Nuevo"/>
+										<f:setPropertyActionListener target="#{sedeController.sedeSeleccionada}" value="#{item}"/>
+									</a4j:commandLink>
+									<a4j:commandLink render="panelEditar" oncomplete="#{rich:component('popupActualizarSede')}.show();">
+										<h:graphicImage value="/img/edit.gif" alt="Editar" title="Editar"/>
+										<f:setPropertyActionListener target="#{sedeController.sedeSeleccionada}" value="#{item}"/>
+									</a4j:commandLink>
+									<a4j:commandLink render="panelMover" oncomplete="#{rich:component('popupMoverSede')}.show();">
+										<h:graphicImage value="/img/move.png" alt="Mover" title="Mover"/>
+										<f:setPropertyActionListener target="#{sedeController.sedeSeleccionada}" value="#{item}"/>
+									</a4j:commandLink>
+									<a4j:commandLink render="panelSedes" action="#{sedeController.desactivar}" onclick="return confirm('¿Está seguro que desea desactivar la sede seleccionada?')" rendered="#{item.estado == 'A'}">
+										<h:graphicImage value="/img/delete.gif" alt="Desactivar" title="Desactivar"/>
+										<f:setPropertyActionListener target="#{sedeController.sedeSeleccionada}" value="#{item}"/>
+									</a4j:commandLink>
+									<a4j:commandLink render="panelSedes" action="#{sedeController.activar}"  onclick="return confirm('¿Está seguro que desea activar la sede seleccionada?')" rendered="#{item.estado != 'A'}">
+										<h:graphicImage value="/img/tick.png" alt="Activar" title="Activar"/>
+										<f:setPropertyActionListener target="#{sedeController.sedeSeleccionada}" value="#{item}"/>
+									</a4j:commandLink>
+				        		</rich:treeNode>
+				        	</rich:treeModelRecursiveAdaptor>
+				        </rich:tree>
+			        </h:panelGroup>
+		        </h:panelGroup>
+		     </p:panel>
+		    <br/>
+		 </h:form>
+	    <rich:popupPanel id="popupNuevaSede" modal="true" autosized="true">
+        	<f:facet name="header">
+		        Nueva Sede
+	        </f:facet>
+	       	<h:form name="nuevo">
+       		<rich:messages globalOnly="true" ajaxRendered="true" showDetail="true" showSummary="true"></rich:messages>
+       		<a4j:outputPanel id="panelNuevo">
+	           	<h:panelGrid columns="3">
+	
+	                <h:outputLabel for="nombre" value="Nombre:" />
+	                <h:inputText id="nombre" value="#{sedeController.nuevaSede.nombre}" maxlength="150" required="true" requiredMessage="Campo obligatorio" onkeyup="mayusculas(this);"/>
+	                <rich:message for="nombre"/>
+	                
+	                <h:outputLabel for="descripcion" value="Descripcion:" />
+	                <h:inputTextarea id="descripcion" value="#{sedeController.nuevaSede.descripcion}" maxlength="255" onkeyup="mayusculas(this);"/>
+	                <rich:message for="descripcion"/>
+	                
+	                <h:outputLabel for="nemonico" value="Nombre:" />
+	                <h:inputText id="nemonico" value="#{sedeController.nuevaSede.nemonico}" maxlength="10" required="true" requiredMessage="Campo obligatorio" onkeyup="mayusculas(this);"/>
+	                <rich:message for="nemonico"/>
+
+	            </h:panelGrid>
+	           	<h:panelGrid columns="2">
+	            	<a4j:commandButton action="#{sedeController.registrar}" value="Crear" render="panelSedes" oncomplete="if('#{facesContext.maximumSeverity}'.indexOf('ERROR') &lt; 0) #{rich:component('popupNuevaSede')}.hide()"/>
+	            	<a4j:commandButton value="Cancelar" oncomplete="#{rich:component('popupNuevaSede')}.hide(); return false;"/>
+	        	</h:panelGrid>
+	        </a4j:outputPanel>
+	        </h:form>
+    	</rich:popupPanel>
+    	<rich:popupPanel id="popupActualizarSede" modal="true" ronmaskclick="#{rich:component('popupActualizarSede')}.hide()" autosized="true">
+        	<f:facet name="header">
+		        Actualizar Sede
+	        </f:facet>
+	       	<h:form name="editar">
+        		<rich:messages globalOnly="true" ajaxRendered="true" showDetail="true" showSummary="true"></rich:messages>
+        		<a4j:outputPanel id="panelEditar">
+		           	<h:panelGrid columns="3">
+		
+		                <h:outputLabel for="nombre" value="Nombre:" />
+		                <h:inputText id="nombre" value="#{sedeController.sedeSeleccionada.nombre}" onkeyup="mayusculas(this);" maxlength="150" required="true" requiredMessage="Campo obligatorio"/>
+		                <rich:message for="nombre"/>
+		                
+		                <h:outputLabel for="descripcion" value="Descripcion:" />
+		                <h:inputTextarea id="descripcion" value="#{sedeController.sedeSeleccionada.descripcion}" maxlength="255" onkeyup="mayusculas(this);"/>
+		                <rich:message for="descripcion"/>
+		                
+		                <h:outputLabel for="nemonico" value="Nombre:" />
+		                <h:inputText id="nemonico" value="#{sedeController.sedeSeleccionada.nemonico}" maxlength="10" required="true" requiredMessage="Campo obligatorio" onkeyup="mayusculas(this);"/>
+		                <rich:message for="nemonico"/>
+
+		            </h:panelGrid>
+		           	<h:panelGrid columns="2">
+		            	<a4j:commandButton action="#{sedeController.actualizar}" value="Actualizar" render="panelSedes" oncomplete="if('#{facesContext.maximumSeverity}'.indexOf('ERROR') &lt; 0) #{rich:component('popupActualizarSede')}.hide()"/>
+		            	<a4j:commandButton value="Cancelar" oncomplete="#{rich:component('popupActualizarSede')}.hide(); return false;"/>
+		        	</h:panelGrid>
+		        </a4j:outputPanel>
+	        </h:form>
+    	</rich:popupPanel>
+    	<rich:popupPanel id="popupMoverSede" modal="true" ronmaskclick="#{rich:component('popupMoverSede')}.hide()" autosized="true">
+        	<f:facet name="header">
+		        Mover Sede
+	        </f:facet>
+	       	<h:form name="mover">
+        		<rich:messages globalOnly="true" ajaxRendered="true" showDetail="true" showSummary="true"></rich:messages>
+        		<a4j:outputPanel id="panelMover">
+		
+						<h:outputText value="Sede a mover: " />
+						<h:outputText value="#{sedeController.sedeSeleccionada.nombre}" style="font-weight: bold;"/>
+						<br/><br/>
+		                
+						<rich:tree toggleType="ajax" var="item"  selectionType="ajax">
+				        	<rich:treeModelRecursiveAdaptor roots="#{sedeController.estructura}" nodes="#{item.sedes}" leaf="#{empty item.sedes}">
+				        		<rich:treeNode >
+				        			<h:outputText value="#{item.nombre}  "/>
+				        			<a4j:commandLink render="panelSedes" action="#{sedeController.mover(item)}" rendered="#{sedesController.sedeSeleccionada.nemonico != item.nemonico}">
+										<h:graphicImage value="/img/in.png" alt="Mover aqu&#237;" title="Mover aqu&#237;"/>
+									</a4j:commandLink>
+				        		</rich:treeNode>
+				        	</rich:treeModelRecursiveAdaptor>
+				        </rich:tree>
+
+		            	<a4j:commandButton value="Finalizar" render="panelSedes" oncomplete="if('#{facesContext.maximumSeverity}'.indexOf('ERROR') &lt; 0) #{rich:component('popupMoverSede')}.hide()"/>
+		        </a4j:outputPanel>
+	        </h:form>
+    	</rich:popupPanel>
+	</ui:define>
+</ui:composition>

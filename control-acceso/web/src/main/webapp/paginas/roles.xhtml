@@ -1,0 +1,141 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core" 
+    xmlns:ui="http://java.sun.com/jsf/facelets" 
+    xmlns:p="http://primefaces.org/ui"
+    template="/plantillas/contenedor.xhtml">
+    
+    <ui:define name="titulo">
+        Roles
+    </ui:define>
+    
+    <ui:define name="contenido">
+        <h:form id="principal">
+            <p:panel>
+		        	<h:outputText style="font-weight: bold;" value="Aplicaci&#243;n:" /> &#160;&#160;
+	                <h:selectOneMenu style="width: 30%;" value="#{rolAplicacionController.aplicacion.codigo}">
+	                	<f:selectItem itemLabel="Seleccione..." noSelectionOption="true" />
+	                	<f:selectItems value="#{rolAplicacionController.listaAplicaciones}" var="aplicacion" itemLabel="#{aplicacion.nombre}" itemValue="#{aplicacion.codigo}">
+	                	</f:selectItems>
+	                	<f:ajax event="change" listener="#{rolAplicacionController.buscar}" render="tablaRoles" ></f:ajax>
+	                </h:selectOneMenu> &#160;&#160;
+	                <p:commandButton value="Agregar" render="panelNuevo" oncomplete="PF('popupNuevoRol').show()"/>
+            </p:panel>
+            <br/>
+            
+            <p:dataTable id="tablaRoles" var="_rol" value="#{rolAplicacionController.listaRoles}" noDataLabel="No se han encontrado registros" 
+            	rows="10" paginator="true"  rowIndexVar="rowIndex"
+         		currentPageReportTemplate="{startRecord} de {endRecord} "
+                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="5,10,15"
+                onrowmouseover="this.style.backgroundColor='#FFFFE0'"
+				onrowmouseout="this.style.backgroundColor='#F7FDFC'"
+				style=" align:center; width:100%;background-color:#F7FDFC;">
+				<p:column style="width:4%">
+                	<f:facet name="header">#</f:facet>
+                	#{rowIndex+1}
+            	</p:column>
+	            <p:column>
+	                <f:facet name="header">Aplicaci&#243;n</f:facet>
+	                #{_rol.aplicacion.nombre}
+	            </p:column>
+	            <p:column>
+	                <f:facet name="header">Rol</f:facet>
+	                #{_rol.nombre}
+	            </p:column>
+	            <p:column style="width:10%">
+	                <f:facet name="header">Estado</f:facet>
+	                <center>
+	                <h:outputText value="#{_rol.estado == 'A' ? 'Activo' : 'Inactivo'}" />
+	                </center> 
+	            </p:column>
+	            <p:column style="width:10%">
+	            <center>
+					<h:commandLink rendered="#{_rol.estado == 'A'}" action="#{rolAplicacionController.eliminar}" onclick="return confirm('¿Está seguro que desea desactivar el rol seleccionado?')">
+						<h:graphicImage value="/img/delete.gif" alt="Eliminar" />
+						<f:setPropertyActionListener target="#{rolAplicacionController.rolSeleccionado}" value="#{_rol}"/>
+					</h:commandLink>
+					<h:commandLink rendered="#{_rol.estado != 'A'}" action="#{rolAplicacionController.eliminar}" onclick="return confirm('¿Está seguro que desea activar el rol seleccionado?')">
+						<h:graphicImage value="/img/tick.gif" alt="Eliminar" />
+						<f:setPropertyActionListener target="#{rolAplicacionController.rolSeleccionado}" value="#{_rol}"/>
+					</h:commandLink>
+					<p:commandLink update="editar:panelEditarRol" oncomplete="PF('popupEditarRol').show()">
+						<h:graphicImage value="/img/edit.gif" alt="Editar" />
+						<f:setPropertyActionListener target="#{rolAplicacionController.rolSeleccionado}" value="#{_rol}"/>
+					</p:commandLink>
+					<!-- a4j:commandLink render="panelUsuarios" oncomplete="#{p:component('popupverUsuarios')}.show()">
+						<h:graphicImage value="/img/edit.gif" alt="Editar" />
+						<f:setPropertyActionListener target="#{rolAplicacionController.rolSeleccionado}" value="#{_rol}"/>
+					</a4j:commandLink-->
+				</center>
+				</p:column>
+	        </p:dataTable>
+        </h:form>
+        <p:dialog widgetVar="popupNuevoRol" id="popupNuevoRol" modal="true" autosized="true">
+        	<f:facet name="header">
+		        Nuevo Rol
+	        </f:facet>
+	       	<h:form id="nuevo">
+        		<p:messages globalOnly="true" ajaxRendered="true" showDetail="true" showSummary="true"></p:messages>
+        		<p:outputPanel id="panelNuevo">
+		           	<h:panelGrid columns="3">
+		                <h:outputLabel for="aplicacion" value="Aplicacion:" />
+		                <p:selectOneMenu value="#{rolAplicacionController.nuevoRol.aplicacion.codigo}" id="aplicacion" required="true" onblur="value=value.toUpperCase()" requiredMessage="Campo obligatorio">
+		                	<f:selectItems value="#{rolAplicacionController.listaAplicaciones}" var="aplicacion" itemLabel="#{aplicacion.nombre}" itemValue="#{aplicacion.codigo}"></f:selectItems>
+		                </p:selectOneMenu>
+		                <p:message for="aplicacion"/>
+		
+		                <h:outputLabel for="nombre" value="Nombre:" />
+		                <h:inputText id="nombre" value="#{rolAplicacionController.nuevoRol.nombre}" onblur="value=value.toUpperCase()" maxlength="25" required="true" requiredMessage="Campo obligatorio"/>
+		                <p:message for="nombre"/>
+		                
+		                <h:outputLabel for="descripcion" value="Descripci&#243;n:" />
+		                <h:inputTextarea id="descripcion" value="#{rolAplicacionController.nuevoRol.descripcion}" onblur="value=value.toUpperCase()" maxlength="255" required="true" requiredMessage="Campo obligatorio"/>
+		                <p:message for="descripcion"/>
+		                
+		            </h:panelGrid>
+		           	<h:panelGrid columns="2">
+		            	<p:commandButton action="#{rolAplicacionController.registrar}" value="Crear" update="principal:tablaRoles" oncomplete="if (!args.validationFailed) {PF('popupNuevoRol').hide()}"/>
+		            	<p:commandButton value="Cancelar" oncomplete="PF('popupNuevoRol').hide()"/>
+		        	</h:panelGrid>
+		        </p:outputPanel>
+	        </h:form>
+    	</p:dialog>
+	    <p:dialog widgetVar="popupEditarRol" id="popupEditarRol" modal="true" autosized="true">
+        	<f:facet name="header">
+		        Editar Rol
+	        </f:facet>
+	       	<h:form id="editar">
+        		<p:messages globalOnly="true" ajaxRendered="true" showDetail="true" showSummary="true"></p:messages>
+        		<p:outputPanel id="panelEditarRol">
+		           	<h:panelGrid columns="3">
+		                <h:outputLabel for="aplicacion" value="Aplicacion:" />
+		                <p:selectOneMenu value="#{rolAplicacionController.rolSeleccionado.aplicacion.codigo}" id="aplicacion" required="true" requiredMessage="Campo obligatorio">
+		                	 <f:selectItem itemLabel="Seleccione..." noSelectionOption="true" />
+		                	<f:selectItems value="#{rolAplicacionController.listaAplicaciones}" var="aplicacion" itemLabel="#{aplicacion.nombre}" itemValue="#{aplicacion.codigo}"></f:selectItems>
+		                </p:selectOneMenu>
+		                <p:message for="aplicacion"/>
+		
+		                <h:outputLabel for="nombre" value="Nombre:" />
+		                <h:inputText id="nombre" value="#{rolAplicacionController.rolSeleccionado.nombre}" maxlength="25" required="true" requiredMessage="Campo obligatorio" onblur="value=value.toUpperCase()"/>
+		                <p:message for="nombre"/>
+		                
+		                <h:outputLabel for="descripcion" value="Descripci&#243;n:" />
+		                <h:inputTextarea id="descripcion" value="#{rolAplicacionController.rolSeleccionado.descripcion}" maxlength="255" required="true" requiredMessage="Campo obligatorio" onblur="value=value.toUpperCase()"/>
+		                <p:message for="descripcion"/>
+		                
+		                <h:outputLabel for="estado" value="Activo" />
+		                <h:selectBooleanCheckbox id="estado" value="#{rolAplicacionController.rolSeleccionado.estadoActivo}"/>
+		                <p:message for="estado"/>
+		                
+		            </h:panelGrid>
+		           	<h:panelGrid columns="2">
+		            	<p:commandButton action="#{rolAplicacionController.actualizar}" value="Actualizar" update="principal:tablaRoles" oncomplete="if (!args.validationFailed) {PF('popupEditarRol').hide()}"/>
+		            	<p:commandButton value="Cancelar" oncomplete="PF('popupEditarRol').hide()"/>
+		        	</h:panelGrid>
+		        </p:outputPanel>
+	        </h:form>
+    	</p:dialog>
+    	
+	</ui:define>
+</ui:composition>

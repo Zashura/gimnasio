@@ -1,0 +1,167 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core" 
+    xmlns:ui="http://java.sun.com/jsf/facelets" 
+    xmlns:p="http://primefaces.org/ui"
+    template="/plantillas/contenedor.xhtml">
+    
+    <ui:define name="titulo" >
+        Administraci&#243;n
+    </ui:define>
+    
+    <ui:define name="contenido">
+        <h:form id="principal">
+            <p:panel>
+		        <h:outputText value="Nombre:" />
+                &#160;&#160;<h:inputText id="nombre" value="#{aplicacionController.nombreBuscar}" style="width:30%"/>
+                &#160;&#160;<p:commandButton action="#{aplicacionController.buscar}" value="Buscar" update="principal:tablaAplicaciones"/>
+                &#160;&#160;<p:commandButton value="Agregar" update="nuevo:panelNuevo" oncomplete="PF('popupNuevaAplicacion').show()"/>
+                
+            </p:panel>
+            <br/><br/>
+            <p:dataTable id="tablaAplicaciones" var="_aplicacion" value="#{aplicacionController.listaAplicaciones}" noDataLabel="No se han encontrado registros" 
+         		rows="10" paginator="true"  rowIndexVar="rowIndex"
+         		currentPageReportTemplate="{startRecord} de {endRecord} "
+                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="5,10,15"
+                onrowmouseover="this.style.backgroundColor='#FFFFE0'"
+				onrowmouseout="this.style.backgroundColor='#F7FDFC'"
+				style=" align:center; width:100%;background-color:#F7FDFC;">
+            <p:column style="width:4%">
+                	<f:facet name="header">#</f:facet>
+                	#{rowIndex+1}
+            	</p:column>
+	            <p:column>
+	                <f:facet name="header">Prefijo</f:facet>
+	                #{_aplicacion.prefijo}
+	            </p:column>
+	            <p:column>
+	                <f:facet name="header">Nombre</f:facet>
+	                #{_aplicacion.nombre}
+	            </p:column>
+	            <p:column>
+	                <f:facet name="header">Tipo</f:facet>
+	                <center>
+	                #{_aplicacion.tipo}
+	                </center>
+	            </p:column>
+	            <p:column>
+	                <f:facet name="header">URL</f:facet>
+	                #{_aplicacion.url}
+	            </p:column>
+	            <p:column>
+	                <f:facet name="header">Estado</f:facet>
+	                <center>
+	                <h:outputText value="#{_aplicacion.estado == 'A' ? 'Activa' : 'Inactiva'}" />
+	                </center> 
+	            </p:column>
+	            <p:column>
+	            <center>
+					<h:commandLink action="#{aplicacionController.eliminar}" onclick="return confirm('Está seguro que desea eliminar la aplicaci&#243;n seleccionada?')">
+						<h:graphicImage value="/img/delete.gif" alt="Eliminar" />
+						<f:setPropertyActionListener target="#{aplicacionController.aplicacionSeleccionada}" value="#{_aplicacion}"/>
+					</h:commandLink>
+					<p:commandLink update="formEditar:panelEditar" action="#{aplicacionController.noCambioNombre}" oncomplete="PF('popupEditarAplicacion').show()">
+						<h:graphicImage value="/img/edit.gif" alt="Editar" />
+						<f:setPropertyActionListener target="#{aplicacionController.aplicacionSeleccionada}" value="#{_aplicacion}"/>
+					</p:commandLink>
+					</center>
+				</p:column>
+	        </p:dataTable>
+        </h:form>
+        <p:dialog widgetVar="popupNuevaAplicacion" id="popupNuevaAplicacion" modal="true" autosized="true">
+        	<f:facet name="header">
+		        Nueva Aplicaci&#243;n
+	        </f:facet>
+	       	<h:form id="nuevo">
+        		<p:messages globalOnly="true" ajaxRendered="true" showDetail="true" showSummary="true"></p:messages>
+        		<p:outputPanel id="panelNuevo">
+		           	<h:panelGrid columns="3">
+		                <h:outputLabel for="prefijo" value="Prefijo:" />
+		                <h:inputText id="prefijo" value="#{aplicacionController.nuevaAplicacion.prefijo}" onblur="value=value.toUpperCase()" maxlength="3" required="true" requiredMessage="Campo obligatorio"/>
+		                <p:message for="prefijo"/>
+		
+		                <h:outputLabel for="nombre" value="Nombre:" />
+		                <h:inputText id="nombre" value="#{aplicacionController.nuevaAplicacion.nombre}" maxlength="25" required="true" requiredMessage="Campo obligatorio"/>
+		                <p:message for="nombre"/>
+		                
+		                <h:outputLabel for="descripcion" value="Descripci&#243;n:" />
+		                <h:inputTextarea id="descripcion" value="#{aplicacionController.nuevaAplicacion.descripcion}" maxlength="255" required="true" requiredMessage="Campo obligatorio"/>
+		                <p:message for="descripcion"/>
+		                
+		                <h:outputLabel for="tipo" value="Tipo:" />
+		                <p:selectOneMenu id="tipo" value="#{aplicacionController.nuevaAplicacion.tipo}" required="true" requiredMessage="Campo obligatorio">
+			                <f:selectItem itemValue="0" itemLabel="Intranet" />
+			                <f:selectItem itemValue="1" itemLabel="Internet" />
+			            </p:selectOneMenu>
+		                <p:message for="tipo"/>
+		                
+		                <h:outputLabel for="url" value="URL:" />
+		                <h:inputText id="url" value="#{aplicacionController.nuevaAplicacion.url}" maxlength="150" required="true" requiredMessage="Campo obligatorio"/>
+		                <p:message for="url"/>
+		            </h:panelGrid>
+		           	<h:panelGrid columns="2">
+		            	<p:commandButton action="#{aplicacionController.registrar}" value="Crear" update="principal:tablaAplicaciones" oncomplete="if (!args.validationFailed)  {PF('popupNuevaAplicacion').hide()}"/>
+		            	<p:commandButton value="Cancelar" oncomplete="PF('popupNuevaAplicacion').hide()"/>
+		        	</h:panelGrid>
+		        </p:outputPanel>
+	        </h:form>
+    	</p:dialog>
+	    
+    	<p:dialog widgetVar="popupEditarAplicacion"  id="popupEditarAplicacion" modal="true" autosized="true">
+        	<f:facet name="header">
+		        Editar Aplicaci&#243;n
+	        </f:facet>
+		    <h:form id="formEditar">
+        		<p:messages globalOnly="true" ajaxRendered="true" showDetail="true" showSummary="true"></p:messages>
+        		<p:outputPanel id="panelEditar">
+		           	<h:panelGrid columns="3">
+						<h:outputLabel for="prefijoEditar" value="Prefijo:" />
+						<h:inputText id="prefijoEditar"
+							value="#{aplicacionController.aplicacionSeleccionada.prefijo}"
+							onkeyup="mayusculas(this);" maxlength="3" required="true"
+							requiredMessage="Campo obligatorio" />
+						<p:message for="prefijoEditar" />
+
+						<h:outputLabel for="nombreEditar" value="Nombre:" />
+						<h:inputText id="nombreEditar"
+							value="#{aplicacionController.aplicacionSeleccionada.nombre}"
+							maxlength="25" required="true"
+							requiredMessage="Campo obligatorio"
+							onchange="#{nomCambio == '1'}">
+							<f:ajax  update="nombreEditar formEditar" event="change" listener="#{aplicacionController.cambioNombre()}">
+							</f:ajax>
+						</h:inputText>
+						<p:message for="nombreEditar" />
+
+						<h:outputLabel for="descripcionEditar" value="Descripcion:" />
+		                <h:inputTextarea id="descripcionEditar" value="#{aplicacionController.aplicacionSeleccionada.descripcion}"  maxlength="255" required="true" requiredMessage="Campo obligatorio"/>
+		                <p:message for="descripcionEditar"/>
+		                
+		                <h:outputLabel for="tipoEditar" value="Tipo:" />
+		                <p:selectOneMenu id="tipoEditar" value="#{aplicacionController.aplicacionSeleccionada.tipo}" required="true" requiredMessage="Campo obligatorio">
+			                <f:selectItem itemValue="0" itemLabel="Intranet" />
+			                <f:selectItem itemValue="1" itemLabel="Internet" />
+			            </p:selectOneMenu>
+		                <p:message for="tipoEditar"/>
+		                
+		                <h:outputLabel for="urlEditar" value="URL:" />
+		                <h:inputText id="urlEditar" value="#{aplicacionController.aplicacionSeleccionada.url}" maxlength="150" required="true" requiredMessage="Campo obligatorio"/>
+		                <p:message for="urlEditar"/>
+		                
+		                <h:outputLabel for="estadoEditar" value="Estado:" />
+		                <p:selectOneMenu id="estadoEditar" value="#{aplicacionController.aplicacionSeleccionada.estado}" required="true" requiredMessage="Campo obligatorio">
+			                <f:selectItem itemValue="A" itemLabel="Activo" />
+			                <f:selectItem itemValue="I" itemLabel="Inactivo" />
+			            </p:selectOneMenu>
+		                <p:message for="estadoEditar"/>
+		            </h:panelGrid>
+		            <h:panelGrid columns="2">
+		            	<p:commandButton action="#{aplicacionController.actualizar}" value="Actualizar" update="principal:tablaAplicaciones" oncomplete="if (!args.validationFailed) {PF('popupEditarAplicacion').hide()}"/>
+		            	<p:commandButton value="Cancelar" oncomplete="PF('popupEditarAplicacion').hide()"/>
+		        	</h:panelGrid>
+	            </p:outputPanel>
+	        </h:form>
+    	</p:dialog>
+	</ui:define>
+</ui:composition>

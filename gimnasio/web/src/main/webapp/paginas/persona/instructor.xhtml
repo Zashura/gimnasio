@@ -1,0 +1,165 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core" 
+    xmlns:ui="http://java.sun.com/jsf/facelets" 
+    xmlns:p="http://primefaces.org/ui"
+    template="/plantillas/contenedor.xhtml">
+    
+    <ui:define name="titulo" >
+        Instructor
+    </ui:define>
+    
+    <ui:define name="contenido">
+   		<script>
+        	PrimeFaces.locales['es'] = {
+                closeText: 'Cerrar',
+                prevText: 'Anterior',
+                nextText: 'Siguiente',
+                monthNames: ['Enero','Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+                dayNames: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
+                dayNamesShort: ['Dom','Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                dayNamesMin: ['D','L','M','M','J','V','S'],
+                weekHeader: 'Semana',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: '',
+                timeOnlyTitle: 'Sólo hora',
+                timeText: 'Tiempo',
+                hourText: 'Hora',
+                minuteText: 'Minuto',
+                secondText: 'Segundo',
+                currentText: 'Fecha actual',
+                ampm: false,
+                month: 'Mes',
+                week: 'Semana',
+                day: 'Día',
+                allDayText : 'Todo el día'
+        	};
+        </script>
+    	<style>
+			.width1 { width:30%; }
+			.width2 { width:40%; }
+			.width3 { width:30%; }
+			.width4 { width:30%; text-align:right; }
+			.width5 { width:50%; text-align: right; }
+			.width6 { width:30%; text-align: center; }
+			.width7 { text-align: left; }
+			.width30 { width: 30%; text-align: right; vertical-align: top; padding-right: 15px; }
+			.width70 { width: 70%; vertical-align: top; }
+		</style>
+        <h:form id="principal">
+            <p:panel>
+		        <h:outputText value="Nombre:" />
+                &#160;&#160;<h:inputText id="nombre" value="#{instructorController.nombreBuscar}" style="width:30%"/>
+                &#160;&#160;<p:commandButton action="#{instructorController.findbyName}" value="Buscar" update="principal:tablaAplicaciones"/>
+                &#160;&#160;<p:commandButton value="Agregar" update="nuevo:panelNuevo" oncomplete="PF('popupNuevaAplicacion').show()"/>
+                
+            </p:panel>
+            <br/><br/>
+            <p:dataTable id="tablaAplicaciones" var="_per" value="#{instructorController.listInstructor}" noDataLabel="No se han encontrado registros" 
+         		rows="10" paginator="true"  rowIndexVar="rowIndex"
+         		currentPageReportTemplate="{startRecord} de {endRecord} "
+                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="5,10,15"
+                onrowmouseover="this.style.backgroundColor='#FFFFE0'"
+				onrowmouseout="this.style.backgroundColor='#F7FDFC'"
+				style=" align:center; width:100%;background-color:#F7FDFC;">
+            <p:column style="width:4%">
+                	<f:facet name="header">#</f:facet>
+                	#{rowIndex+1}
+            	</p:column>
+            	 <p:column>
+	                <f:facet name="header">Identificaci&#243;n</f:facet>
+	                #{_per.intIdentificacion}
+	            </p:column>
+	            <p:column>
+	                <f:facet name="header">Nombre</f:facet>
+	                #{_per.intNombres}
+	            </p:column>
+	             <p:column>
+	                <f:facet name="header">Celular</f:facet>
+	                #{_per.intCelular}
+	            </p:column>
+	            <p:column>
+	                <f:facet name="header">Estado</f:facet>
+	                <center>
+	                <h:outputText value="#{_per.intEstado == '1' ? 'Activa' : 'Inactiva'}" />
+	                </center> 
+	            </p:column>
+	            <p:column>
+	            <center>
+					<h:commandLink action="#{instructorController.delete(_per)}" onclick="return confirm('Está seguro que desea eliminar la aplicaci&#243;n seleccionada?')">
+						<h:graphicImage value="/img/delete.gif" alt="Eliminar" />
+					</h:commandLink>
+					<p:commandLink update="nuevo:panelNuevo" action="#{instructorController.edit(_per)}" oncomplete="PF('popupNuevaAplicacion').show()">
+						<h:graphicImage value="/img/edit.gif" alt="Editar" />
+					</p:commandLink>
+					</center>
+				</p:column>
+	        </p:dataTable>
+        </h:form>
+        <p:dialog widgetVar="popupNuevaAplicacion" id="popupNuevaAplicacion" modal="true" autosized="true" width="600px">
+        	<f:facet name="header">
+		        Instructor
+	        </f:facet>
+	       	<h:form id="nuevo">
+	       	<br/>
+	       	<div align="center">
+        		<p:outputPanel id="panelNuevo">
+		           	<h:panelGrid columns="2" columnClasses="width30, width70">
+		                <h:outputLabel for="prefijo" value="Identificaci&#243;n:" />
+		                <h:panelGroup>
+		                <h:inputText id="prefijo" style="width:100%" value="#{instructorController.instructor.intIdentificacion}" required="true" requiredMessage="Campo obligatorio">
+		                	<f:ajax render="@this msmDesc"  />
+		                </h:inputText>
+		                <p:message for="prefijo" id="msmDesc"/>
+						</h:panelGroup>
+		
+		                <h:outputLabel for="nombre" value="Nombre y Apellido:" />
+		                <h:panelGroup>
+		                <h:inputText id="nombre" style="width:100%" value="#{instructorController.instructor.intNombres}" required="true" requiredMessage="Campo obligatorio">
+		                	<f:ajax render="@this msmNombre"  />
+		                </h:inputText>
+		                <p:message for="nombre" id="msmNombre"/>
+						</h:panelGroup>
+
+						<h:outputLabel for="cel" value="Celular:" />
+		                <h:panelGroup>
+		               <h:inputText id="cel" style="width:100%" value="#{instructorController.instructor.intCelular}" required="true" requiredMessage="Campo obligatorio">
+		                	<f:ajax render="@this msmCel"  />
+		                </h:inputText>
+		                <p:message for="cel" id="msmCel"/>
+						</h:panelGroup>
+						
+						<h:outputLabel for="con" value="Convencional:" />
+		                <h:panelGroup>
+		               <h:inputText id="con" style="width:100%" value="#{instructorController.instructor.intConvencional}" required="true" requiredMessage="Campo obligatorio">
+		                	<f:ajax render="@this msmCon"  />
+		                </h:inputText>
+		                <p:message for="con" id="msmCon"/>
+						</h:panelGroup>
+						
+						<h:outputLabel for="dir" value="Direccion:" />
+		                <h:panelGroup>
+		               <h:inputText id="dir" style="width:100%" value="#{instructorController.instructor.intDireccion}" required="true" requiredMessage="Campo obligatorio">
+		                	<f:ajax render="@this msmDir"  />
+		                </h:inputText>
+		                <p:message for="dir" id="msmDir"/>
+						</h:panelGroup>
+		              
+					</h:panelGrid>
+					<br/>
+		           	<div align="center">
+		            	<p:commandButton  action="#{instructorController.save()}" value="Aceptar" update="panelNuevo principal:tablaAplicaciones" oncomplete="if (!args.validationFailed)  {PF('popupNuevaAplicacion').hide()}"/>
+		            	<p:commandButton value="Cancelar" action="#{instructorController.cancel()}" oncomplete="PF('popupNuevaAplicacion').hide()"/>
+		        	</div>
+		        	<br/>
+		        </p:outputPanel>
+		        </div>
+	        </h:form>
+    	</p:dialog>
+	    
+	</ui:define>
+</ui:composition>

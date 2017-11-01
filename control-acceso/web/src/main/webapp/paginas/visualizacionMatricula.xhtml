@@ -1,0 +1,43 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core" 
+    xmlns:ui="http://java.sun.com/jsf/facelets" 
+    xmlns:p="http://primefaces.org/ui"
+    template="/plantillas/contenedor.xhtml">
+    
+    <ui:define name="titulo">
+        Visualización de Matriculas Asignadas
+    </ui:define>
+    
+    <ui:define name="contenido">
+        <h:form id="principal">
+        	<h:panelGrid columns="2">
+        		<h:outputLabel value="Provincia:" />
+        		<p:select></p:select>
+        		<p:tabPanel switchType="client">
+        			<p:tab header="Canton / Parroquia">
+        				<h:panelGrid columns="2">
+	        				<h:outputLabel value="Canton:" />
+	        				<p:select></p:select>
+	        				<h:outputLabel value="Parroquia:" />
+	        				<p:select></p:select>
+	        			</h:panelGrid>
+        			</p:tab>
+        			<p:tab header="Distrito / Circuito">
+        				<h:panelGrid columns="2">
+	        				<h:outputLabel value="Distrito:" />
+	        				<p:select></p:select>
+	        				<h:outputLabel value="Circuito:" />
+	        				<p:select></p:select>
+	        			</h:panelGrid>
+        			</p:tab>
+        		</p:tabPanel>
+        		<h:outputLabel value="Institucion Educativa:" />
+        		<p:select></p:select>
+        		<h:outputLabel value="Estado:" />
+        		<p:select></p:select>
+        	</h:panelGrid>
+        	
+        </h:form>
+	</ui:define>
+</ui:composition>

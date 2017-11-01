@@ -1,0 +1,71 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core" 
+    xmlns:ui="http://java.sun.com/jsf/facelets" 
+    xmlns:p="http://primefaces.org/ui"
+    template="/plantillas/contenedor.xhtml">
+    
+    <ui:define name="titulo">
+        Informaci&#243;n del Club
+    </ui:define>
+     
+	<ui:define name="contenido">
+		<style>
+			.width1 { width:30%; }
+			.width2 { width:40%; }
+			.width3 { width:30%; }
+			.width4 { width:30%; text-align:right; }
+			.width5 { width:50%; text-align: right; }
+			.width6 { width:30%; text-align: center; }
+			.width7 { text-align: left; }
+			.width30 { width: 30%; text-align: right; vertical-align: top; padding-right: 15px; }
+			.width70 { width: 70%; vertical-align: top; }
+		</style>
+	
+		<h:form id="formBusqueda">	
+		<p:growl id="msgs" showDetail="true" />
+	    	<div style="width: 100%" align="center">
+				<h:panelGroup id="datosInformativos">
+					<h:panelGroup>
+	    				<div style="width: 100%" align="center">
+							<p:panel style="width:90%">
+								<f:facet name="header">
+									Datos Generales del Club
+								</f:facet>
+								<h:panelGrid columns="2" columnClasses="width30, width70" style="width: 100%; color: black;">
+									<h:outputText value="Descripci&#243;n: " style="font-weight: bold;" />
+									<h:panelGroup>
+										<h:inputText id="desc" style="width: 100%;" value="#{institucionController.clubInstitucion.cluDescripcion}" required="true" requiredMessage="Campo requerido.">
+										 	<p:ajax update="@this msgDes"/>
+										 </h:inputText>
+										<p:message for="desc" id="msgDes"/>
+									</h:panelGroup>
+									<h:outputText value="R.U.C.: " style="font-weight: bold;" />
+									<h:panelGroup>
+										<h:inputText id="ruc" style="width: 100%;" value="#{institucionController.clubInstitucion.cluRuc}" required="true" requiredMessage="Campo requerido.">
+										 	<p:ajax update="@this msgRuc"/>
+										 </h:inputText>
+										<p:message for="ruc" id="msgRuc"/>
+									</h:panelGroup>
+									<h:outputText value="Pagina Web: " style="font-weight: bold;" />
+									<h:panelGroup>
+										<h:inputText id="web" style="width: 100%;" value="#{institucionController.clubInstitucion.cluPagWeb}" required="true" requiredMessage="Campo requerido.">
+										 	<p:ajax update="@this msgWeb"/>
+										 </h:inputText>
+										<p:message for="web" id="msgWeb"/>
+									</h:panelGroup>
+	    						</h:panelGrid>
+							</p:panel>
+							<br/>
+						</div>
+					</h:panelGroup>
+				</h:panelGroup>
+
+				<h:panelGroup id="botones">
+					<p:commandButton value="Modificar Informacion" 
+						update="datosInformativos" action="#{institucionController.save()}"/>	
+				</h:panelGroup>
+			</div>
+		</h:form>
+	</ui:define>	
+</ui:composition>

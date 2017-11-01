@@ -1,0 +1,276 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core" 
+    xmlns:ui="http://java.sun.com/jsf/facelets" 
+    xmlns:p="http://primefaces.org/ui"
+    template="/plantillas/contenedor.xhtml">
+    
+    <ui:define name="titulo" >
+        Inscripci&#243;n
+    </ui:define>
+    
+    <ui:define name="contenido">
+   		<script>
+        	PrimeFaces.locales['es'] = {
+                closeText: 'Cerrar',
+                prevText: 'Anterior',
+                nextText: 'Siguiente',
+                monthNames: ['Enero','Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                monthNamesShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun','Jul','Ago','Sep','Oct','Nov','Dic'],
+                dayNames: ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
+                dayNamesShort: ['Dom','Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                dayNamesMin: ['D','L','M','M','J','V','S'],
+                weekHeader: 'Semana',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: '',
+                timeOnlyTitle: 'Sólo hora',
+                timeText: 'Tiempo',
+                hourText: 'Hora',
+                minuteText: 'Minuto',
+                secondText: 'Segundo',
+                currentText: 'Fecha actual',
+                ampm: false,
+                month: 'Mes',
+                week: 'Semana',
+                day: 'Día',
+                allDayText : 'Todo el día'
+        	};
+        </script>
+    	<style>
+			.width1 { width:30%; }
+			.width2 { width:40%; }
+			.width3 { width:30%; }
+			.width4 { width:30%; text-align:right; }
+			.width5 { width:50%; text-align: right; }
+			.width6 { width:30%; text-align: center; }
+			.width7 { text-align: left; }
+			.width30 { width: 30%; text-align: right; vertical-align: top; padding-right: 15px; }
+			.width70 { width: 70%; vertical-align: top; }
+		</style>
+        <h:form id="principal">
+            <p:panel>
+		        <h:outputText value="Nombre:" />
+                &#160;&#160;<h:inputText id="nombre" value="#{personaController.nombreBuscar}" style="width:30%"/>
+                &#160;&#160;<p:commandButton action="#{personaController.findbyName}" value="Buscar" update="principal:tablaAplicaciones"/>
+                &#160;&#160;<p:commandButton value="Agregar" update="nuevo:panelNuevo" oncomplete="PF('popupNuevaAplicacion').show()"/>
+                
+            </p:panel>
+            <br/><br/>
+            <p:dataTable id="tablaAplicaciones" var="_per" value="#{personaController.listPersona}" noDataLabel="No se han encontrado registros" 
+         		rows="10" paginator="true"  rowIndexVar="rowIndex"
+         		currentPageReportTemplate="{startRecord} de {endRecord} "
+                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="5,10,15"
+                onrowmouseover="this.style.backgroundColor='#FFFFE0'"
+				onrowmouseout="this.style.backgroundColor='#F7FDFC'"
+				style=" align:center; width:100%;background-color:#F7FDFC;">
+            <p:column style="width:4%">
+                	<f:facet name="header">#</f:facet>
+                	#{rowIndex+1}
+            	</p:column>
+            	 <p:column>
+	                <f:facet name="header">Identificaci&#243;n</f:facet>
+	                #{_per.perIdentificacion}
+	            </p:column>
+	            <p:column>
+	                <f:facet name="header">Nombre</f:facet>
+	                #{_per.perNombres}
+	            </p:column>
+	             <p:column>
+	                <f:facet name="header">Fecha Nacimiento</f:facet>
+	                #{_per.perFecNacimiento}
+	            </p:column>
+	            <p:column>
+	                <f:facet name="header">Estado</f:facet>
+	                <center>
+	                <h:outputText value="#{_per.perEstado == '1' ? 'Activa' : 'Inactiva'}" />
+	                </center> 
+	            </p:column>
+	            <p:column>
+	            <center>
+					<h:commandLink action="#{personaController.delete(_per)}" onclick="return confirm('Está seguro que desea eliminar la aplicaci&#243;n seleccionada?')">
+						<h:graphicImage value="/img/delete.gif" alt="Eliminar" />
+					</h:commandLink>
+					<p:commandLink update="nuevo:panelNuevo" action="#{personaController.edit(_per)}" oncomplete="PF('popupNuevaAplicacion').show()">
+						<h:graphicImage value="/img/edit.gif" alt="Editar" />
+					</p:commandLink>
+					</center>
+				</p:column>
+	        </p:dataTable>
+        </h:form>
+        <p:dialog widgetVar="popupNuevaAplicacion" id="popupNuevaAplicacion" modal="true" autosized="true" width="600px">
+        	<f:facet name="header">
+		        Inscripcion
+	        </f:facet>
+	       	<h:form id="nuevo">
+	       	<br/>
+	       	<div align="center">
+        		<p:outputPanel id="panelNuevo">
+        		<fieldset>
+        		<legend>Datos Persona</legend>
+		           	<h:panelGrid columns="2" columnClasses="width30, width70">
+		           		<h:outputLabel for="tipIde" value="Tipo Identificaci&#243;n:" />
+		                <h:panelGroup>
+						<h:selectOneMenu id="tipIde" value="#{personaController.tipoIdentificacion.tiinCodigo}" style="width:100%"
+							required="true" requiredMessage="Campo obligatorio">
+							<f:selectItem itemLabel="Seleccione..."	noSelectionOption="true" />
+							<f:selectItems value="#{personaController.listTipoIdentificacion}" var="sem" itemValue="#{sem.tiinCodigo}" itemLabel="#{sem.tiinDescripcion}" />
+							<p:ajax event="change" update="@this msmTipIde"/>
+						</h:selectOneMenu>
+		                <p:message for="tipIde" id="msmTipIde"/>
+		                 </h:panelGroup>
+		           	
+		                <h:outputLabel for="prefijo" value="Identificaci&#243;n:" />
+		                <h:panelGroup>
+		                <h:inputText id="prefijo" style="width:100%" value="#{personaController.persona.perIdentificacion}" required="true" requiredMessage="Campo obligatorio">
+		                	<f:ajax render="@this msmDesc"  />
+		                </h:inputText>
+		                <p:message for="prefijo" id="msmDesc"/>
+						</h:panelGroup>
+		
+		                <h:outputLabel for="nombre" value="Nombre y Apellido:" />
+		                <h:panelGroup>
+		                <h:inputText id="nombre" style="width:100%" value="#{personaController.persona.perNombres}" required="true" requiredMessage="Campo obligatorio">
+		                	<f:ajax render="@this msmNombre"  />
+		                </h:inputText>
+		                <p:message for="nombre" id="msmNombre"/>
+						</h:panelGroup>
+
+						<h:outputLabel for="fec" value="Fecha Nacimiento:" />
+		                <h:panelGroup>
+		                <p:calendar id="fec" style="width:100%" value="#{personaController.persona.perFecNacimiento}" required="true" requiredMessage="Campo obligatorio"
+		                    pattern="yyyy-MM-dd" locale="es" navigator="true" mask="true">
+		                	<f:ajax render="@this msmFec"  />
+		               	</p:calendar>
+		                <p:message for="fec" id="msmFec"/>
+						</h:panelGroup>
+						
+						<h:outputLabel for="genero" value="Genero:" />
+		                <h:panelGroup>
+						<h:selectOneMenu id="genero" value="#{personaController.sexo.sexCodigo}" style="width:100%"
+							required="true" requiredMessage="Campo obligatorio">
+							<f:selectItem itemLabel="Seleccione..."	noSelectionOption="true" />
+							<f:selectItems value="#{personaController.listSexo}" var="sem" itemValue="#{sem.sexCodigo}" itemLabel="#{sem.sexDescripcion}" />
+							<p:ajax event="change" update="@this msmGenero"/>
+						</h:selectOneMenu>
+		                <p:message for="genero" id="msmGenero"/>
+		                 </h:panelGroup>
+		              
+					</h:panelGrid>
+					</fieldset>
+					
+					<fieldset>
+        				<legend>Datos Representante</legend>
+		           		<h:panelGrid columns="2" columnClasses="width30, width70">
+		           		
+		           		<h:outputLabel for="ide" value="Identificaci&#243;n:" />
+		                <h:panelGroup>
+		                <h:inputText id="ide" style="width:100%" value="#{personaController.representante.repIdentificacion}" required="true" requiredMessage="Campo obligatorio">
+		                	<f:ajax render="@this msmIde"  />
+		                </h:inputText>
+		                <p:message for="ide" id="msmIde"/>
+						</h:panelGroup>
+		
+		                <h:outputLabel for="nom" value="Nombre y Apellido:" />
+		                <h:panelGroup>
+		                <h:inputText id="nom" style="width:100%" value="#{personaController.representante.repNombres}" required="true" requiredMessage="Campo obligatorio">
+		                	<f:ajax render="@this msmNom"  />
+		                </h:inputText>
+		                <p:message for="nom" id="msmNom"/>
+						</h:panelGroup>
+
+						<h:outputLabel for="celu" value="Celular:" />
+		                <h:panelGroup>
+		               <h:inputText id="celu" style="width:100%" value="#{personaController.representante.repCelular}" required="true" requiredMessage="Campo obligatorio">
+		                	<f:ajax render="@this msmCelu"  />
+		                </h:inputText>
+		                <p:message for="celu" id="msmCelu"/>
+						</h:panelGroup>
+						
+						<h:outputLabel for="conve" value="Convencional:" />
+		                <h:panelGroup>
+		               <h:inputText id="conve" style="width:100%" value="#{personaController.representante.repConvencional}" required="true" requiredMessage="Campo obligatorio">
+		                	<f:ajax render="@this msmConve"  />
+		                </h:inputText>
+		                <p:message for="conve" id="msmConve"/>
+						</h:panelGroup>
+						
+						<h:outputLabel for="dir" value="Direccion:" />
+		                <h:panelGroup>
+		               <h:inputText id="dir" style="width:100%" value="#{personaController.representante.repDireccion}" required="true" requiredMessage="Campo obligatorio">
+		                	<f:ajax render="@this msmDir"  />
+		                </h:inputText>
+		                <p:message for="dir" id="msmDir"/>
+						</h:panelGroup>
+		           		
+		           		</h:panelGrid>
+		           	</fieldset>
+					
+					<fieldset>
+        				<legend>Inscripci&#243;n</legend>
+		           		<h:panelGrid columns="2" columnClasses="width30, width70">
+		           		
+		           		<h:outputLabel for="inst" value="Instituci&#243;n:" />
+		                <h:panelGroup>
+						<h:selectOneMenu id="inst" value="#{personaController.tipoIdentificacion.tiinCodigo}" style="width:100%"
+							required="true" requiredMessage="Campo obligatorio">
+							<f:selectItem itemLabel="Seleccione..."	noSelectionOption="true" />
+							<f:selectItems value="#{personaController.listTipoIdentificacion}" var="sem" itemValue="#{sem.tiinCodigo}" itemLabel="#{sem.tiinDescripcion}" />
+							<p:ajax event="change" update="@this msmInst"/>
+						</h:selectOneMenu>
+		                <p:message for="inst" id="msmInst"/>
+		                 </h:panelGroup>
+		                 
+		                <h:outputLabel for="sede" value="Sede:" />
+		                <h:panelGroup>
+						<h:selectOneMenu id="sede" value="#{personaController.tipoIdentificacion.tiinCodigo}" style="width:100%"
+							required="true" requiredMessage="Campo obligatorio">
+							<f:selectItem itemLabel="Seleccione..."	noSelectionOption="true" />
+							<f:selectItems value="#{personaController.listTipoIdentificacion}" var="sem" itemValue="#{sem.tiinCodigo}" itemLabel="#{sem.tiinDescripcion}" />
+							<p:ajax event="change" update="@this msmSede"/>
+						</h:selectOneMenu>
+		                <p:message for="sede" id="msmSede"/>
+		                 </h:panelGroup>
+		                 
+		                <h:outputLabel for="dis" value="Disciplina:" />
+		                <h:panelGroup>
+						<h:selectOneMenu id="dis" value="#{personaController.tipoIdentificacion.tiinCodigo}" style="width:100%"
+							required="true" requiredMessage="Campo obligatorio">
+							<f:selectItem itemLabel="Seleccione..."	noSelectionOption="true" />
+							<f:selectItems value="#{personaController.listTipoIdentificacion}" var="sem" itemValue="#{sem.tiinCodigo}" itemLabel="#{sem.tiinDescripcion}" />
+							<p:ajax event="change" update="@this msmDis"/>
+						</h:selectOneMenu>
+		                <p:message for="dis" id="msmDis"/>
+		                 </h:panelGroup>
+		                 
+		                 <h:outputLabel for="horario" value="Horario:" />
+		                <h:panelGroup>
+						<h:selectOneMenu id="horario" value="#{personaController.tipoIdentificacion.tiinCodigo}" style="width:100%"
+							required="true" requiredMessage="Campo obligatorio">
+							<f:selectItem itemLabel="Seleccione..."	noSelectionOption="true" />
+							<f:selectItems value="#{personaController.listTipoIdentificacion}" var="sem" itemValue="#{sem.tiinCodigo}" itemLabel="#{sem.tiinDescripcion}" />
+							<p:ajax event="change" update="@this msmHorario"/>
+						</h:selectOneMenu>
+		                <p:message for="horario" id="msmHorario"/>
+		                 </h:panelGroup>
+		           		
+		           		
+		           		</h:panelGrid>
+		           	</fieldset>
+					
+					
+					<br/>
+		           	<div align="center">
+		            	<p:commandButton  action="#{personaController.save()}" value="Aceptar" update="panelNuevo principal:tablaAplicaciones" oncomplete="if (!args.validationFailed)  {PF('popupNuevaAplicacion').hide()}"/>
+		            	<p:commandButton value="Cancelar" action="#{personaController.cancel()}" oncomplete="PF('popupNuevaAplicacion').hide()"/>
+		        	</div>
+		        	<br/>
+		        </p:outputPanel>
+		        </div>
+	        </h:form>
+    	</p:dialog>
+	    
+	</ui:define>
+</ui:composition>

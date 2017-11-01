@@ -1,0 +1,38 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core" 
+    xmlns:ui="http://java.sun.com/jsf/facelets" 
+    xmlns:p="http://primefaces.org/ui"
+    template="/plantillas/contenedorExterno.xhtml">
+    
+    <ui:define name="titulo">
+        Cambio de Clave
+    </ui:define>
+    
+    <ui:define name="contenido">
+       <h:form id="formPrincipal" prependId="false">
+        	<br/>
+        	<h:panelGroup id="panelCambiarClave">
+	         	<p:panel header="Cambio de Clave" rendered="#{claveExternoController.mostrarPanelCambio}">  
+	                <h:panelGrid columns="3">
+		
+		               <h:outputLabel for="nuevaClave1" value="Nueva clave:" />
+		               <h:inputSecret id="nuevaClave1" value="#{claveExternoController.nuevaClave}" maxlength="15" required="true" requiredMessage="Campo obligatorio"/>
+		               <p:message for="nuevaClave1"/>
+		               
+		               <h:outputLabel for="nuevaClave2" value="Confirmar nueva clave:" />
+		               <h:inputSecret id="nuevaClave2" value="#{claveExternoController.confirmacionNuevaClave}" maxlength="15" required="true" requiredMessage="Campo obligatorio"/>
+		               <p:message for="nuevaClave2"/>
+		           </h:panelGrid>
+		           <br/>
+		           <h:commandButton value="Cambiar clave" action="#{claveExternoController.cambiarClaveExterno}" render="panelCambiarClave"/>
+        		</p:panel>
+        		<h:panelGroup rendered="#{!claveExternoController.mostrarPanelCambio}">
+		        	<span class="#{claveExternoController.estilo}"><h:outputText value="#{claveExternoController.mensaje}"/></span>
+			        <br/>
+			        <br/>
+		        </h:panelGroup>
+        	</h:panelGroup>
+        </h:form>
+	</ui:define>
+</ui:composition>

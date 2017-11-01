@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core" 
+    xmlns:ui="http://java.sun.com/jsf/facelets" 
+    xmlns:p="http://primefaces.org/ui"
+    template="/plantillas/contenedorExternoSinMayusculas.xhtml">
+    
+    <ui:define name="titulo">
+        Petici&#243;n de Cambio de clave 
+    </ui:define>
+    
+    <ui:define name="contenido">
+        <h:form id="principal">
+            <p:panel id="panelPrincipal">
+            	<f:facet name="header">
+			        Petici&#243;n de Cambio de clave 
+		        </f:facet>
+		        <h:panelGroup rendered="#{cambioClaveController.mostrarPanelCambio}">
+		        	<h:panelGrid columns="3">
+		                <h:outputLabel value="Correo electr&#243;nico:" />
+		                <h:inputText id="correo" value="#{cambioClaveController.correoElectronico}"  required="true" requiredMessage="Campo obligatorio"/>
+		                <p:message for="correo"/>
+		            </h:panelGrid>
+		            <br/>
+		            <h:commandButton value="Solicitar cambio de clave" action="#{cambioClaveController.solicitarCambioClave}" render="panelPrincipal"/>
+		            <br/>
+		        </h:panelGroup>
+		        <h:panelGroup rendered="#{!cambioClaveController.mostrarPanelCambio}">
+		        	<br/>
+	            	<h:outputText value="La clave ha sido cambiada exitosamente, se ha enviado un e-mail a su correo electr&#243;nico, por favor revisar."/>
+	            	<br/>
+	            	<br/>
+	            	<h:commandButton value="Finalizar" onclick="history.back();" />
+		        </h:panelGroup>
+            </p:panel>
+            <br/>
+        </h:form>
+	</ui:define>
+</ui:composition>
