@@ -1,7 +1,6 @@
 package ec.com.gimnasio.model;
 
 import java.io.Serializable;
-import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 
@@ -41,11 +40,13 @@ public class ClubHorario implements Serializable {
 	@Column(name="hor_fec_creacion")
 	private Date horFecCreacion;
 
+	@Temporal(TemporalType.TIME)
 	@Column(name="hor_hora_fin")
-	private Time horHoraFin;
+	private Date horHoraFin;
 
+	@Temporal(TemporalType.TIME)
 	@Column(name="hor_hora_inicio")
-	private Time horHoraInicio;
+	private Date horHoraInicio;
 
 	//bi-directional many-to-one association to ClubHorDia
 	@OneToMany(mappedBy="clubHorario")
@@ -78,19 +79,19 @@ public class ClubHorario implements Serializable {
 		this.horFecCreacion = horFecCreacion;
 	}
 
-	public Time getHorHoraFin() {
+	public Date getHorHoraFin() {
 		return this.horHoraFin;
 	}
 
-	public void setHorHoraFin(Time horHoraFin) {
+	public void setHorHoraFin(Date horHoraFin) {
 		this.horHoraFin = horHoraFin;
 	}
 
-	public Time getHorHoraInicio() {
+	public Date getHorHoraInicio() {
 		return this.horHoraInicio;
 	}
 
-	public void setHorHoraInicio(Time horHoraInicio) {
+	public void setHorHoraInicio(Date horHoraInicio) {
 		this.horHoraInicio = horHoraInicio;
 	}
 

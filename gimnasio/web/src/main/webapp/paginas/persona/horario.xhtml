@@ -51,7 +51,7 @@
 		</style>
         <h:form id="principal">
             <p:panel>
-		        <h:outputText value="Nombre:" />
+		        <h:outputText value="Dia:" />
                 &#160;&#160;<h:inputText id="nombre" value="#{horarioController.nombreBuscar}" style="width:30%"/>
                 &#160;&#160;<p:commandButton action="#{horarioController.findbyName}" value="Buscar" update="principal:tablaAplicaciones"/>
                 &#160;&#160;<p:commandButton value="Agregar" update="nuevo:panelNuevo" oncomplete="PF('popupNuevaAplicacion').show()"/>
@@ -122,7 +122,22 @@
 		                 </h:panelGroup>
 		
 		                <h:outputLabel for="ini" value="Hora Inicio:" />
+		                  <h:panelGroup>
+		                 <p:calendar id="ini" value="#{horarioController.horario.horHoraInicio}" pattern="HH:mm" timeOnly="true" required="true" requiredMessage="Campo obligatorio">
+		                	<f:ajax render="@this msmIni"  />
+		                </p:calendar>
+		                <p:message for="ini" id="msmIni"/>
+						</h:panelGroup>
+		                
+		               <h:outputLabel for="fin" value="Hora Fin:" />
 		                <h:panelGroup>
+		                <p:calendar id="fin" value="#{horarioController.horario.horHoraFin}" pattern="HH:mm" timeOnly="true" required="true" requiredMessage="Campo obligatorio">
+		                	<f:ajax render="@this msmFin"  />
+		                </p:calendar>
+		                <p:message for="fin" id="msmFin"/>
+						</h:panelGroup>
+		                
+		            <!--     <h:panelGroup>
 		                 <p:calendar id="ini" value="#{horarioController.horario.horHoraInicio}" pattern="HH:mm" timeOnly="true" required="true" requiredMessage="Campo obligatorio">
 		                	<f:ajax render="@this msmIni"  />
 		                </p:calendar>
@@ -135,12 +150,12 @@
 		                	<f:ajax render="@this msmFin"  />
 		                </p:calendar>
 		                <p:message for="fin" id="msmFin"/>
-						</h:panelGroup>
+						</h:panelGroup>--> 
 						
 					</h:panelGrid>
 					<br/>
 		           	<div align="center">
-		            	<p:commandButton  action="#{horarioController.save()}" value="Aceptar" update="panelNuevo principal:tablaAplicaciones" oncomplete="if (!args.validationFailed)  {PF('popupNuevaAplicacion').hide()}"/>
+		            	<p:commandButton action="#{horarioController.save()}" value="Aceptar" update="panelNuevo principal:tablaAplicaciones" oncomplete="if (!args.validationFailed)  {PF('popupNuevaAplicacion').hide()}"/>
 		            	<p:commandButton value="Cancelar" action="#{horarioController.cancel()}" oncomplete="PF('popupNuevaAplicacion').hide()"/>
 		        	</div>
 		        	<br/>

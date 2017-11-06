@@ -75,12 +75,13 @@ public class HorarioController extends BaseController implements Serializable {
 	}
 	
 	public void save(){
-		System.out.println("<<<>><>><><>><><");
 		if(update){
 			try {
 				clubHorarioService.actualizar(horario);
-				setHorario(horario);
-				setDia(clubDiaService.findByCodigo(dia.getDiaCodigo()));
+				horarioDia.setHodiFecInicio(horario.getHorHoraInicio());
+				horarioDia.setHodiFecFin(horario.getHorHoraFin());
+				horarioDia.setClubHorario(horario);
+				horarioDia.setClubDia(clubDiaService.findByCodigo(dia.getDiaCodigo()));
 				clubHoraDiaService.actualizar(horarioDia);
 				agregarMensajeInformacion("Registro actualizado exitosamente", "");
 			} catch (ClubUpdateException e) {
@@ -96,8 +97,10 @@ public class HorarioController extends BaseController implements Serializable {
 				
 				horarioDia.setHodiEstado(Constantes.REGISTRO_ACTIVO_NUMERO);
 				horarioDia.setHodiFecCreacion(new Date());
-				setHorario(horario);
-				setDia(clubDiaService.findByCodigo(dia.getDiaCodigo()));
+				horarioDia.setHodiFecInicio(horario.getHorHoraInicio());
+				horarioDia.setHodiFecFin(horario.getHorHoraFin());
+				horarioDia.setClubHorario(horario);
+				horarioDia.setClubDia(clubDiaService.findByCodigo(dia.getDiaCodigo()));
 				clubHoraDiaService.crear(horarioDia);
 				 agregarMensajeInformacion("Registro ingresado exitosamente", "");
 			} catch (ClubPersistException e) {
