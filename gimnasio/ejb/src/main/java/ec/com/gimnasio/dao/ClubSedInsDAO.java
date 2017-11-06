@@ -11,5 +11,7 @@ import ec.com.gimnasio.model.ClubSedIn;
 public interface ClubSedInsDAO  extends GenericDAO<ClubSedIn, Long> {
 		
 	public ClubSedIn findByCodigo(long codigo);
+	
+	public ClubSedIn findByCodigoInstucionSede(long codInst,long codSede);
 
 }

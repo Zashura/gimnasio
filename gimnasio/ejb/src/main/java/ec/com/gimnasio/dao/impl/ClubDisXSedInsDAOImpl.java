@@ -20,5 +20,12 @@ public class ClubDisXSedInsDAOImpl extends GenericDAOImpl<ClubDisXSedIn, Long> i
 		return aplicacion;
 	}
 	
+	@Override
+	public ClubDisXSedIn findByCodigoSedeDisciplina(long codSedIns,long codDis){
+		StringBuilder sentencia = new StringBuilder().append("select o from ClubDisXSedIn o ");
+		sentencia.append("where o.clubDisciplina.disCodigo=:codDis and o.clubSedIn.seinCodigo=:codSedIns and o.disiEstado=:estado ");
+		ClubDisXSedIn aplicacion = (ClubDisXSedIn) getEntityManager().createQuery(sentencia.toString()).setParameter("codDis" , codDis).setParameter("codSedIns" , codSedIns).setParameter("estado", Constantes.REGISTRO_ACTIVO_NUMERO).getSingleResult();
+		return aplicacion;
+	}
 	
 }

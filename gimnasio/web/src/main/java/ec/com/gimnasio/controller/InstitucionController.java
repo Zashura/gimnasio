@@ -28,7 +28,7 @@ public class InstitucionController extends BaseController implements Serializabl
 	@Inject
 	private ClubInstitucionService clubInstitucionService;
 	
-	private ClubInstitucion clubInstitucion=new ClubInstitucion();;
+	private ClubInstitucion clubInstitucion=new ClubInstitucion();
 	private boolean update;
 	private long codigoCas;
 	

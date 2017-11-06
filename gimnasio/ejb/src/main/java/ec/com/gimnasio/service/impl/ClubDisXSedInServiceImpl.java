@@ -21,6 +21,11 @@ public class ClubDisXSedInServiceImpl implements ClubDisXSedInsService {
 	}
 	
 	@Override
+	public ClubDisXSedIn findByCodigoSedeDisciplina(long codSedIns,long codDis){
+		return clubDisXSedInsDAO.findByCodigoSedeDisciplina(codSedIns,codDis);
+	}
+	
+	@Override
 	public void crear(ClubDisXSedIn aplicacion){
 		try {
 			clubDisXSedInsDAO.persist(aplicacion);

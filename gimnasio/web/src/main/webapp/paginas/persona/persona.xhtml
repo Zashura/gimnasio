@@ -212,34 +212,26 @@
         				<legend>Inscripci&#243;n</legend>
 		           		<h:panelGrid columns="2" columnClasses="width30, width70">
 		           		
-		           		<h:outputLabel for="inst" value="Instituci&#243;n:" />
-		                <h:panelGroup>
-						<h:selectOneMenu id="inst" value="#{personaController.tipoIdentificacion.tiinCodigo}" style="width:100%"
-							required="true" requiredMessage="Campo obligatorio">
-							<f:selectItem itemLabel="Seleccione..."	noSelectionOption="true" />
-							<f:selectItems value="#{personaController.listTipoIdentificacion}" var="sem" itemValue="#{sem.tiinCodigo}" itemLabel="#{sem.tiinDescripcion}" />
-							<p:ajax event="change" update="@this msmInst"/>
-						</h:selectOneMenu>
-		                <p:message for="inst" id="msmInst"/>
-		                 </h:panelGroup>
+		           		<h:outputLabel value="Instituci&#243;n:" />
+		           		<h:outputLabel value="#{personaController.clubInstitucion.cluDescripcion}" />
 		                 
 		                <h:outputLabel for="sede" value="Sede:" />
 		                <h:panelGroup>
-						<h:selectOneMenu id="sede" value="#{personaController.tipoIdentificacion.tiinCodigo}" style="width:100%"
+						<h:selectOneMenu id="sede" value="#{personaController.sede.sedCodigo}" style="width:100%"
 							required="true" requiredMessage="Campo obligatorio">
 							<f:selectItem itemLabel="Seleccione..."	noSelectionOption="true" />
-							<f:selectItems value="#{personaController.listTipoIdentificacion}" var="sem" itemValue="#{sem.tiinCodigo}" itemLabel="#{sem.tiinDescripcion}" />
-							<p:ajax event="change" update="@this msmSede"/>
+							<f:selectItems value="#{personaController.listSedes}" var="sem" itemValue="#{sem.sedCodigo}" itemLabel="#{sem.sedDescripcion}" />
+							<p:ajax event="change" update="@this msmSede dis"  listener="#{personaController.findDisciplina()}"/>
 						</h:selectOneMenu>
 		                <p:message for="sede" id="msmSede"/>
 		                 </h:panelGroup>
 		                 
 		                <h:outputLabel for="dis" value="Disciplina:" />
 		                <h:panelGroup>
-						<h:selectOneMenu id="dis" value="#{personaController.tipoIdentificacion.tiinCodigo}" style="width:100%"
+						<h:selectOneMenu id="dis" value="#{personaController.disciplina.disCodigo}" style="width:100%"
 							required="true" requiredMessage="Campo obligatorio">
 							<f:selectItem itemLabel="Seleccione..."	noSelectionOption="true" />
-							<f:selectItems value="#{personaController.listTipoIdentificacion}" var="sem" itemValue="#{sem.tiinCodigo}" itemLabel="#{sem.tiinDescripcion}" />
+							<f:selectItems value="#{personaController.listDisciplina}" var="sem" itemValue="#{sem.disCodigo}" itemLabel="#{sem.disDescripcion}" />
 							<p:ajax event="change" update="@this msmDis"/>
 						</h:selectOneMenu>
 		                <p:message for="dis" id="msmDis"/>

@@ -30,6 +30,11 @@ public class ClubSedInsServiceImpl implements ClubSedInsService {
     }
 	
 	@Override
+	public ClubSedIn findByCodigoInstucionSede(long codInst,long codSede){
+		return clubSedInsDAO.findByCodigoInstucionSede(codInst,codSede);
+	}
+	
+	@Override
 	public ClubSedIn actualizar(ClubSedIn aplicacion){
         try {
         	ClubSedIn app = clubSedInsDAO.update(aplicacion);

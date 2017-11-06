@@ -11,6 +11,8 @@ public interface ClubSedInsService {
 	
 	public ClubSedIn findByCodigo(long codigo);
 	
+	public ClubSedIn findByCodigoInstucionSede(long codInst,long codSede);
+	
 	public void crear(ClubSedIn aplicacion) throws ClubPersistException;
 	
 	public ClubSedIn actualizar(ClubSedIn aplicacion) throws ClubUpdateException;
