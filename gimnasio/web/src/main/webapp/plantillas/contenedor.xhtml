@@ -14,6 +14,7 @@
             </ui:insert>
         </title>
         <link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/estilo.css" />
+        <link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/estilos_2.css" />
         <link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/bootstrap.min.css" />
         <link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/style.min.css" />
         <script type="text/javascript" src="#{request.contextPath}/js/utils.js" />
@@ -25,18 +26,19 @@
 	            <ui:include src="/plantillas/cabecera.xhtml" />
 	        </ui:insert>
 	        <div class="contenedor-horizontal">
-		        <div class="menu-vertical">
+		        <div class="menu-vertical" >
 			        <ui:insert name="menu" >
 			            <ui:include src="/plantillas/menu.xhtml" />
 			        </ui:insert>
 		        </div>
+		      
 		        <div class="contenido">
-			        <span class="titulo">
+			    <!-- <span class="titulo">
 			        	<ui:insert name="titulo">
 			        		<h:outputText value="Titulo de la Pagina"/>
 			        	</ui:insert>
-			        </span>
-			        <br/><br/>
+			        </span>-->
+			        <br/>
 			        <p:ajaxStatus>
 		    			<f:facet name="start">
 		    				<div class="ajax-status">

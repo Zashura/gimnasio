@@ -22,6 +22,13 @@
 			.width70 { width: 70%; vertical-align: top; }
 		</style>
 	
+		<article class="beadcrumbs">
+			<ul>
+				<li data-index="1"><a href="#{request.contextPath}/faces/paginas/principal.xhtml"> <i>Principal</i></a></li>
+				<li data-index="2"><span> Informaci&#243;n del Club</span></li>
+			</ul>
+		</article>
+	
 		<h:form id="formBusqueda">	
 		<p:growl id="msgs" showDetail="true" />
 	    	<div style="width: 100%" align="center">
@@ -29,9 +36,6 @@
 					<h:panelGroup>
 	    				<div style="width: 100%" align="center">
 							<p:panel style="width:90%">
-								<f:facet name="header">
-									Datos Generales del Club
-								</f:facet>
 								<h:panelGrid columns="2" columnClasses="width30, width70" style="width: 100%; color: black;">
 									<h:outputText value="Descripci&#243;n: " style="font-weight: bold;" />
 									<h:panelGroup>

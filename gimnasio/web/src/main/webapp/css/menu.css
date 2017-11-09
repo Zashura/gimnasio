@@ -1,27 +1,28 @@
 .menu-0 a {
-	background: #A4A4A4;
-    border: 1px solid #C0C0C0;
-    border-top: 0px;
-    color: #FFFFFF;
     display: block;
+    letter-spacing: .5px;
     height: 32px;
-    line-height: 27px;
+    line-height: 35px;
     position: relative;
-    /* font-weight: bold; */
-    text-indent: 18px;
+    text-indent: 9px;
     width: 216px;
-    margin-bottom: 3px;
+    margin-bottom: 18px;
     text-decoration: none;
     vertical-align: middle;
-    padding-top: 2px;
+    padding-top: 1px;
 }
 
 .cabecera-1{
-	font-size: 17px;
+	color: #424242;
+	text-transform: uppercase;
+	font-weight: 800;
+	 font-size: 17px;
 }
 
 .cabecera-2{
-	font-size: 15px;
+	color: #757575;
+    font-size: 16px;
+    font-weight: 500;
 }
 
 .menu-0 a:focus {
@@ -39,11 +40,9 @@
 
 .menu-1 a {
 	background: #FFFFFF;
-	color: #000000;
 	text-indent: 43px;
-	font-weight: normal;
 	margin-bottom: 0px;
-	background: url("../img/disc.png") 25px 6px no-repeat;
+	background: url(../img/disc.png) 24px 10px no-repeat;
 }
 
 
@@ -60,16 +59,22 @@
 }
 
 .menu-0 a:hover {
-	color: #FFFFFF;
+	color: #424242;
 	cursor: pointer;
 }
 
 .menu-1 a:hover {
-	color: #000000;
-	cursor: pointer;
-	background: #EAF0F8 url("../img/disc.png") 25px 6px no-repeat;
-    width: 220px;
+	cursor: pointer; 
+    color: #ff7200;
+	-webkit-transition: all .2s ease-out;
+    -moz-transition: all .2s ease-out;
+    -o-transition: all .2s ease-out;
+    transition: all .2s ease-out;
 		
+}
+
+.menu-1 a:active {
+    color: #ff7200;
 }
 
 .menu-2 a:hover {
@@ -90,7 +95,7 @@
 	cursor: default;
 	position: absolute;
 	right: 8px;
-	top: 4px;
+	top: 10px;
 	width: 14px
 }
 
