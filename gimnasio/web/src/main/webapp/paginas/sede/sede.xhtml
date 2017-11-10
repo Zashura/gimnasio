@@ -81,7 +81,7 @@
 						<h:graphicImage value="/img/edit.gif" alt="Editar" />
 					</p:commandLink>
 					<p:commandLink update="listDisciplina:panelLisNuevoDisc" action="#{sedeController.addDisciplina(_sede)}" oncomplete="PF('popupListDisciplina').show()">
-						<h:graphicImage value="/img/new.png" alt="Agregar Disciplinas" />
+						<h:graphicImage value="/img/gim.png" alt="Agregar Disciplinas" height="20px" width="20px"/>
 					</p:commandLink>
 					</center>
 				</p:column>
@@ -177,6 +177,11 @@
 	                <f:facet name="header">Disciplina</f:facet>
 	                #{_sede.disDescripcion}
 	            </p:column>
+	            
+	            <p:column>
+	                <f:facet name="header">Tipo</f:facet>
+	                #{_sede.clubTipDi.tidiDescripcion}
+	            </p:column>
 	             
 	            <p:column>
 	                <f:facet name="header">Estado</f:facet>
@@ -192,13 +197,17 @@
 					<p:commandLink update="disciplina:panelNuevoDisc" action="#{sedeController.editDisciplina(_sede)}" oncomplete="PF('popupDisciplina').show()">
 						<h:graphicImage value="/img/edit.gif" alt="Editar" />
 					</p:commandLink>
+					
+					<p:commandLink update="listCinturon:panelLisNuevoCin" action="#{sedeController.addCinturon(_sede)}" oncomplete="PF('popupListCinturon').show()">
+						<h:graphicImage value="/img/cinturon.png" alt="Agregar Cinturon" height="20px" width="20px"/>
+					</p:commandLink>
 					</center>
 				</p:column>
 	        </p:dataTable>
 		           	 	
 		           	<br/>
 		           	<div align="center">
-		            	<p:commandButton value="Aceptar" oncomplete="PF('popupListDisciplina').hide()"/>
+		            	<p:commandButton value="Aceptar" action="#{sedeController.cancel()}" oncomplete="PF('popupListDisciplina').hide()"/>
 		        	</div>
 		        	<br/>
 		        </p:outputPanel>
@@ -233,29 +242,113 @@
 						</h:selectOneMenu>
 						<p:message for="tipo" id="msmTipDis"/>
 						</h:panelGroup>
-
-						<h:outputLabel for="cint" value="Cinturon: " />
-		                <h:panelGroup>
-		                <h:inputText id="cint" style="width:100%" value="#{sedeController.cinturon.cinDescripcion}" required="true" requiredMessage="Campo obligatorio">
-		                	<f:ajax render="@this msmCin"  />
-		                </h:inputText>
-		                <p:message for="cint" id="msmCin"/>
-						</h:panelGroup>
 						
-						<h:outputLabel for="grad" value="Grado: " />
-		                <h:panelGroup>
-		                <h:inputText id="grad" style="width:100%" value="#{sedeController.grado.graDescripcion}" required="true" requiredMessage="Campo obligatorio">
-		                	<f:ajax render="@this msmGrad"  />
-		                </h:inputText>
-		                <p:message for="grad" id="msmGrad"/>
-						</h:panelGroup>
-		                
-		                
 					</h:panelGrid>
 					<br/>
 		           	<div align="center">
 		            	<p:commandButton  action="#{sedeController.saveDisciplina()}" value="Aceptar" update="panelNuevoDisc listDisciplina:tablaDisciplina" oncomplete="if (!args.validationFailed)  {PF('popupDisciplina').hide()}"/>
 		            	<p:commandButton value="Cancelar" action="#{sedeController.cancelDisciplina()}" oncomplete="PF('popupDisciplina').hide()"/>
+		        	</div>
+		        	<br/>
+		        </p:outputPanel>
+		        </div>
+	        </h:form>
+    	</p:dialog>
+    	
+    	<p:dialog widgetVar="popupListCinturon" id="popupListCinturon" modal="true" autosized="true" width="600px">
+        	<f:facet name="header">
+		        Cinturon
+	        </f:facet>
+	       	<h:form id="listCinturon">
+	       	<br/>
+	       	<p:commandButton value="Agregar" update="disciplina:panelNuevoDisc" oncomplete="PF('popupCinturon').show()"/>
+	       	<div align="center">
+        		<p:outputPanel id="panelLisNuevoCin">
+		           	<p:dataTable id="tablaCinturon" var="_sede" value="#{sedeController.listCinturonGrado}" noDataLabel="No se han encontrado registros" 
+         		rows="10" paginator="true"  rowIndexVar="rowIndex"
+         		currentPageReportTemplate="{startRecord} de {endRecord} "
+                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="5,10,15"
+                onrowmouseover="this.style.backgroundColor='#FFFFE0'"
+				onrowmouseout="this.style.backgroundColor='#F7FDFC'"
+				style=" align:center; width:100%;background-color:#F7FDFC;">
+            <p:column style="width:4%">
+                	<f:facet name="header">#</f:facet>
+                	#{rowIndex+1}
+            	</p:column>
+	            <p:column>
+	                <f:facet name="header">Cinturon</f:facet>
+	                #{_sede.clubCinturon.cinDescripcion}
+	            </p:column>
+	            
+	            <p:column>
+	                <f:facet name="header">Grado</f:facet>
+	                #{_sede.clubGrado.graDescripcion}
+	            </p:column>
+	             
+	            <p:column>
+	                <f:facet name="header">Estado</f:facet>
+	                <center>
+	                <h:outputText value="#{_sede.cigaEstado == '1' ? 'Activa' : 'Inactiva'}" />
+	                </center> 
+	            </p:column>
+	            <p:column>
+	            <center>
+					<h:commandLink action="#{sedeController.delete(_sede)}" onclick="return confirm('Está seguro que desea eliminar la aplicaci&#243;n seleccionada?')">
+						<h:graphicImage value="/img/delete.gif" alt="Eliminar" />
+					</h:commandLink>
+					<p:commandLink update="cinturon:panelNuevoCint" action="#{sedeController.editCinturonGrado(_sede)}" oncomplete="PF('popupCinturon').show()">
+						<h:graphicImage value="/img/edit.gif" alt="Editar" />
+					</p:commandLink>
+					</center>
+				</p:column>
+	        </p:dataTable>
+		           	 	
+		           	<br/>
+		           	<div align="center">
+		            	<p:commandButton value="Aceptar" action="#{sedeController.cancelDisciplina()}" oncomplete="PF('popupListCinturon').hide()"/>
+		        	</div>
+		        	<br/>
+		        </p:outputPanel>
+		        </div>
+	        </h:form>
+    	</p:dialog>
+    	
+    	
+    	<p:dialog widgetVar="popupCinturon" id="popupCinturon" modal="true" autosized="true" width="600px">
+        	<f:facet name="header">
+		        Cinturon Grado
+	        </f:facet>
+	       	<h:form id="cinturon">
+	       	<br/>
+	       	<div align="center">
+        		<p:outputPanel id="panelNuevoCint">
+		           	<h:panelGrid columns="2" columnClasses="width30, width70">
+		                <h:outputLabel for="cint" value="Cinturon: " />
+		                <h:panelGroup>
+						<h:selectOneMenu id="cint" value="#{sedeController.cinturon.cinCodigo}" style="width:100%" required="true" requiredMessage="Campo obligatorio">
+							<f:selectItem itemLabel="Seleccione..."	noSelectionOption="true" />
+							<f:selectItems value="#{sedeController.listCinturon}" var="cant" itemValue="#{cant.cinCodigo}" itemLabel="#{cant.cinDescripcion}" />
+							<p:ajax event="change" update="@this msmCint" />
+						</h:selectOneMenu>
+						<p:message for="cint" id="msmCint"/>
+						</h:panelGroup>
+		
+		                <h:outputLabel for="grad" value="Grado: " />
+		                <h:panelGroup>
+						<h:selectOneMenu id="grad" value="#{sedeController.grado.graCodigo}" style="width:100%" required="true" requiredMessage="Campo obligatorio">
+							<f:selectItem itemLabel="Seleccione..."	noSelectionOption="true" />
+							<f:selectItems value="#{sedeController.listGrado}" var="cant" itemValue="#{cant.graCodigo}" itemLabel="#{cant.graDescripcion}" />
+							<p:ajax event="change" update="@this msmGrad" />
+						</h:selectOneMenu>
+						<p:message for="grad" id="msmGrad"/>
+						</h:panelGroup>
+						
+					</h:panelGrid>
+					<br/>
+		           	<div align="center">
+		            	<p:commandButton  action="#{sedeController.saveCinturonGrado()}" value="Aceptar" update="panelNuevoCint listCinturon:tablaCinturon" oncomplete="if (!args.validationFailed)  {PF('popupCinturon').hide()}"/>
+		            	<p:commandButton value="Cancelar" action="#{sedeController.cancelCinturonGrado()}" oncomplete="PF('popupCinturon').hide()"/>
 		        	</div>
 		        	<br/>
 		        </p:outputPanel>

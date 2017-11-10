@@ -51,13 +51,28 @@
 										 </h:inputText>
 										<p:message for="ruc" id="msgRuc"/>
 									</h:panelGroup>
-									<h:outputText value="Pagina Web: " style="font-weight: bold;" />
+									<h:outputText value="P&#225;gina Web: " style="font-weight: bold;" />
 									<h:panelGroup>
 										<h:inputText id="web" style="width: 100%;" value="#{institucionController.clubInstitucion.cluPagWeb}" required="true" requiredMessage="Campo requerido.">
 										 	<p:ajax update="@this msgWeb"/>
 										 </h:inputText>
 										<p:message for="web" id="msgWeb"/>
 									</h:panelGroup>
+									<h:outputText value="Eslogan: " style="font-weight: bold;" />
+									<h:panelGroup>
+										<h:inputTextarea id="esl" style="width: 100%;" value="#{institucionController.clubInstitucion.cluEslogan}" requiredMessage="Campo requerido.">
+										 	<p:ajax update="@this msgEsl"/>
+										 </h:inputTextarea>
+										<p:message for="esl" id="msgEsl"/>
+									</h:panelGroup>
+									<h:outputText value="Logotipo: " style="font-weight: bold;" />
+									<h:panelGroup>
+									<p:fileUpload id="logo" style="width: 100%;" fileUploadListener="#{institucionController.handleFileUpload}" mode="advanced" dragDropSupport="false"
+                  								multiple="true" update="msgLogo" sizeLimit="100000" fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" >
+                  					</p:fileUpload>
+										<p:message for="logo" id="msgLogo"/>
+									</h:panelGroup>
+									
 	    						</h:panelGrid>
 							</p:panel>
 							<br/>

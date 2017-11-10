@@ -12,6 +12,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import ec.com.gimnasio.model.ClubPersona;
 import ec.com.gimnasio.resources.ServiceLocator;
 import ec.com.gimnasio.resources.Utils;
 import ec.com.gimnasio.security.EducacionUserSecurity;
@@ -36,6 +37,10 @@ public class SessionController extends BaseController implements Serializable {
 	private String roles;
 	
 	private List<Recurso> menu;
+	
+	private ClubPersona persona;
+	
+	private boolean updatePersona;
 	
 	@PostConstruct
     private void init() {
@@ -92,5 +97,21 @@ public class SessionController extends BaseController implements Serializable {
 
 	public void setMenu(List<Recurso> menu) {
 		this.menu = menu;
+	}
+
+	public ClubPersona getPersona() {
+		return persona;
+	}
+
+	public void setPersona(ClubPersona persona) {
+		this.persona = persona;
+	}
+
+	public boolean isUpdatePersona() {
+		return updatePersona;
+	}
+
+	public void setUpdatePersona(boolean updatePersona) {
+		this.updatePersona = updatePersona;
 	}
 }

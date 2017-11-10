@@ -4,8 +4,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 
 import ec.com.control.acceso.model.Usuario;
 import ec.com.control.acceso.service.remote.UsuarioServiceRemote;
@@ -70,6 +75,16 @@ public class InstitucionController extends BaseController implements Serializabl
 		}
 		init();
 	}
+	
+	public void handleFileUpload(FileUploadEvent event) {
+		 UploadedFile uploadedFile = event.getFile();
+		 String fileName = uploadedFile.getFileName();
+		 String contentType = uploadedFile.getContentType();
+		 byte[] contents = uploadedFile.getContents(); // Or getInputStream()
+		 clubInstitucion.setCluLogotipo(contents);
+        FacesMessage message = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
 
 	public ClubInstitucion getClubInstitucion() {
 		return clubInstitucion;

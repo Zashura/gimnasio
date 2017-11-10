@@ -1,5 +1,7 @@
 package ec.com.gimnasio.service.impl;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -43,5 +45,10 @@ public class ClubCinturonGradoServiceImpl implements ClubCinturonGradoService {
 	@Override
 	public ClubCinXGra findByCodigo(long codigo){
 		return clubCinturonGradoDAO.findByCodigo(codigo);
+	}
+	
+	@Override
+	public List<ClubCinXGra> listByDisciplina(long codDisciplina){
+		return clubCinturonGradoDAO.listByDisciplina(codDisciplina);
 	}
 }

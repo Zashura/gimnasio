@@ -107,9 +107,13 @@ public class SedeController extends BaseController implements Serializable {
 	private List<CluParXSedIn> listaCluParXSedIn=new ArrayList<CluParXSedIn>();
 	private List<ClubTipDi> listTipoDisciplina=new ArrayList<ClubTipDi>();
 	private List<ClubDisciplina> listDisciplina=new ArrayList<ClubDisciplina>();
+	private List<ClubCinturon> listCinturon=new ArrayList<ClubCinturon>();
+	private List<ClubGrado> listGrado=new ArrayList<ClubGrado>();
+	private List<ClubCinXGra> listCinturonGrado=new ArrayList<ClubCinXGra>();
 	
 	private boolean update;
 	private boolean updateDisciplina;
+	private boolean updateCinturonGrado;
 	private long codigoCas;
 	private String nombreBuscar="";
 	
@@ -122,6 +126,8 @@ public class SedeController extends BaseController implements Serializable {
 		listaProvincia=clubProvinciaService.obtenerActivas();
 		listaCluParXSedIn=clubParXSedInService.findByInstitucion(clubInstitucion.getCluCodigo());
 		listTipoDisciplina=clubTipoDisciplinaService.obtenerActivas();
+		listCinturon=clubCinturonService.obtenerActivas();
+		listGrado=clubGradoService.obtenerActivas();
 		update=Boolean.FALSE;
 		updateDisciplina=Boolean.FALSE;
 	}
@@ -210,15 +216,15 @@ public class SedeController extends BaseController implements Serializable {
 	
 	public void editDisciplina(ClubDisciplina dis){
 		disciplina=dis;
+		tipoDisciplina=dis.getClubTipDi();
 		updateDisciplina=Boolean.TRUE;
 	}
 	
 	public void saveDisciplina(){
 		if(updateDisciplina){
 			try {
-				clubGradoService.actualizar(grado);
+				disciplina.setClubTipDi(clubTipoDisciplinaService.buscarPorId(tipoDisciplina.getTidiCodigo()));
 				clubDisciplinaService.actualizar(disciplina);
-				clubCinturonService.actualizar(cinturon);
 				agregarMensajeInformacion("Registro actualizado exitosamente", "");
 			} catch (ClubUpdateException e) {
 				agregarMensajeError(Constantes.LABEL_ERROR,Constantes.ERROR_CREACION);
@@ -226,27 +232,11 @@ public class SedeController extends BaseController implements Serializable {
 			}
 		}else{
 			try {
-				grado.setGraEstado(Constantes.REGISTRO_ACTIVO_NUMERO);
-				grado.setGraFecCreacion(new Date());
-				clubGradoService.crear(grado);
 				disciplina.setClubTipDi(clubTipoDisciplinaService.buscarPorId(tipoDisciplina.getTidiCodigo()));
 				disciplina.setDisEstado(Constantes.REGISTRO_ACTIVO_NUMERO);
 				disciplina.setDisFecCreacion(new Date());
 				clubDisciplinaService.crear(disciplina);
-				cinturon.setCinEstado(Constantes.REGISTRO_ACTIVO_NUMERO);
-				cinturon.setCinFecCreacion(new Date());
-				clubCinturonService.crear(cinturon);
-				cinturonGrado.setCigaEstado(Constantes.REGISTRO_ACTIVO_NUMERO);
-				cinturonGrado.setCigaFecCreacion(new Date());
-				cinturonGrado.setClubCinturon(cinturon);
-				cinturonGrado.setClubGrado(grado);
-				clubCinturonGradoService.crear(cinturonGrado);
-				cinturonDisciplina.setCidiEstado(Constantes.REGISTRO_ACTIVO_NUMERO);
-				cinturonDisciplina.setCidiFecCreacion(new Date());
-				cinturonDisciplina.setClubCinturon(cinturon);
-				cinturonDisciplina.setClubDisciplina(disciplina);
-				clubCinturonDisciplinaService.crear(cinturonDisciplina);
-				
+							
 				disciplinaSede.setClubDisciplina(disciplina);
 				disciplinaSede.setClubSedIn(sedeInstitucion);
 				disciplinaSede.setDisiEstado(Constantes.REGISTRO_ACTIVO_NUMERO);
@@ -266,12 +256,69 @@ public class SedeController extends BaseController implements Serializable {
 	public void cancelDisciplina(){
 		updateDisciplina=Boolean.FALSE;
 		disciplina=new ClubDisciplina();
+		tipoDisciplina=new ClubTipDi();
+	}
+	
+	public void addCinturon(ClubDisciplina dis){
+		updateCinturonGrado=Boolean.FALSE;
+		disciplina=new ClubDisciplina();
+		disciplina=dis;
+		listCinturonGrado=clubCinturonGradoService.listByDisciplina(dis.getDisCodigo());
 		grado=new ClubGrado();
 		cinturon=new ClubCinturon();
 		cinturonGrado=new ClubCinXGra();
 		cinturonDisciplina=new ClubCinDi();
 	}
+	
+	public void saveCinturonGrado(){
+		if(updateCinturonGrado){
+			try {
+				cinturonGrado.setClubCinturon(clubCinturonService.findByCodigo(cinturon.getCinCodigo()));
+				cinturonGrado.setClubGrado(clubGradoService.findByCodigo(grado.getGraCodigo()));
+				clubCinturonGradoService.actualizar(cinturonGrado);
+				agregarMensajeInformacion("Registro actualizado exitosamente", "");
+			} catch (ClubUpdateException e) {
+				agregarMensajeError(Constantes.LABEL_ERROR,Constantes.ERROR_CREACION);
+				e.printStackTrace();
+			}
+		}else{
+			try {
+				cinturonGrado.setCigaEstado(Constantes.REGISTRO_ACTIVO_NUMERO);
+				cinturonGrado.setCigaFecCreacion(new Date());
+				cinturonGrado.setClubCinturon(clubCinturonService.findByCodigo(cinturon.getCinCodigo()));
+				cinturonGrado.setClubGrado(clubGradoService.findByCodigo(grado.getGraCodigo()));
+				clubCinturonGradoService.crear(cinturonGrado);
+				
+				cinturonDisciplina.setCidiEstado(Constantes.REGISTRO_ACTIVO_NUMERO);
+				cinturonDisciplina.setCidiFecCreacion(new Date());
+				cinturonDisciplina.setClubCinturon(cinturon);
+				cinturonDisciplina.setClubDisciplina(disciplina);
+				clubCinturonDisciplinaService.crear(cinturonDisciplina);
+				
+				agregarMensajeInformacion("Registro ingresado exitosamente", "");
+			} catch (ClubPersistException e) {
+				agregarMensajeError(Constantes.LABEL_ERROR,Constantes.ERROR_CREACION);
+				e.printStackTrace();
+			}
+		}
+		listCinturonGrado=clubCinturonGradoService.listByDisciplina(disciplina.getDisCodigo());
+		cancelCinturonGrado();
+	}
 
+	public void editCinturonGrado(ClubCinXGra cinGra){
+		updateCinturonGrado=Boolean.TRUE;
+		grado=cinGra.getClubGrado();
+		cinturon=cinGra.getClubCinturon();
+		cinturonGrado=cinGra;
+	}
+	
+	public void cancelCinturonGrado(){
+		grado=new ClubGrado();
+		cinturon=new ClubCinturon();
+		cinturonGrado=new ClubCinXGra();
+		updateCinturonGrado=Boolean.FALSE;
+	}
+	
 	public ClubInstitucion getClubInstitucion() {
 		return clubInstitucion;
 	}
@@ -430,6 +477,30 @@ public class SedeController extends BaseController implements Serializable {
 
 	public void setListDisciplina(List<ClubDisciplina> listDisciplina) {
 		this.listDisciplina = listDisciplina;
+	}
+
+	public List<ClubCinturon> getListCinturon() {
+		return listCinturon;
+	}
+
+	public void setListCinturon(List<ClubCinturon> listCinturon) {
+		this.listCinturon = listCinturon;
+	}
+
+	public List<ClubGrado> getListGrado() {
+		return listGrado;
+	}
+
+	public void setListGrado(List<ClubGrado> listGrado) {
+		this.listGrado = listGrado;
+	}
+
+	public List<ClubCinXGra> getListCinturonGrado() {
+		return listCinturonGrado;
+	}
+
+	public void setListCinturonGrado(List<ClubCinXGra> listCinturonGrado) {
+		this.listCinturonGrado = listCinturonGrado;
 	}
 	
 	

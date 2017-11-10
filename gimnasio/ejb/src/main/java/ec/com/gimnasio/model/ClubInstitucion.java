@@ -47,7 +47,7 @@ public class ClubInstitucion implements Serializable {
 	private Date cluFecCreacion;
 
 	@Column(name="clu_logotipo")
-	private String cluLogotipo;
+	private byte[] cluLogotipo;
 
 	@Column(name="clu_pag_web")
 	private String cluPagWeb;
@@ -105,11 +105,11 @@ public class ClubInstitucion implements Serializable {
 		this.cluFecCreacion = cluFecCreacion;
 	}
 
-	public String getCluLogotipo() {
+	public byte[] getCluLogotipo() {
 		return this.cluLogotipo;
 	}
 
-	public void setCluLogotipo(String cluLogotipo) {
+	public void setCluLogotipo(byte[] cluLogotipo) {
 		this.cluLogotipo = cluLogotipo;
 	}
 

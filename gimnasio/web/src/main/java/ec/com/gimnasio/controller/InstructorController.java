@@ -87,7 +87,8 @@ public class InstructorController extends BaseController implements Serializable
 			}
 		}
 		update=Boolean.FALSE;
-		listInstructor=clubInstructorService.obtenerActivas();	
+		listInstructor=clubInstructorService.obtenerActivas();
+		cancel();
 	}
 
 	public String getNombreBuscar() {

@@ -54,8 +54,15 @@ public class ClubDisciplinaDAOImpl extends GenericDAOImpl<ClubDisciplina, Long> 
 		StringBuilder sentencia = new StringBuilder().append("select o from ClubDisciplina o,ClubSedIn c, ClubDisXSedIn i ");
 		sentencia.append("where i.clubDisciplina.disCodigo=o.disCodigo and i.clubSedIn.seinCodigo=c.seinCodigo"
 				+ " and c.clubSede.sedCodigo = :codigo and i.disiEstado=:estado ");
-		return getEntityManager().createQuery(sentencia.toString()).setParameter("codigo" , codigoSede).setParameter("estado", Constantes.REGISTRO_ACTIVO_NUMERO).getResultList();
-		 
+		List<ClubDisciplina> auxDis= getEntityManager().createQuery(sentencia.toString()).setParameter("codigo" , codigoSede).setParameter("estado", Constantes.REGISTRO_ACTIVO_NUMERO).getResultList();
+		for (ClubDisciplina dis : auxDis) {
+			if(dis.getClubTipDi()!=null){
+				dis.getClubTipDi().getTidiCodigo();
+				dis.getClubTipDi().getTidiDescripcion();
+			}
+		} 
+		return auxDis;
+		
 	}
 	
 	

@@ -62,7 +62,7 @@
 		        <h:outputText value="Nombre:" />
                 &#160;&#160;<h:inputText id="nombre" value="#{personaController.nombreBuscar}" style="width:30%"/>
                 &#160;&#160;<p:commandButton action="#{personaController.findbyName}" value="Buscar" update="principal:tablaAplicaciones"/>
-                &#160;&#160;<p:commandButton value="Agregar" update="nuevo:panelNuevo" oncomplete="PF('popupNuevaAplicacion').show()"/>
+                &#160;&#160;<p:commandButton value="Agregar" action="#{personaController.inscripcion()}"/>
                 
             </p:panel>
             <br/><br/>
@@ -101,176 +101,13 @@
 					<h:commandLink action="#{personaController.delete(_per)}" onclick="return confirm('Está seguro que desea eliminar la aplicaci&#243;n seleccionada?')">
 						<h:graphicImage value="/img/delete.gif" alt="Eliminar" />
 					</h:commandLink>
-					<p:commandLink update="nuevo:panelNuevo" action="#{personaController.edit(_per)}" oncomplete="PF('popupNuevaAplicacion').show()">
+					<p:commandLink action="#{personaController.edit(_per)}">
 						<h:graphicImage value="/img/edit.gif" alt="Editar" />
 					</p:commandLink>
 					</center>
 				</p:column>
 	        </p:dataTable>
         </h:form>
-        <p:dialog widgetVar="popupNuevaAplicacion" id="popupNuevaAplicacion" modal="true" autosized="true" width="600px">
-        	<f:facet name="header">
-		        Inscripcion
-	        </f:facet>
-	       	<h:form id="nuevo">
-	       	<br/>
-	       	<div align="center">
-        		<p:outputPanel id="panelNuevo">
-        		<fieldset>
-        		<legend>Datos Persona</legend>
-		           	<h:panelGrid columns="2" columnClasses="width30, width70">
-		           		<h:outputLabel for="tipIde" value="Tipo Identificaci&#243;n:" />
-		                <h:panelGroup>
-						<h:selectOneMenu id="tipIde" value="#{personaController.tipoIdentificacion.tiinCodigo}" style="width:100%"
-							required="true" requiredMessage="Campo obligatorio">
-							<f:selectItem itemLabel="Seleccione..."	noSelectionOption="true" />
-							<f:selectItems value="#{personaController.listTipoIdentificacion}" var="sem" itemValue="#{sem.tiinCodigo}" itemLabel="#{sem.tiinDescripcion}" />
-							<p:ajax event="change" update="@this msmTipIde"/>
-						</h:selectOneMenu>
-		                <p:message for="tipIde" id="msmTipIde"/>
-		                 </h:panelGroup>
-		           	
-		                <h:outputLabel for="prefijo" value="Identificaci&#243;n:" />
-		                <h:panelGroup>
-		                <h:inputText id="prefijo" style="width:100%" value="#{personaController.persona.perIdentificacion}" required="true" requiredMessage="Campo obligatorio">
-		                	<f:ajax render="@this msmDesc"  />
-		                </h:inputText>
-		                <p:message for="prefijo" id="msmDesc"/>
-						</h:panelGroup>
-		
-		                <h:outputLabel for="nombre" value="Nombre y Apellido:" />
-		                <h:panelGroup>
-		                <h:inputText id="nombre" style="width:100%" value="#{personaController.persona.perNombres}" required="true" requiredMessage="Campo obligatorio">
-		                	<f:ajax render="@this msmNombre"  />
-		                </h:inputText>
-		                <p:message for="nombre" id="msmNombre"/>
-						</h:panelGroup>
-
-						<h:outputLabel for="fec" value="Fecha Nacimiento:" />
-		                <h:panelGroup>
-		                <p:calendar id="fec" style="width:100%" value="#{personaController.persona.perFecNacimiento}" required="true" requiredMessage="Campo obligatorio"
-		                    pattern="yyyy-MM-dd" locale="es" navigator="true" mask="true">
-		                	<f:ajax render="@this msmFec"  />
-		               	</p:calendar>
-		                <p:message for="fec" id="msmFec"/>
-						</h:panelGroup>
-						
-						<h:outputLabel for="genero" value="Genero:" />
-		                <h:panelGroup>
-						<h:selectOneMenu id="genero" value="#{personaController.sexo.sexCodigo}" style="width:100%"
-							required="true" requiredMessage="Campo obligatorio">
-							<f:selectItem itemLabel="Seleccione..."	noSelectionOption="true" />
-							<f:selectItems value="#{personaController.listSexo}" var="sem" itemValue="#{sem.sexCodigo}" itemLabel="#{sem.sexDescripcion}" />
-							<p:ajax event="change" update="@this msmGenero"/>
-						</h:selectOneMenu>
-		                <p:message for="genero" id="msmGenero"/>
-		                 </h:panelGroup>
-		              
-					</h:panelGrid>
-					</fieldset>
-					
-					<fieldset>
-        				<legend>Datos Representante</legend>
-		           		<h:panelGrid columns="2" columnClasses="width30, width70">
-		           		
-		           		<h:outputLabel for="ide" value="Identificaci&#243;n:" />
-		                <h:panelGroup>
-		                <h:inputText id="ide" style="width:100%" value="#{personaController.representante.repIdentificacion}" required="true" requiredMessage="Campo obligatorio">
-		                	<f:ajax render="@this msmIde"  />
-		                </h:inputText>
-		                <p:message for="ide" id="msmIde"/>
-						</h:panelGroup>
-		
-		                <h:outputLabel for="nom" value="Nombre y Apellido:" />
-		                <h:panelGroup>
-		                <h:inputText id="nom" style="width:100%" value="#{personaController.representante.repNombres}" required="true" requiredMessage="Campo obligatorio">
-		                	<f:ajax render="@this msmNom"  />
-		                </h:inputText>
-		                <p:message for="nom" id="msmNom"/>
-						</h:panelGroup>
-
-						<h:outputLabel for="celu" value="Celular:" />
-		                <h:panelGroup>
-		               <h:inputText id="celu" style="width:100%" value="#{personaController.representante.repCelular}" required="true" requiredMessage="Campo obligatorio">
-		                	<f:ajax render="@this msmCelu"  />
-		                </h:inputText>
-		                <p:message for="celu" id="msmCelu"/>
-						</h:panelGroup>
-						
-						<h:outputLabel for="conve" value="Convencional:" />
-		                <h:panelGroup>
-		               <h:inputText id="conve" style="width:100%" value="#{personaController.representante.repConvencional}" required="true" requiredMessage="Campo obligatorio">
-		                	<f:ajax render="@this msmConve"  />
-		                </h:inputText>
-		                <p:message for="conve" id="msmConve"/>
-						</h:panelGroup>
-						
-						<h:outputLabel for="dir" value="Direccion:" />
-		                <h:panelGroup>
-		               <h:inputText id="dir" style="width:100%" value="#{personaController.representante.repDireccion}" required="true" requiredMessage="Campo obligatorio">
-		                	<f:ajax render="@this msmDir"  />
-		                </h:inputText>
-		                <p:message for="dir" id="msmDir"/>
-						</h:panelGroup>
-		           		
-		           		</h:panelGrid>
-		           	</fieldset>
-					
-					<fieldset>
-        				<legend>Inscripci&#243;n</legend>
-		           		<h:panelGrid columns="2" columnClasses="width30, width70">
-		           		
-		           		<h:outputLabel value="Instituci&#243;n:" />
-		           		<h:outputLabel value="#{personaController.clubInstitucion.cluDescripcion}" />
-		                 
-		                <h:outputLabel for="sede" value="Sede:" />
-		                <h:panelGroup>
-						<h:selectOneMenu id="sede" value="#{personaController.sede.sedCodigo}" style="width:100%"
-							required="true" requiredMessage="Campo obligatorio">
-							<f:selectItem itemLabel="Seleccione..."	noSelectionOption="true" />
-							<f:selectItems value="#{personaController.listSedes}" var="sem" itemValue="#{sem.sedCodigo}" itemLabel="#{sem.sedDescripcion}" />
-							<p:ajax event="change" update="@this msmSede dis"  listener="#{personaController.findDisciplina()}"/>
-						</h:selectOneMenu>
-		                <p:message for="sede" id="msmSede"/>
-		                 </h:panelGroup>
-		                 
-		                <h:outputLabel for="dis" value="Disciplina:" />
-		                <h:panelGroup>
-						<h:selectOneMenu id="dis" value="#{personaController.disciplina.disCodigo}" style="width:100%"
-							required="true" requiredMessage="Campo obligatorio">
-							<f:selectItem itemLabel="Seleccione..."	noSelectionOption="true" />
-							<f:selectItems value="#{personaController.listDisciplina}" var="sem" itemValue="#{sem.disCodigo}" itemLabel="#{sem.disDescripcion}" />
-							<p:ajax event="change" update="@this msmDis"/>
-						</h:selectOneMenu>
-		                <p:message for="dis" id="msmDis"/>
-		                 </h:panelGroup>
-		                 
-		                 <h:outputLabel for="horario" value="Horario:" />
-		                <h:panelGroup>
-						<h:selectOneMenu id="horario" value="#{personaController.tipoIdentificacion.tiinCodigo}" style="width:100%"
-							required="true" requiredMessage="Campo obligatorio">
-							<f:selectItem itemLabel="Seleccione..."	noSelectionOption="true" />
-							<f:selectItems value="#{personaController.listTipoIdentificacion}" var="sem" itemValue="#{sem.tiinCodigo}" itemLabel="#{sem.tiinDescripcion}" />
-							<p:ajax event="change" update="@this msmHorario"/>
-						</h:selectOneMenu>
-		                <p:message for="horario" id="msmHorario"/>
-		                 </h:panelGroup>
-		           		
-		           		
-		           		</h:panelGrid>
-		           	</fieldset>
-					
-					
-					<br/>
-		           	<div align="center">
-		            	<p:commandButton  action="#{personaController.save()}" value="Aceptar" update="panelNuevo principal:tablaAplicaciones" oncomplete="if (!args.validationFailed)  {PF('popupNuevaAplicacion').hide()}"/>
-		            	<p:commandButton value="Cancelar" action="#{personaController.cancel()}" oncomplete="PF('popupNuevaAplicacion').hide()"/>
-		        	</div>
-		        	<br/>
-		        </p:outputPanel>
-		        </div>
-	        </h:form>
-    	</p:dialog>
-	    
+       	    
 	</ui:define>
 </ui:composition>

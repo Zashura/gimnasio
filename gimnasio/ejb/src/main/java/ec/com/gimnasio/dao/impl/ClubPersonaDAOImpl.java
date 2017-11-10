@@ -25,7 +25,33 @@ public class ClubPersonaDAOImpl extends GenericDAOImpl<ClubPersona, Long> implem
         criteria.select(aplicacion)
         	.where(cb.equal(aplicacion.get("perEstado"), Constantes.REGISTRO_ACTIVO_NUMERO))
         	.orderBy(cb.asc(aplicacion.get("perNombres")));
-        return getEntityManager().createQuery(criteria).getResultList();
+        List<ClubPersona> aux= getEntityManager().createQuery(criteria).getResultList();
+        for (ClubPersona per : aux) {
+			if(per.getClubRepresentante()!=null){
+				per.getClubRepresentante().getRepCodigo();
+				per.getClubRepresentante().getRepCelular();
+				per.getClubRepresentante().getRepConvencional();
+				per.getClubRepresentante().getRepDireccion();
+				per.getClubRepresentante().getRepEstado();
+				per.getClubRepresentante().getRepFechCreacion();
+				per.getClubRepresentante().getRepIdentificacion();
+				per.getClubRepresentante().getRepNombres();
+			}
+			if(per.getClubSexo()!=null){
+				per.getClubSexo().getSexCodigo();
+				per.getClubSexo().getSexDescripcion();
+				per.getClubSexo().getSexEstado();
+				per.getClubSexo().getSexNemonico();
+			}
+			if(per.getClubTipIde()!=null){
+				per.getClubTipIde().getTiinCodigo();
+				per.getClubTipIde().getTiinDescripcion();
+				per.getClubTipIde().getTiinEstado();
+				per.getClubTipIde().getTiinFecCreacion();
+				per.getClubTipIde().getTiinNemonico();
+			}
+		}
+        return aux;
 	}
 
 	@Override
