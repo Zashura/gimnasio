@@ -15,6 +15,8 @@ public interface ClubHoraDiaDAO  extends GenericDAO<ClubHorDia, Long> {
 	public ClubHorDia findByCodigo(long codigo);
 	
 	public List<ClubHorDia> obtenerActivas();
+	
+	public ClubHorDia findByDiaHora(long codDia,long codHora);
 
 
 }

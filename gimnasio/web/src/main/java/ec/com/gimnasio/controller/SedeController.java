@@ -18,10 +18,16 @@ import ec.com.gimnasio.model.ClubCanton;
 import ec.com.gimnasio.model.ClubCinDi;
 import ec.com.gimnasio.model.ClubCinXGra;
 import ec.com.gimnasio.model.ClubCinturon;
+import ec.com.gimnasio.model.ClubDia;
 import ec.com.gimnasio.model.ClubDisXSedIn;
 import ec.com.gimnasio.model.ClubDisciplina;
 import ec.com.gimnasio.model.ClubGrado;
+import ec.com.gimnasio.model.ClubHodiXDissedclub;
+import ec.com.gimnasio.model.ClubHorDia;
+import ec.com.gimnasio.model.ClubHorario;
 import ec.com.gimnasio.model.ClubInstitucion;
+import ec.com.gimnasio.model.ClubInstructor;
+import ec.com.gimnasio.model.ClubIntXDisSedIn;
 import ec.com.gimnasio.model.ClubParroquia;
 import ec.com.gimnasio.model.ClubProvincia;
 import ec.com.gimnasio.model.ClubSedIn;
@@ -34,10 +40,16 @@ import ec.com.gimnasio.service.ClubCantonService;
 import ec.com.gimnasio.service.ClubCinturonDisciplinaService;
 import ec.com.gimnasio.service.ClubCinturonGradoService;
 import ec.com.gimnasio.service.ClubCinturonService;
+import ec.com.gimnasio.service.ClubDiaService;
 import ec.com.gimnasio.service.ClubDisXSedInsService;
 import ec.com.gimnasio.service.ClubDisciplinaService;
 import ec.com.gimnasio.service.ClubGradoService;
+import ec.com.gimnasio.service.ClubHodiXDisService;
+import ec.com.gimnasio.service.ClubHoraDiaService;
+import ec.com.gimnasio.service.ClubHorarioService;
 import ec.com.gimnasio.service.ClubInstitucionService;
+import ec.com.gimnasio.service.ClubInstructorService;
+import ec.com.gimnasio.service.ClubIntXDisSedInsService;
 import ec.com.gimnasio.service.ClubParXSedInService;
 import ec.com.gimnasio.service.ClubParroquiaService;
 import ec.com.gimnasio.service.ClubProvinciaService;
@@ -81,6 +93,18 @@ public class SedeController extends BaseController implements Serializable {
 	private ClubCinturonDisciplinaService clubCinturonDisciplinaService;
 	@Inject
 	private ClubDisXSedInsService clubDisXSedInsService;
+	@Inject
+	private ClubHodiXDisService clubHodiXDisService;
+	@Inject
+	private ClubDiaService clubDiaService;
+	@Inject
+	private ClubHorarioService clubHorarioService;
+	@Inject
+	private ClubHoraDiaService clubHoraDiaService;
+	@Inject
+	private ClubInstructorService clubInstructorService;
+	@Inject
+	private ClubIntXDisSedInsService clubIntXDisSedInsService;
 	
 	
 	private ClubInstitucion clubInstitucion=new ClubInstitucion();
@@ -99,6 +123,9 @@ public class SedeController extends BaseController implements Serializable {
 	private ClubTipDi tipoDisciplina=new ClubTipDi();
 	private ClubDisXSedIn disciplinaSede=new ClubDisXSedIn();
 	private ClubSedIn sedeInstitucion=new ClubSedIn();
+	private ClubHorario horario=new ClubHorario();
+	private ClubDia dia=new ClubDia();
+	private ClubInstructor instructor=new ClubInstructor();
 	
 	private List<ClubSede> listaSedes=new ArrayList<ClubSede>();
 	private List<ClubProvincia> listaProvincia=new ArrayList<ClubProvincia>();
@@ -110,11 +137,18 @@ public class SedeController extends BaseController implements Serializable {
 	private List<ClubCinturon> listCinturon=new ArrayList<ClubCinturon>();
 	private List<ClubGrado> listGrado=new ArrayList<ClubGrado>();
 	private List<ClubCinXGra> listCinturonGrado=new ArrayList<ClubCinXGra>();
+	private List<ClubHodiXDissedclub> listHorario=new ArrayList<ClubHodiXDissedclub>();
+	private List<ClubDia> listDias=new ArrayList<ClubDia>();
+	private List<ClubHorario> listHoras=new ArrayList<ClubHorario>();
+	private List<ClubInstructor> listInstrutor=new ArrayList<ClubInstructor>();
 	
 	private boolean update;
 	private boolean updateDisciplina;
 	private boolean updateCinturonGrado;
+	private boolean updateHorario;
 	private long codigoCas;
+	private long codDisIn;
+	private long codDisInt;
 	private String nombreBuscar="";
 	
 	@PostConstruct
@@ -319,6 +353,74 @@ public class SedeController extends BaseController implements Serializable {
 		updateCinturonGrado=Boolean.FALSE;
 	}
 	
+	public void addHorario(ClubDisciplina dis){
+		updateHorario=Boolean.FALSE;
+		disciplina=new ClubDisciplina();
+		disciplina=dis;
+		listDias=clubDiaService.obtenerActivas();
+		listInstrutor=clubInstructorService.obtenerActivas();
+		listHorario=clubHodiXDisService.findBySedeDisciplina(sedeInstitucion.getClubSede().getSedCodigo(), disciplina.getDisCodigo());
+	}
+	
+	public void listarDias(){
+		listHoras=clubHorarioService.findByDia(dia.getDiaCodigo());
+	}
+	
+	public void editHorarioDia(ClubHodiXDissedclub item){
+		updateHorario=Boolean.TRUE;
+		codDisIn=item.getDihoCodigo();
+		codDisInt=item.getClubIntXDisSedIns().get(0).getIdsiCodigo();
+		horario=item.getClubHorDia().getClubHorario();
+		dia=item.getClubHorDia().getClubDia();
+		instructor=item.getClubIntXDisSedIns().get(0).getClubInstructor();
+		listarDias();
+	}
+	
+	public void saveHorarioInstructor(){
+		ClubDisXSedIn clubDis=clubDisXSedInsService.findByCodigoSedeDisciplina(sedeInstitucion.getSeinCodigo(), disciplina.getDisCodigo());
+		ClubHorDia diaHora=clubHoraDiaService.findByDiaHora(dia.getDiaCodigo(), horario.getHorCodigo());
+		
+		if(updateHorario){
+			try {
+				ClubHodiXDissedclub hodiClub=clubHodiXDisService.buscarPorId(codDisIn);
+				hodiClub.setClubHorDia(diaHora);
+				clubHodiXDisService.actualizar(hodiClub);
+				
+				ClubIntXDisSedIn intDis=clubIntXDisSedInsService.buscarPorId(codDisInt);
+				intDis.setClubInstructor(clubInstructorService.buscarPorId(instructor.getIntCodigo()));
+				clubIntXDisSedInsService.actualizar(intDis);
+			} catch (ClubUpdateException e) {
+				e.printStackTrace();
+			}
+		}else{
+			try {
+				ClubHodiXDissedclub hodiClub=new ClubHodiXDissedclub();
+				hodiClub.setClubDisXSedIn(clubDis);
+				hodiClub.setClubHorDia(diaHora);
+				hodiClub.setDihoEstado(Constantes.REGISTRO_ACTIVO_NUMERO);
+				hodiClub.setDihoFecCreacion(new Date());
+				clubHodiXDisService.crear(hodiClub);
+			
+				ClubIntXDisSedIn intDis=new ClubIntXDisSedIn();
+				intDis.setClubHodiXDissedclub(hodiClub);
+				intDis.setClubInstructor(clubInstructorService.buscarPorId(instructor.getIntCodigo()));
+				intDis.setIdisFechaCreacion(new Date());
+				intDis.setIdisFechaFin(new Date());
+				intDis.setIdsiEstado(Constantes.REGISTRO_ACTIVO_NUMERO);
+				intDis.setIidisFechaInicio(new Date());
+				clubIntXDisSedInsService.crear(intDis);
+		
+			} catch (ClubPersistException e) {
+				e.printStackTrace();
+			}
+		}
+		listHorario=clubHodiXDisService.findBySedeDisciplina(sedeInstitucion.getClubSede().getSedCodigo(), disciplina.getDisCodigo());
+		horario=new ClubHorario();
+		dia=new ClubDia();
+		instructor=new ClubInstructor(); 
+		updateHorario=Boolean.FALSE;
+	}
+	
 	public ClubInstitucion getClubInstitucion() {
 		return clubInstitucion;
 	}
@@ -501,6 +603,62 @@ public class SedeController extends BaseController implements Serializable {
 
 	public void setListCinturonGrado(List<ClubCinXGra> listCinturonGrado) {
 		this.listCinturonGrado = listCinturonGrado;
+	}
+
+	public List<ClubHodiXDissedclub> getListHorario() {
+		return listHorario;
+	}
+
+	public void setListHorario(List<ClubHodiXDissedclub> listHorario) {
+		this.listHorario = listHorario;
+	}
+
+	public ClubHorario getHorario() {
+		return horario;
+	}
+
+	public void setHorario(ClubHorario horario) {
+		this.horario = horario;
+	}
+
+	public ClubDia getDia() {
+		return dia;
+	}
+
+	public void setDia(ClubDia dia) {
+		this.dia = dia;
+	}
+
+	public List<ClubDia> getListDias() {
+		return listDias;
+	}
+
+	public void setListDias(List<ClubDia> listDias) {
+		this.listDias = listDias;
+	}
+
+	public List<ClubHorario> getListHoras() {
+		return listHoras;
+	}
+
+	public void setListHoras(List<ClubHorario> listHoras) {
+		this.listHoras = listHoras;
+	}
+
+	public List<ClubInstructor> getListInstrutor() {
+		return listInstrutor;
+	}
+
+	public void setListInstrutor(List<ClubInstructor> listInstrutor) {
+		this.listInstrutor = listInstrutor;
+	}
+
+	public ClubInstructor getInstructor() {
+		return instructor;
+	}
+
+	public void setInstructor(ClubInstructor instructor) {
+		this.instructor = instructor;
 	}
 	
 	

@@ -23,6 +23,11 @@ public class ClubHorarioServiceImpl implements ClubHorarioService {
 	}
 	
 	@Override
+	public List<ClubHorario> findByDia(long codDia){
+		return clubHorarioDAO.findByDia(codDia);
+	}
+	
+	@Override
 	public void crear(ClubHorario aplicacion){
 		try {
 			clubHorarioDAO.persist(aplicacion);

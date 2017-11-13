@@ -20,4 +20,6 @@ public interface ClubHorarioService {
 	public List<ClubHorario> obtenerActivas();
 	
 	public ClubHorario findByCodigo(long codigo);
+	
+	public List<ClubHorario> findByDia(long codDia);
 }

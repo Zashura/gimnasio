@@ -201,6 +201,11 @@
 					<p:commandLink update="listCinturon:panelLisNuevoCin" action="#{sedeController.addCinturon(_sede)}" oncomplete="PF('popupListCinturon').show()">
 						<h:graphicImage value="/img/cinturon.png" alt="Agregar Cinturon" height="20px" width="20px"/>
 					</p:commandLink>
+					
+					<p:commandLink update="listHorario:panelLisNuevoHor" action="#{sedeController.addHorario(_sede)}" oncomplete="PF('popupListHorario').show()">
+						<h:graphicImage value="/img/clock.ico" alt="Agregar Horario" height="20px" width="20px"/>
+					</p:commandLink>
+					
 					</center>
 				</p:column>
 	        </p:dataTable>
@@ -355,6 +360,144 @@
 		        </div>
 	        </h:form>
     	</p:dialog>
+
+
+
+
+
+		<p:dialog widgetVar="popupListHorario" id="popupListHorario" modal="true" autosized="true" width="600px">
+        	<f:facet name="header">
+		        Horario
+	        </f:facet>
+	       	<h:form id="listHorario">
+	       	<br/>
+	       	<p:commandButton value="Agregar" update="horario:panelNuevoHora" oncomplete="PF('popupHorario').show()"/>
+	       	<div align="center">
+        		<p:outputPanel id="panelLisNuevoHor">
+		           	<p:dataTable id="tablaHorario" var="_sede" value="#{sedeController.listHorario}" noDataLabel="No se han encontrado registros" 
+         		rows="10" paginator="true"  rowIndexVar="rowIndex"
+         		currentPageReportTemplate="{startRecord} de {endRecord} "
+                paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                rowsPerPageTemplate="5,10,15"
+                onrowmouseover="this.style.backgroundColor='#FFFFE0'"
+				onrowmouseout="this.style.backgroundColor='#F7FDFC'"
+				style=" align:center; width:100%;background-color:#F7FDFC;">
+            <p:column style="width:4%">
+                	<f:facet name="header">#</f:facet>
+                	#{rowIndex+1}
+            	</p:column>
+	            <p:column>
+	                <f:facet name="header">Instructor</f:facet>
+	                #{_sede.clubIntXDisSedIns.get(0).clubInstructor.intNombres}
+	            </p:column>
+	            
+	            <p:column>
+	                <f:facet name="header">Dia</f:facet>
+	                #{_sede.clubHorDia.clubDia.diaDescripcion}
+	            </p:column>
+	            
+	             <p:column>
+	                <f:facet name="header">Hora Inicio</f:facet>
+	                #{_sede.clubHorDia.clubHorario.horHoraInicio}
+	            </p:column>
+	            
+	             <p:column>
+	                <f:facet name="header">Hora Fin</f:facet>
+	                #{_sede.clubHorDia.clubHorario.horHoraFin}
+	            </p:column>
+	             
+	            <p:column>
+	                <f:facet name="header">Estado</f:facet>
+	                <center>
+	                <h:outputText value="#{_sede.dihoEstado == '1' ? 'Activa' : 'Inactiva'}" />
+	                </center> 
+	            </p:column>
+	            <p:column>
+	            <center>
+					<h:commandLink action="#{sedeController.delete(_sede)}" onclick="return confirm('Está seguro que desea eliminar la aplicaci&#243;n seleccionada?')">
+						<h:graphicImage value="/img/delete.gif" alt="Eliminar" />
+					</h:commandLink>
+					<p:commandLink update="horario:panelNuevoHora" action="#{sedeController.editHorarioDia(_sede)}" oncomplete="PF('popupHorario').show()">
+						<h:graphicImage value="/img/edit.gif" alt="Editar" />
+					</p:commandLink>
+					</center>
+				</p:column>
+	        </p:dataTable>
+		           	 	
+		           	<br/>
+		           	<div align="center">
+		            	<p:commandButton value="Aceptar" action="#{sedeController.cancelDisciplina()}" oncomplete="PF('popupListHorario').hide()"/>
+		        	</div>
+		        	<br/>
+		        </p:outputPanel>
+		        </div>
+	        </h:form>
+    	</p:dialog>
+    	
+    	
+    	<p:dialog widgetVar="popupHorario" id="popupHorario" modal="true" autosized="true" width="600px">
+        	<f:facet name="header">
+		        Horario
+	        </f:facet>
+	       	<h:form id="horario">
+	       	<br/>
+	       	<div align="center">
+        		<p:outputPanel id="panelNuevoHora">
+		           	<h:panelGrid columns="2" columnClasses="width30, width70">
+		                <h:outputLabel for="dia" value="Dia: " />
+		                <h:panelGroup>
+						<h:selectOneMenu id="dia" value="#{sedeController.dia.diaCodigo}" style="width:100%" required="true" requiredMessage="Campo obligatorio">
+							<f:selectItem itemLabel="Seleccione..."	noSelectionOption="true" />
+							<f:selectItems value="#{sedeController.listDias}" var="cant" itemValue="#{cant.diaCodigo}" itemLabel="#{cant.diaDescripcion}" />
+							<p:ajax event="change" update="@this msmDia hora" listener="#{sedeController.listarDias()}"/>
+						</h:selectOneMenu>
+						<p:message for="dia" id="msmDia"/>
+						</h:panelGroup>
+		
+		                <h:outputLabel for="hora" value="Hora: " />
+		                <h:panelGroup>
+						<h:selectOneMenu id="hora" value="#{sedeController.horario.horCodigo}" style="width:100%" required="true" requiredMessage="Campo obligatorio">
+							<f:selectItem itemLabel="Seleccione..."	noSelectionOption="true" />
+							<f:selectItems value="#{sedeController.listHoras}" var="cant" itemValue="#{cant.horCodigo}" itemLabel="#{cant.horHoraInicio} - #{cant.horHoraFin}" />
+							<p:ajax event="change" update="@this msmHora" />
+						</h:selectOneMenu>
+						<p:message for="hora" id="msmHora"/>
+						</h:panelGroup>
+						
+						<h:outputLabel for="instr" value="Instructor: " />
+		                <h:panelGroup>
+						<h:selectOneMenu id="instr" value="#{sedeController.instructor.intCodigo}" style="width:100%" required="true" requiredMessage="Campo obligatorio">
+							<f:selectItem itemLabel="Seleccione..."	noSelectionOption="true" />
+							<f:selectItems value="#{sedeController.listInstrutor}" var="cant" itemValue="#{cant.intCodigo}" itemLabel="#{cant.intNombres}" />
+							<p:ajax event="change" update="@this msmInstr" />
+						</h:selectOneMenu>
+						<p:message for="instr" id="msmInstr"/>
+						</h:panelGroup>
+						
+					</h:panelGrid>
+					<br/>
+		           	<div align="center">
+		            	<p:commandButton  action="#{sedeController.saveHorarioInstructor()}" value="Aceptar" update="panelNuevoHora listHorario:tablaHorario" oncomplete="if (!args.validationFailed)  {PF('popupHorario').hide()}"/>
+		            	<p:commandButton value="Cancelar" action="#{sedeController.cancelCinturonGrado()}" oncomplete="PF('popupHorario').hide()"/>
+		        	</div>
+		        	<br/>
+		        </p:outputPanel>
+		        </div>
+	        </h:form>
+    	</p:dialog>
+
+
+
+
+
+
+
+
+
+
+
+
+
 	    
 	</ui:define>
 </ui:composition>

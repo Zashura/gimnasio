@@ -28,6 +28,11 @@ public class ClubHoraDiaServiceImpl implements ClubHoraDiaService {
 	}
 	
 	@Override
+	public ClubHorDia findByDiaHora(long codDia,long codHora){
+		return clubHoraDiaDAO.findByDiaHora(codDia,codHora);
+	}
+	
+	@Override
 	public void crear(ClubHorDia aplicacion){
 		try {
 			clubHoraDiaDAO.persist(aplicacion);

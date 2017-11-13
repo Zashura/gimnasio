@@ -1,5 +1,7 @@
 package ec.com.gimnasio.dao;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
 import ec.com.gimnasio.model.ClubHodiXDissedclub;
@@ -11,6 +13,7 @@ import ec.com.gimnasio.model.ClubHodiXDissedclub;
 public interface ClubHodiXDisDAO  extends GenericDAO<ClubHodiXDissedclub, Long> {
 	
 	public ClubHodiXDissedclub findByCodigo(long codigo);
-
+	
+	public List<ClubHodiXDissedclub> findBySedeDisciplina(long codSede, long codDisciplina);
 
 }

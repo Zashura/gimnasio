@@ -12,9 +12,7 @@ import javax.inject.Named;
 
 import ec.com.control.acceso.model.Usuario;
 import ec.com.control.acceso.service.remote.UsuarioServiceRemote;
-import ec.com.gimnasio.model.CluParXSedIn;
 import ec.com.gimnasio.model.ClubPersona;
-import ec.com.gimnasio.model.ClubSede;
 import ec.com.gimnasio.resources.ServiceLocator;
 import ec.com.gimnasio.scope.ViewScoped;
 import ec.com.gimnasio.service.ClubPersonaService;

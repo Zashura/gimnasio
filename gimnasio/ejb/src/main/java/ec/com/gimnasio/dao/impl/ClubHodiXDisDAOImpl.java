@@ -1,5 +1,7 @@
 package ec.com.gimnasio.dao.impl;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 
 import ec.com.gimnasio.dao.ClubHodiXDisDAO;
@@ -18,6 +20,32 @@ public class ClubHodiXDisDAOImpl extends GenericDAOImpl<ClubHodiXDissedclub, Lon
 		sentencia.append("where o.dihoCodigo = :codigo and o.dihoEstado=:estado ");
 		ClubHodiXDissedclub aplicacion = (ClubHodiXDissedclub) getEntityManager().createQuery(sentencia.toString()).setParameter("codigo" , codigo).setParameter("estado", Constantes.REGISTRO_ACTIVO_NUMERO).getSingleResult();
 		return aplicacion;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ClubHodiXDissedclub> findBySedeDisciplina(long codSede, long codDisciplina){
+		StringBuilder sentencia = new StringBuilder().append("select o from ClubHodiXDissedclub o ,ClubDisXSedIn ds, ClubSedIn cs ");
+		sentencia.append(" where o.clubDisXSedIn.disiCodigo=ds.disiCodigo and ds.clubSedIn.seinCodigo=cs.seinCodigo"
+				+ " and ds.clubDisciplina.disCodigo=:codDisciplina and cs.clubSede.sedCodigo=:codSede and o.dihoEstado=:estado ");
+		List<ClubHodiXDissedclub>  aux= getEntityManager().createQuery(sentencia.toString()).setParameter("codDisciplina" , codDisciplina).setParameter("codSede" , codSede).setParameter("estado", Constantes.REGISTRO_ACTIVO_NUMERO).getResultList();
+		for (ClubHodiXDissedclub club : aux) {
+			if(club.getClubHorDia()!=null){
+				club.getClubHorDia().getHodiCodigo();
+				club.getClubHorDia().getClubDia().getDiaCodigo();
+				club.getClubHorDia().getClubDia().getDiaDescripcion();
+				club.getClubHorDia().getClubHorario().getHorCodigo();
+				club.getClubHorDia().getClubHorario().getHorHoraInicio();
+				club.getClubHorDia().getClubHorario().getHorHoraFin();
+			}
+			if(club.getClubIntXDisSedIns().size()>0){
+				club.getClubIntXDisSedIns().get(0).getIdsiCodigo();
+				club.getClubIntXDisSedIns().get(0).getClubInstructor().getIntCodigo();
+				club.getClubIntXDisSedIns().get(0).getClubInstructor().getIntNombres();
+				club.getClubIntXDisSedIns().get(0).getClubInstructor().getIntIdentificacion();
+			}
+		}
+		return aux;
 	}
 	
 	

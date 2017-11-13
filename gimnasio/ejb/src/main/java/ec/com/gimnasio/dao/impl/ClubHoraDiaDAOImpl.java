@@ -48,5 +48,13 @@ public class ClubHoraDiaDAOImpl extends GenericDAOImpl<ClubHorDia, Long> impleme
         return aux;
 	}
 	
+	@Override
+	public ClubHorDia findByDiaHora(long codDia,long codHora){
+		StringBuilder sentencia = new StringBuilder().append("select o from ClubHorDia o ");
+		sentencia.append("where o.clubDia.diaCodigo = :codDia and o.clubHorario.horCodigo=:codHora and o.hodiEstado=:estado ");
+		ClubHorDia aplicacion = (ClubHorDia) getEntityManager().createQuery(sentencia.toString()).setParameter("codHora" , codHora).setParameter("codDia" , codDia).setParameter("estado", Constantes.REGISTRO_ACTIVO_NUMERO).getSingleResult();
+		return aplicacion;
+	}
+	
 	
 }
