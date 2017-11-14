@@ -13,6 +13,7 @@ import javax.inject.Named;
 
 import ec.com.control.acceso.model.Usuario;
 import ec.com.control.acceso.service.remote.UsuarioServiceRemote;
+import ec.com.gimnasio.dto.InscripcionDTO;
 import ec.com.gimnasio.exception.ClubPersistException;
 import ec.com.gimnasio.exception.ClubUpdateException;
 import ec.com.gimnasio.model.ClubDisciplina;
@@ -83,6 +84,8 @@ public class InscripcionController extends BaseController implements Serializabl
 	private List<ClubTipIde> listTipoIdentificacion=new ArrayList<ClubTipIde>();
 	private List<ClubSede> listSedes=new ArrayList<ClubSede>();
 	private List<ClubDisciplina> listDisciplina=new ArrayList<ClubDisciplina>();
+	private List<ClubInsDisSedClub> listInscripcion=new ArrayList<ClubInsDisSedClub>();
+	private List<InscripcionDTO> listaInscripcion=new ArrayList<InscripcionDTO>();
 	
 	private boolean update;
 	private String nombreBuscar="";
@@ -107,6 +110,8 @@ public class InscripcionController extends BaseController implements Serializabl
 			tipoIdentificacion=new ClubTipIde();
 			representante=new ClubRepresentante();
 		}
+
+		listInscripcion=clubInsDisSedClubService.findPersonaInstitucion(persona.getPerCodigo(), clubInstitucion.getCluCodigo());
 	}
 	
 	public void findDisciplina(){
@@ -175,6 +180,33 @@ public class InscripcionController extends BaseController implements Serializabl
 		} catch (IOException e) {
 			e.printStackTrace();
 		}		
+	}
+	
+	public void addInscripcion(){
+		listaInscripcion=new ArrayList<InscripcionDTO>();
+	}
+	
+	public void addItemInscripcion(){
+		InscripcionDTO item=new InscripcionDTO(sede.getSedCodigo(),clubSedeService.findByCodigo(sede.getSedCodigo()).getSedDescripcion(),
+				disciplina.getDisCodigo(),clubDisciplinaService.buscarPorId(disciplina.getDisCodigo()).getDisDescripcion(),
+				disciplina.getDisCodigo(),clubDisciplinaService.buscarPorId(disciplina.getDisCodigo()).getDisDescripcion());
+		
+		listaInscripcion.add(item);
+		cancelInscripcion();
+	}
+	
+	public void editItemInscripcion(InscripcionDTO item){
+		sede.setSedCodigo(item.getCodSede());
+		disciplina.setDisCodigo(item.getCodDisciplina());
+	}
+	
+	public void deleteInscripcion(InscripcionDTO item){
+		listaInscripcion.remove(item);
+	}
+	
+	public void cancelInscripcion(){
+		sede=new ClubSede();
+		disciplina=new ClubDisciplina();
 	}
 
 	public ClubPersona getPersona() {
@@ -279,5 +311,21 @@ public class InscripcionController extends BaseController implements Serializabl
 
 	public void setDisciplina(ClubDisciplina disciplina) {
 		this.disciplina = disciplina;
+	}
+
+	public List<ClubInsDisSedClub> getListInscripcion() {
+		return listInscripcion;
+	}
+
+	public void setListInscripcion(List<ClubInsDisSedClub> listInscripcion) {
+		this.listInscripcion = listInscripcion;
+	}
+
+	public List<InscripcionDTO> getListaInscripcion() {
+		return listaInscripcion;
+	}
+
+	public void setListaInscripcion(List<InscripcionDTO> listaInscripcion) {
+		this.listaInscripcion = listaInscripcion;
 	}
 }

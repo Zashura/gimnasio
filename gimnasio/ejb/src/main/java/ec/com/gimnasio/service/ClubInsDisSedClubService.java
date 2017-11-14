@@ -1,5 +1,7 @@
 package ec.com.gimnasio.service;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
 import ec.com.gimnasio.exception.ClubPersistException;
@@ -16,4 +18,6 @@ public interface ClubInsDisSedClubService {
 	public ClubInsDisSedClub actualizar(ClubInsDisSedClub aplicacion)throws ClubUpdateException;
 		
 	public ClubInsDisSedClub findByCodigo(long codigo);
+	
+	public List<ClubInsDisSedClub> findPersonaInstitucion(long codPersona,long codInstitucion);
 }

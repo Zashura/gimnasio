@@ -1,5 +1,7 @@
 package ec.com.gimnasio.service.impl;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -18,6 +20,11 @@ public class ClubInsDisSedClubServiceImpl implements ClubInsDisSedClubService {
 	@Override
 	public ClubInsDisSedClub buscarPorId(Long id){
 		return clubInsDisSedClubDAO.findById(id);
+	}
+	
+	@Override
+	public List<ClubInsDisSedClub> findPersonaInstitucion(long codPersona,long codInstitucion){
+		return clubInsDisSedClubDAO.findPersonaInstitucion(codPersona,codInstitucion);
 	}
 	
 	@Override

@@ -164,11 +164,73 @@
 					
 					<fieldset>
         				<legend>Inscripci&#243;n</legend>
-		           		<h:panelGrid columns="2" columnClasses="width30, width70">
-		           		
-		           		<h:outputLabel value="Instituci&#243;n:" />
-		           		<h:outputLabel value="#{inscripcionController.clubInstitucion.cluDescripcion}" />
-		                 
+        				
+        				<h:panelGrid columns="2" columnClasses="width30, width70">
+		           			<h:outputLabel value="Instituci&#243;n:" />
+		           			<h:outputLabel value="#{inscripcionController.clubInstitucion.cluDescripcion}" />
+		           		</h:panelGrid>
+						<p:commandButton value="Agregar" update="nuevo:panelNuevo" oncomplete="PF('popupInscripcion').show()"/>
+						<p:dataTable id="tablaInscripcion" var="_per"
+							value="#{inscripcionController.listaInscripcion}"
+							noDataLabel="No se han encontrado registros" rows="10"
+							paginator="true" rowIndexVar="rowIndex"
+							currentPageReportTemplate="{startRecord} de {endRecord} "
+							paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							rowsPerPageTemplate="5,10,15"
+							onrowmouseover="this.style.backgroundColor='#FFFFE0'"
+							onrowmouseout="this.style.backgroundColor='#F7FDFC'"
+							style=" align:center; width:100%;background-color:#F7FDFC;">
+							<p:column style="width:4%">
+								<f:facet name="header">#</f:facet>
+                				#{rowIndex+1}
+            				</p:column>
+							<p:column>
+								<f:facet name="header">Sede</f:facet>
+								#{_per.descSede}
+	            			</p:column>
+							<p:column>
+								<f:facet name="header">Disciplina</f:facet>
+	               				#{_per.descDisciplina}
+	            			</p:column>
+							<p:column>
+								<f:facet name="header">Horario</f:facet>
+	                			#{_per.descHorario}
+	            			</p:column>
+							<p:column>
+								<center>
+									<h:commandLink action="#{inscripcionController.deleteInscripcion(_per)}" onclick="return confirm('Está seguro que desea eliminar la aplicaci&#243;n seleccionada?')">
+										<h:graphicImage value="/img/delete.gif" alt="Eliminar" />
+									</h:commandLink>
+									<p:commandLink action="#{inscripcionController.editItemInscripcion(_per)}" update="nuevo:panelNuevo" oncomplete="PF('popupInscripcion').show()">
+										<h:graphicImage value="/img/edit.gif" alt="Editar" />
+									</p:commandLink>
+								</center>
+							</p:column>
+						</p:dataTable>
+
+		           	</fieldset>
+					
+					
+					<br/>
+		           	<div align="center">
+		            	<p:commandButton action="#{inscripcionController.save()}" value="Aceptar"/>
+		            	<p:commandButton action="#{inscripcionController.cancel()}" value="Cancelar" />
+		        	</div>
+		        	<br/>
+		        </p:outputPanel>
+		        </div>
+	        </h:form>
+	        
+	        <p:dialog widgetVar="popupInscripcion" id="popupInscripcion" modal="true" autosized="true" width="600px">
+        	<f:facet name="header">
+		        Inscripcion
+	        </f:facet>
+	       	<h:form id="nuevo">
+	       	<br/>
+	       	<div align="center">
+        		<p:outputPanel id="panelNuevo">
+        			<h:panelGrid columns="2" columnClasses="width30, width70">
+		           		      
 		                <h:outputLabel for="sede" value="Sede:" />
 		                <h:panelGroup>
 						<h:selectOneMenu id="sede" value="#{inscripcionController.sede.sedCodigo}" style="width:100%"
@@ -203,18 +265,21 @@
 		                 </h:panelGroup>
 		           		
 		           		</h:panelGrid>
-		           	</fieldset>
-					
-					
-					<br/>
+		           		
+		           	<br/>
 		           	<div align="center">
-		            	<p:commandButton action="#{inscripcionController.save()}" value="Aceptar"/>
-		            	<p:commandButton action="#{inscripcionController.cancel()}" value="Cancelar" />
+		            	<p:commandButton action="#{inscripcionController.addItemInscripcion()}" value="Aceptar" update="panelNuevo principal:tablaInscripcion" oncomplete="if (!args.validationFailed)  {PF('popupInscripcion').hide()}"/>
+		            	<p:commandButton value="Cancelar" action="#{inscripcionController.cancelInscripcion()}" oncomplete="PF('popupInscripcion').hide()"/>
 		        	</div>
 		        	<br/>
-		        </p:outputPanel>
+        		
+        		 </p:outputPanel>
 		        </div>
 	        </h:form>
+    	</p:dialog>
+	    
+        		
+        		
      
 	</ui:define>
 </ui:composition>
