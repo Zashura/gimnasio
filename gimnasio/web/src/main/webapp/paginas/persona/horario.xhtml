@@ -118,16 +118,16 @@
 	       	<div align="center">
         		<p:outputPanel id="panelNuevo">
 		           	<h:panelGrid columns="2" columnClasses="width30, width70">
-		                <h:outputLabel for="dia" value="Dia:" />
+		           		
+		           		<h:outputLabel for="diaMultiple" value="Dia:" />
 		                <h:panelGroup>
-						<h:selectOneMenu id="dia" value="#{horarioController.dia.diaCodigo}" style="width:100%"
-							required="true" requiredMessage="Campo obligatorio">
-							<f:selectItem itemLabel="Seleccione..."	noSelectionOption="true" />
-							<f:selectItems value="#{horarioController.listDias}" var="sem" itemValue="#{sem.diaCodigo}" itemLabel="#{sem.diaDescripcion}" />
-							<p:ajax event="change" update="@this msmId"/>
-						</h:selectOneMenu>
-		                <p:message for="dia" id="msmId"/>
-		                 </h:panelGroup>
+		           		<p:selectCheckboxMenu id="diaMultiple" value="#{horarioController.listDiaSelect}" label="Seleccione..." multiple="true"
+                              filter="true" filterMatchMode="startsWith" panelStyle="width:250px" required="true" requiredMessage="Campo obligatorio">
+            				<f:selectItems value="#{horarioController.listDias}" var="sem" itemValue="#{sem.diaCodigo}" itemLabel="#{sem.diaDescripcion}"/>
+            				<p:ajax event="change" update="msmId"/>
+       					</p:selectCheckboxMenu>
+       					<p:message for="diaMultiple" id="msmId"/>
+		           		</h:panelGroup>
 		
 		                <h:outputLabel for="ini" value="Hora Inicio:" />
 		                  <h:panelGroup>

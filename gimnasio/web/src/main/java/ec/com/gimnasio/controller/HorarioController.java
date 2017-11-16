@@ -39,6 +39,7 @@ public class HorarioController extends BaseController implements Serializable {
 	private ClubDia dia=new ClubDia();
 	private ClubHorDia horarioDia=new ClubHorDia();
 	private List<ClubDia> listDias=new ArrayList<ClubDia>();
+	private List<String> listDiaSelect=new ArrayList<String>();
 	private List<ClubHorDia> listHorarioDia=new ArrayList<ClubHorDia>();
 	private boolean update;
 	private String nombreBuscar="";
@@ -72,6 +73,14 @@ public class HorarioController extends BaseController implements Serializable {
 		dia=new ClubDia();
 		horario=new ClubHorario();
 		horarioDia=new ClubHorDia();
+		listDiaSelect=new ArrayList<String>();
+	}
+	
+	public void print(){
+		System.out.println("<<<<>>>>: "+listDiaSelect.size());
+		for (String item : listDiaSelect) {
+			System.out.println("<<<<>>>>: "+item);
+		}
 	}
 	
 	public void save(){
@@ -94,14 +103,16 @@ public class HorarioController extends BaseController implements Serializable {
 				horario.setHorEstado(Constantes.REGISTRO_ACTIVO_NUMERO);
 				horario.setHorFecCreacion(new Date());
 				clubHorarioService.crear(horario);
-				
-				horarioDia.setHodiEstado(Constantes.REGISTRO_ACTIVO_NUMERO);
-				horarioDia.setHodiFecCreacion(new Date());
-				horarioDia.setHodiFecInicio(horario.getHorHoraInicio());
-				horarioDia.setHodiFecFin(horario.getHorHoraFin());
-				horarioDia.setClubHorario(horario);
-				horarioDia.setClubDia(clubDiaService.findByCodigo(dia.getDiaCodigo()));
-				clubHoraDiaService.crear(horarioDia);
+				for (String item : listDiaSelect) {
+					horarioDia=new ClubHorDia();
+					horarioDia.setHodiEstado(Constantes.REGISTRO_ACTIVO_NUMERO);
+					horarioDia.setHodiFecCreacion(new Date());
+					horarioDia.setHodiFecInicio(horario.getHorHoraInicio());
+					horarioDia.setHodiFecFin(horario.getHorHoraFin());
+					horarioDia.setClubHorario(horario);
+					horarioDia.setClubDia(clubDiaService.findByCodigo(Long.valueOf(item)));
+					clubHoraDiaService.crear(horarioDia);
+				}
 				 agregarMensajeInformacion("Registro ingresado exitosamente", "");
 			} catch (ClubPersistException e) {
 				agregarMensajeError(Constantes.LABEL_ERROR,Constantes.ERROR_CREACION);
@@ -158,5 +169,13 @@ public class HorarioController extends BaseController implements Serializable {
 
 	public void setHorarioDia(ClubHorDia horarioDia) {
 		this.horarioDia = horarioDia;
+	}
+
+	public List<String> getListDiaSelect() {
+		return listDiaSelect;
+	}
+
+	public void setListDiaSelect(List<String> listDiaSelect) {
+		this.listDiaSelect = listDiaSelect;
 	}
 }

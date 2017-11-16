@@ -28,6 +28,11 @@ public class ClubHodiXDisServiceImpl implements ClubHodiXDisService {
 	}
 	
 	@Override
+	public List<ClubHodiXDissedclub> findByInstitucionPersona(long codInstitucion, long codPersona){
+		return clubHodiXDisDAO.findByInstitucionPersona(codInstitucion, codPersona);
+	}
+	
+	@Override
 	public void crear(ClubHodiXDissedclub aplicacion){
 		try {
 			clubHodiXDisDAO.persist(aplicacion);

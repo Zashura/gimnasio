@@ -17,6 +17,7 @@ import ec.com.gimnasio.dto.InscripcionDTO;
 import ec.com.gimnasio.exception.ClubPersistException;
 import ec.com.gimnasio.exception.ClubUpdateException;
 import ec.com.gimnasio.model.ClubDisciplina;
+import ec.com.gimnasio.model.ClubHodiXDissedclub;
 import ec.com.gimnasio.model.ClubInsDisSedClub;
 import ec.com.gimnasio.model.ClubInscripcion;
 import ec.com.gimnasio.model.ClubInstitucion;
@@ -31,6 +32,7 @@ import ec.com.gimnasio.resources.ServiceLocator;
 import ec.com.gimnasio.scope.ViewScoped;
 import ec.com.gimnasio.service.ClubDisXSedInsService;
 import ec.com.gimnasio.service.ClubDisciplinaService;
+import ec.com.gimnasio.service.ClubHodiXDisService;
 import ec.com.gimnasio.service.ClubInsDisSedClubService;
 import ec.com.gimnasio.service.ClubInscripcionService;
 import ec.com.gimnasio.service.ClubInstitucionService;
@@ -71,6 +73,8 @@ public class InscripcionController extends BaseController implements Serializabl
 	private ClubDisXSedInsService clubDisXSedInsService;
 	@Inject
 	private ClubInsDisSedClubService clubInsDisSedClubService;
+	@Inject
+	private ClubHodiXDisService clubHodiXDisService;
 	
 	private ClubPersona persona=new ClubPersona();
 	private ClubInstitucion clubInstitucion=new ClubInstitucion();
@@ -79,6 +83,7 @@ public class InscripcionController extends BaseController implements Serializabl
 	private ClubRepresentante representante=new ClubRepresentante();
 	private ClubSede sede=new ClubSede();
 	private ClubDisciplina disciplina=new ClubDisciplina();
+	private ClubHodiXDissedclub hodiDisciplina=new ClubHodiXDissedclub();
 	private List<ClubPersona> listPersona=new ArrayList<ClubPersona>();
 	private List<ClubSexo> listSexo=new ArrayList<ClubSexo>();
 	private List<ClubTipIde> listTipoIdentificacion=new ArrayList<ClubTipIde>();
@@ -86,6 +91,8 @@ public class InscripcionController extends BaseController implements Serializabl
 	private List<ClubDisciplina> listDisciplina=new ArrayList<ClubDisciplina>();
 	private List<ClubInsDisSedClub> listInscripcion=new ArrayList<ClubInsDisSedClub>();
 	private List<InscripcionDTO> listaInscripcion=new ArrayList<InscripcionDTO>();
+	private List<ClubHodiXDissedclub> listHorario=new ArrayList<ClubHodiXDissedclub>();
+	private List<ClubHodiXDissedclub> listInscripciones=new ArrayList<ClubHodiXDissedclub>();
 	
 	private boolean update;
 	private String nombreBuscar="";
@@ -112,10 +119,26 @@ public class InscripcionController extends BaseController implements Serializabl
 		}
 
 		listInscripcion=clubInsDisSedClubService.findPersonaInstitucion(persona.getPerCodigo(), clubInstitucion.getCluCodigo());
+		listInscripciones=clubHodiXDisService.findByInstitucionPersona(clubInstitucion.getCluCodigo(), persona.getPerCodigo());
+		
+		for (ClubHodiXDissedclub itemDTO : listInscripciones) {
+			InscripcionDTO item=new InscripcionDTO(itemDTO.getClubDisXSedIn().getClubSedIn().getClubSede().getSedCodigo(),itemDTO.getClubDisXSedIn().getClubSedIn().getClubSede().getSedDescripcion(),
+					itemDTO.getClubDisXSedIn().getClubDisciplina().getDisCodigo(),itemDTO.getClubDisXSedIn().getClubDisciplina().getDisDescripcion(),
+					itemDTO.getClubHorDia().getClubDia().getDiaCodigo(),itemDTO.getClubHorDia().getClubDia().getDiaDescripcion());
+			
+			listaInscripcion.add(item);
+		}
+		
+			
+		
 	}
 	
 	public void findDisciplina(){
 		listDisciplina=clubDisciplinaService.listBySede(sede.getSedCodigo());
+	}
+	
+	public void findHorarios(){
+		listHorario=clubHodiXDisService.findBySedeDisciplina(sede.getSedCodigo(), disciplina.getDisCodigo());
 	}
 	
 	public void cancel(){
@@ -327,5 +350,29 @@ public class InscripcionController extends BaseController implements Serializabl
 
 	public void setListaInscripcion(List<InscripcionDTO> listaInscripcion) {
 		this.listaInscripcion = listaInscripcion;
+	}
+
+	public List<ClubHodiXDissedclub> getListHorario() {
+		return listHorario;
+	}
+
+	public void setListHorario(List<ClubHodiXDissedclub> listHorario) {
+		this.listHorario = listHorario;
+	}
+
+	public ClubHodiXDissedclub getHodiDisciplina() {
+		return hodiDisciplina;
+	}
+
+	public void setHodiDisciplina(ClubHodiXDissedclub hodiDisciplina) {
+		this.hodiDisciplina = hodiDisciplina;
+	}
+
+	public List<ClubHodiXDissedclub> getListInscripciones() {
+		return listInscripciones;
+	}
+
+	public void setListInscripciones(List<ClubHodiXDissedclub> listInscripciones) {
+		this.listInscripciones = listInscripciones;
 	}
 }

@@ -20,4 +20,6 @@ public interface ClubHodiXDisService {
 	public ClubHodiXDissedclub findByCodigo(long codigo);
 	
 	public List<ClubHodiXDissedclub> findBySedeDisciplina(long codSede, long codDisciplina);
+	
+	public List<ClubHodiXDissedclub> findByInstitucionPersona(long codInstitucion, long codPersona);
 }
