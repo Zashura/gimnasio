@@ -50,6 +50,9 @@ public class ClubInsDisSedClub implements Serializable {
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="ins_codigo")
 	private ClubInscripcion clubInscripcion;
+	
+	@Column(name="hodi_codigo")
+	private long hodiCodigo;
 
 	public ClubInsDisSedClub() {
 	}
@@ -92,6 +95,14 @@ public class ClubInsDisSedClub implements Serializable {
 
 	public void setClubInscripcion(ClubInscripcion clubInscripcion) {
 		this.clubInscripcion = clubInscripcion;
+	}
+
+	public long getHodiCodigo() {
+		return hodiCodigo;
+	}
+
+	public void setHodiCodigo(long hodiCodigo) {
+		this.hodiCodigo = hodiCodigo;
 	}
 
 }

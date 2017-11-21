@@ -8,17 +8,19 @@ public class InscripcionDTO {
 	private String descDisciplina;
 	private long codHorario;
 	private String descHorario;
+	private long disiCodigo;
 	
 	public InscripcionDTO() {
 	}
 	
-	public InscripcionDTO(long codSede, String descSede,long codDisciplina, String descDisciplina,long codHorario, String descHorario) {
+	public InscripcionDTO(long codSede, String descSede,long codDisciplina, String descDisciplina,long codHorario, String descHorario,long disiCodigo) {
 		this.codSede = codSede;
 		this.descSede = descSede;
 		this.codDisciplina = codDisciplina;
 		this.descDisciplina = descDisciplina;
 		this.codHorario = codHorario;
 		this.descHorario = descHorario;
+		this.disiCodigo=disiCodigo;
 	}
 
 	public long getCodSede() {
@@ -67,5 +69,13 @@ public class InscripcionDTO {
 
 	public void setDescHorario(String descHorario) {
 		this.descHorario = descHorario;
+	}
+
+	public long getDisiCodigo() {
+		return disiCodigo;
+	}
+
+	public void setDisiCodigo(long disiCodigo) {
+		this.disiCodigo = disiCodigo;
 	}
 }

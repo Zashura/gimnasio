@@ -18,6 +18,7 @@ import ec.com.gimnasio.exception.ClubPersistException;
 import ec.com.gimnasio.exception.ClubUpdateException;
 import ec.com.gimnasio.model.ClubDisciplina;
 import ec.com.gimnasio.model.ClubHodiXDissedclub;
+import ec.com.gimnasio.model.ClubHorDia;
 import ec.com.gimnasio.model.ClubInsDisSedClub;
 import ec.com.gimnasio.model.ClubInscripcion;
 import ec.com.gimnasio.model.ClubInstitucion;
@@ -33,6 +34,7 @@ import ec.com.gimnasio.scope.ViewScoped;
 import ec.com.gimnasio.service.ClubDisXSedInsService;
 import ec.com.gimnasio.service.ClubDisciplinaService;
 import ec.com.gimnasio.service.ClubHodiXDisService;
+import ec.com.gimnasio.service.ClubHoraDiaService;
 import ec.com.gimnasio.service.ClubInsDisSedClubService;
 import ec.com.gimnasio.service.ClubInscripcionService;
 import ec.com.gimnasio.service.ClubInstitucionService;
@@ -75,6 +77,8 @@ public class InscripcionController extends BaseController implements Serializabl
 	private ClubInsDisSedClubService clubInsDisSedClubService;
 	@Inject
 	private ClubHodiXDisService clubHodiXDisService;
+	@Inject
+	private ClubHoraDiaService clubHoraDiaService;
 	
 	private ClubPersona persona=new ClubPersona();
 	private ClubInstitucion clubInstitucion=new ClubInstitucion();
@@ -84,6 +88,7 @@ public class InscripcionController extends BaseController implements Serializabl
 	private ClubSede sede=new ClubSede();
 	private ClubDisciplina disciplina=new ClubDisciplina();
 	private ClubHodiXDissedclub hodiDisciplina=new ClubHodiXDissedclub();
+	private ClubHorDia horaDia=new ClubHorDia();
 	private List<ClubPersona> listPersona=new ArrayList<ClubPersona>();
 	private List<ClubSexo> listSexo=new ArrayList<ClubSexo>();
 	private List<ClubTipIde> listTipoIdentificacion=new ArrayList<ClubTipIde>();
@@ -124,13 +129,9 @@ public class InscripcionController extends BaseController implements Serializabl
 		for (ClubHodiXDissedclub itemDTO : listInscripciones) {
 			InscripcionDTO item=new InscripcionDTO(itemDTO.getClubDisXSedIn().getClubSedIn().getClubSede().getSedCodigo(),itemDTO.getClubDisXSedIn().getClubSedIn().getClubSede().getSedDescripcion(),
 					itemDTO.getClubDisXSedIn().getClubDisciplina().getDisCodigo(),itemDTO.getClubDisXSedIn().getClubDisciplina().getDisDescripcion(),
-					itemDTO.getClubHorDia().getClubDia().getDiaCodigo(),itemDTO.getClubHorDia().getClubDia().getDiaDescripcion());
-			
+					itemDTO.getClubHorDia().getHodiCodigo(),itemDTO.getClubHorDia().getClubDia().getDiaDescripcion(),itemDTO.getClubDisXSedIn().getDisiCodigo());
 			listaInscripcion.add(item);
 		}
-		
-			
-		
 	}
 	
 	public void findDisciplina(){
@@ -154,9 +155,42 @@ public class InscripcionController extends BaseController implements Serializabl
 		if(update){
 			try {
 				clubRepresentanteService.actualizar(representante);
+				
+				persona.setClubSexo(clubSexoService.findByCodigo(sexo.getSexCodigo()));
+				persona.setClubTipIde(clubTipoIdeService.findByCodigo(tipoIdentificacion.getTiinCodigo()));
 				persona.setClubSexo(clubSexoService.findByCodigo(sexo.getSexCodigo()));
 				persona.setClubTipIde(clubTipoIdeService.findByCodigo(tipoIdentificacion.getTiinCodigo()));
 				clubPersonaService.actualizar(persona);
+				
+				ClubInscripcion inscripcion=new ClubInscripcion();
+				inscripcion=clubInscripcionService.findByPersona(persona.getPerCodigo());
+				for (InscripcionDTO item : listaInscripcion) {
+					ClubSedIn clubSedIn=new ClubSedIn();
+					clubSedIn=clubSedInsService.findByCodigoInstucionSede(clubInstitucion.getCluCodigo(), item.getCodSede());
+					
+					ClubInsDisSedClub clubInsDisSedClub=new ClubInsDisSedClub();
+					if(item.getDisiCodigo()==0l){
+						clubInsDisSedClub=new ClubInsDisSedClub();
+					}else{
+						clubInsDisSedClub=clubInsDisSedClubService.findByInscripcionHorarioDisciplina(inscripcion.getInsCodigo(), item.getCodHorario(), item.getDisiCodigo());
+					}
+					clubInsDisSedClub.setHodiCodigo(item.getCodHorario());
+					clubInsDisSedClub.setClubInscripcion(inscripcion);
+					clubInsDisSedClub.setClubDisXSedIn(clubDisXSedInsService.findByCodigoSedeDisciplina(clubSedIn.getSeinCodigo(),item.getCodDisciplina()));
+					clubInsDisSedClub.setIdsiEstado(Constantes.REGISTRO_ACTIVO_NUMERO);
+					clubInsDisSedClub.setIdsiFecCreacion(new Date());
+					if(item.getDisiCodigo()==0l){
+						try {
+							clubInsDisSedClubService.crear(clubInsDisSedClub);
+						} catch (ClubPersistException e) {
+							e.printStackTrace();
+						}
+					}else{
+						clubInsDisSedClubService.actualizar(clubInsDisSedClub);
+					}
+				}
+				
+				
 				agregarMensajeInformacion("Registro actualizado exitosamente", "");
 			} catch (ClubUpdateException e) {
 				agregarMensajeError(Constantes.LABEL_ERROR,Constantes.ERROR_CREACION);
@@ -165,8 +199,6 @@ public class InscripcionController extends BaseController implements Serializabl
 		}else{
 			try {
 				ClubInscripcion inscripcion=new ClubInscripcion();
-				ClubInsDisSedClub clubInsDisSedClub=new ClubInsDisSedClub();
-				ClubSedIn clubSedIn=new ClubSedIn();
 				
 				representante.setRepEstado(Constantes.REGISTRO_ACTIVO_NUMERO);
 				representante.setRepFechCreacion(new Date());
@@ -184,12 +216,17 @@ public class InscripcionController extends BaseController implements Serializabl
 				inscripcion.setInsFecCreacion(new Date());
 				clubInscripcionService.crear(inscripcion);
 				
-				clubSedIn=clubSedInsService.findByCodigoInstucionSede(clubInstitucion.getCluCodigo(), sede.getSedCodigo());
-				clubInsDisSedClub.setClubInscripcion(inscripcion);
-				clubInsDisSedClub.setClubDisXSedIn(clubDisXSedInsService.findByCodigoSedeDisciplina(clubSedIn.getSeinCodigo(),disciplina.getDisCodigo()));
-				clubInsDisSedClub.setIdsiEstado(Constantes.REGISTRO_ACTIVO_NUMERO);
-				clubInsDisSedClub.setIdsiFecCreacion(new Date());
-				clubInsDisSedClubService.crear(clubInsDisSedClub);
+				for (InscripcionDTO item : listaInscripcion) {
+					ClubSedIn clubSedIn=new ClubSedIn();
+					clubSedIn=clubSedInsService.findByCodigoInstucionSede(clubInstitucion.getCluCodigo(), item.getCodSede());
+					ClubInsDisSedClub clubInsDisSedClub=new ClubInsDisSedClub();
+					clubInsDisSedClub.setHodiCodigo(item.getCodHorario());
+					clubInsDisSedClub.setClubInscripcion(inscripcion);
+					clubInsDisSedClub.setClubDisXSedIn(clubDisXSedInsService.findByCodigoSedeDisciplina(clubSedIn.getSeinCodigo(),item.getCodDisciplina()));
+					clubInsDisSedClub.setIdsiEstado(Constantes.REGISTRO_ACTIVO_NUMERO);
+					clubInsDisSedClub.setIdsiFecCreacion(new Date());
+					clubInsDisSedClubService.crear(clubInsDisSedClub);
+				}
 				
 				 agregarMensajeInformacion("Registro ingresado exitosamente", "");
 			} catch (ClubPersistException e) {
@@ -210,9 +247,10 @@ public class InscripcionController extends BaseController implements Serializabl
 	}
 	
 	public void addItemInscripcion(){
+		horaDia=clubHoraDiaService.findByCodigo(horaDia.getHodiCodigo());
 		InscripcionDTO item=new InscripcionDTO(sede.getSedCodigo(),clubSedeService.findByCodigo(sede.getSedCodigo()).getSedDescripcion(),
 				disciplina.getDisCodigo(),clubDisciplinaService.buscarPorId(disciplina.getDisCodigo()).getDisDescripcion(),
-				disciplina.getDisCodigo(),clubDisciplinaService.buscarPorId(disciplina.getDisCodigo()).getDisDescripcion());
+				horaDia.getHodiCodigo(),horaDia.getClubDia().getDiaDescripcion()+" "+horaDia.getClubHorario().getHorHoraInicio()+"-"+horaDia.getClubHorario().getHorHoraFin(),0l);
 		
 		listaInscripcion.add(item);
 		cancelInscripcion();
@@ -230,6 +268,7 @@ public class InscripcionController extends BaseController implements Serializabl
 	public void cancelInscripcion(){
 		sede=new ClubSede();
 		disciplina=new ClubDisciplina();
+		horaDia=new ClubHorDia();
 	}
 
 	public ClubPersona getPersona() {
@@ -374,5 +413,13 @@ public class InscripcionController extends BaseController implements Serializabl
 
 	public void setListInscripciones(List<ClubHodiXDissedclub> listInscripciones) {
 		this.listInscripciones = listInscripciones;
+	}
+
+	public ClubHorDia getHoraDia() {
+		return horaDia;
+	}
+
+	public void setHoraDia(ClubHorDia horaDia) {
+		this.horaDia = horaDia;
 	}
 }

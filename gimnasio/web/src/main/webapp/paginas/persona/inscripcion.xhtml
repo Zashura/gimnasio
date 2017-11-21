@@ -255,10 +255,10 @@
 		                 
 		                 <h:outputLabel for="horario" value="Horario:" />
 		                <h:panelGroup>
-						<h:selectOneMenu id="horario" value="#{inscripcionController.hodiDisciplina.dihoCodigo}" style="width:100%"
+						<h:selectOneMenu id="horario" value="#{inscripcionController.horaDia.hodiCodigo}" style="width:100%"
 							required="true" requiredMessage="Campo obligatorio">
 							<f:selectItem itemLabel="Seleccione..."	noSelectionOption="true" />
-							<f:selectItems value="#{inscripcionController.listHorario}" var="sem" itemValue="#{sem.dihoCodigo}" itemLabel="#{sem.clubHorDia.clubDia.diaDescripcion} : #{sem.clubHorDia.clubHorario.horHoraInicio}-#{sem.clubHorDia.clubHorario.horHoraFin}" />
+							<f:selectItems value="#{inscripcionController.listHorario}" var="sem" itemValue="#{sem.clubHorDia.hodiCodigo}" itemLabel="#{sem.clubHorDia.clubDia.diaDescripcion} : #{sem.clubHorDia.clubHorario.horHoraInicio}-#{sem.clubHorDia.clubHorario.horHoraFin}" />
 							<p:ajax event="change" update="@this msmHorario"/>
 						</h:selectOneMenu>
 		                <p:message for="horario" id="msmHorario"/>

@@ -20,4 +20,6 @@ public interface ClubInsDisSedClubService {
 	public ClubInsDisSedClub findByCodigo(long codigo);
 	
 	public List<ClubInsDisSedClub> findPersonaInstitucion(long codPersona,long codInstitucion);
+	
+	public ClubInsDisSedClub findByInscripcionHorarioDisciplina(long codInscripcion,long codHorario,long codDisciplina);
 }

@@ -20,5 +20,12 @@ public class ClubInscripcionDAOImpl extends GenericDAOImpl<ClubInscripcion, Long
 		return aplicacion;
 	}
 	
+	@Override
+	public ClubInscripcion findByPersona(long codigo){
+		StringBuilder sentencia = new StringBuilder().append("select o from ClubInscripcion o ");
+		sentencia.append("where o.clubPersona.perCodigo = :codigo and o.insEstado=:estado ");
+		ClubInscripcion aplicacion = (ClubInscripcion) getEntityManager().createQuery(sentencia.toString()).setParameter("codigo" , codigo).setParameter("estado", Constantes.REGISTRO_ACTIVO_NUMERO).getSingleResult();
+		return aplicacion;
+	}
 	
 }

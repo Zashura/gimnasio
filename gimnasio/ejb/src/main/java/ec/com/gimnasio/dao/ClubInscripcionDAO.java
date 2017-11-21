@@ -11,6 +11,8 @@ import ec.com.gimnasio.model.ClubInscripcion;
 public interface ClubInscripcionDAO  extends GenericDAO<ClubInscripcion, Long> {
 	
 	public ClubInscripcion findByCodigo(long codigo);
+	
+	public ClubInscripcion findByPersona(long codigo);
 
 
 }

@@ -51,4 +51,9 @@ public class ClubInsDisSedClubServiceImpl implements ClubInsDisSedClubService {
 	public ClubInsDisSedClub findByCodigo(long codigo){
 		return clubInsDisSedClubDAO.findByCodigo(codigo);
 	}
+	
+	@Override
+	public ClubInsDisSedClub findByInscripcionHorarioDisciplina(long codInscripcion,long codHorario,long codDisciplina){
+		return clubInsDisSedClubDAO.findByInscripcionHorarioDisciplina(codInscripcion,codHorario,codDisciplina);
+	}
 }

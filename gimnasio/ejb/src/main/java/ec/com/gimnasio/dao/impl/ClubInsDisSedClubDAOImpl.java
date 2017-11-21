@@ -44,5 +44,14 @@ public class ClubInsDisSedClubDAOImpl extends GenericDAOImpl<ClubInsDisSedClub, 
 		return aux;
 	}
 	
+	@Override
+	public ClubInsDisSedClub findByInscripcionHorarioDisciplina(long codInscripcion,long codHorario,long codDisciplina){
+		StringBuilder sentencia = new StringBuilder().append("select o from ClubInsDisSedClub o ");
+		sentencia.append("where o.clubInscripcion.insCodigo = :codInscripcion and o.hodiCodigo=:codHorario and o.clubDisXSedIn.disiCodigo=:codDisciplina and o.idsiEstado=:estado ");
+		ClubInsDisSedClub aplicacion = (ClubInsDisSedClub) getEntityManager().createQuery(sentencia.toString()).setParameter("codInscripcion" , codInscripcion)
+				.setParameter("codHorario" , codHorario).setParameter("codDisciplina" , codDisciplina).setParameter("estado", Constantes.REGISTRO_ACTIVO_NUMERO).getSingleResult();
+		return aplicacion;
+	}
+	
 	
 }

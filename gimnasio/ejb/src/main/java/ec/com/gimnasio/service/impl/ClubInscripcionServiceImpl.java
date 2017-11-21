@@ -44,4 +44,9 @@ public class ClubInscripcionServiceImpl implements ClubInscripcionService {
 	public ClubInscripcion findByCodigo(long codigo){
 		return clubInscripcionDAO.findByCodigo(codigo);
 	}
+	
+	@Override
+	public ClubInscripcion findByPersona(long codigo){
+		return clubInscripcionDAO.findByPersona(codigo);
+	}
 }

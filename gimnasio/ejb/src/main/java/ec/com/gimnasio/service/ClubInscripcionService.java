@@ -16,4 +16,6 @@ public interface ClubInscripcionService {
 	public ClubInscripcion actualizar(ClubInscripcion aplicacion)throws ClubUpdateException;
 		
 	public ClubInscripcion findByCodigo(long codigo);
+	
+	public ClubInscripcion findByPersona(long codigo);
 }

@@ -22,6 +22,16 @@ public class ClubHoraDiaDAOImpl extends GenericDAOImpl<ClubHorDia, Long> impleme
 		StringBuilder sentencia = new StringBuilder().append("select o from ClubHorDia o ");
 		sentencia.append("where o.hodiCodigo = :codigo and o.hodiEstado=:estado ");
 		ClubHorDia aplicacion = (ClubHorDia) getEntityManager().createQuery(sentencia.toString()).setParameter("codigo" , codigo).setParameter("estado", Constantes.REGISTRO_ACTIVO_NUMERO).getSingleResult();
+		if(aplicacion.getClubHorario()!=null){
+			aplicacion.getClubHorario().getHorCodigo();
+			aplicacion.getClubHorario().getHorHoraFin();
+			aplicacion.getClubHorario().getHorHoraInicio();
+		}
+		if(aplicacion.getClubDia()!=null){
+			aplicacion.getClubDia().getDiaCodigo();
+			aplicacion.getClubDia().getDiaDescripcion();
+		}
+		
 		return aplicacion;
 	}
 	
