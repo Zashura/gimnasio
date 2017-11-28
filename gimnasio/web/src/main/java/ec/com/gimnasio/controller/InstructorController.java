@@ -13,6 +13,7 @@ import ec.com.gimnasio.exception.ClubPersistException;
 import ec.com.gimnasio.exception.ClubUpdateException;
 import ec.com.gimnasio.model.ClubInstructor;
 import ec.com.gimnasio.resources.Constantes;
+import ec.com.gimnasio.resources.IdentificacionUtils;
 import ec.com.gimnasio.scope.ViewScoped;
 import ec.com.gimnasio.service.ClubInstructorService;
 
@@ -31,6 +32,7 @@ public class InstructorController extends BaseController implements Serializable
 	private List<ClubInstructor> listInstructor=new ArrayList<ClubInstructor>();
 	private boolean update;
 	private String nombreBuscar="";
+	private boolean validateCedula;
 	
 	@PostConstruct
 	public void init(){
@@ -38,6 +40,7 @@ public class InstructorController extends BaseController implements Serializable
 		//Usuario usuario = servicioUsuario.buscarPorIdentificacion(sessionController.getUserSecurity().getUsername());
 		listInstructor=clubInstructorService.obtenerActivas();
 		update=Boolean.FALSE;
+		validateCedula=Boolean.TRUE;
 	}
 	
 	public void findbyName(){
@@ -57,6 +60,7 @@ public class InstructorController extends BaseController implements Serializable
 	
 	public void edit(ClubInstructor item){
 		update=Boolean.TRUE;
+		validateCedula=Boolean.TRUE;
 		instructor=item;
 	}
 	
@@ -65,7 +69,14 @@ public class InstructorController extends BaseController implements Serializable
 		instructor=new ClubInstructor();
 	}
 	
+	public void validarCedula(){
+		validateCedula=IdentificacionUtils.validateCedula(instructor.getIntIdentificacion());
+	}
+	
 	public void save(){
+		validateCedula=Boolean.FALSE;
+		if(IdentificacionUtils.validateCedula(instructor.getIntIdentificacion())){
+			validateCedula=Boolean.TRUE;
 		if(update){
 			try {
 				clubInstructorService.actualizar(instructor);
@@ -86,9 +97,10 @@ public class InstructorController extends BaseController implements Serializable
 				e.printStackTrace();
 			}
 		}
+		}
+		cancel();
 		update=Boolean.FALSE;
 		listInstructor=clubInstructorService.obtenerActivas();
-		cancel();
 	}
 
 	public String getNombreBuscar() {
@@ -113,5 +125,13 @@ public class InstructorController extends BaseController implements Serializable
 
 	public void setInstructor(ClubInstructor instructor) {
 		this.instructor = instructor;
+	}
+
+	public boolean isValidateCedula() {
+		return validateCedula;
+	}
+
+	public void setValidateCedula(boolean validateCedula) {
+		this.validateCedula = validateCedula;
 	}
 }

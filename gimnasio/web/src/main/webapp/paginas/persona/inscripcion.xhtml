@@ -79,8 +79,9 @@
 		                <h:outputLabel for="prefijo" value="Identificaci&#243;n:" />
 		                <h:panelGroup>
 		                <h:inputText id="prefijo" style="width:100%" value="#{inscripcionController.persona.perIdentificacion}" required="true" requiredMessage="Campo obligatorio">
-		                	<f:ajax render="@this msmDesc"  />
+		                	<f:ajax render="@this msmDesc panelNuevo" event="change" listener="#{inscripcionController.validarCedula()}" />
 		                </h:inputText>
+		                <h:outputLabel rendered="#{!inscripcionController.validateCedulaInscrito}" styleClass="text-danger"  value="Identificaci&#243;n incorrecta." />
 		                <p:message for="prefijo" id="msmDesc"/>
 						</h:panelGroup>
 		
@@ -95,9 +96,10 @@
 						<h:outputLabel for="fec" value="Fecha Nacimiento:" />
 		                <h:panelGroup>
 		                <p:calendar id="fec" style="width:100%" value="#{inscripcionController.persona.perFecNacimiento}" required="true" requiredMessage="Campo obligatorio"
-		                    pattern="yyyy-MM-dd" locale="es" navigator="true" mask="true">
-		                	<f:ajax render="@this msmFec"  />
+		                    pattern="yyyy-MM-dd" locale="es" navigator="true" mask="true"  onchange="#{inscripcionController.validarEdad()}">
+		                	<f:ajax render="@this msmFec panelNuevo"/>
 		               	</p:calendar>
+		               	 <h:outputLabel rendered="#{!inscripcionController.validateEdad}" styleClass="text-danger"  value="La edad debe ser mayor o igual a 3 a&#241;os." />
 		                <p:message for="fec" id="msmFec"/>
 						</h:panelGroup>
 						
@@ -122,8 +124,9 @@
 		           		<h:outputLabel for="ide" value="Identificaci&#243;n:" />
 		                <h:panelGroup>
 		                <h:inputText id="ide" style="width:100%" value="#{inscripcionController.representante.repIdentificacion}" required="true" requiredMessage="Campo obligatorio">
-		                	<f:ajax render="@this msmIde"  />
+		                	<f:ajax render="@this msmIde panelNuevo" event="change" listener="#{inscripcionController.validarCedulaRepresentante()}" />
 		                </h:inputText>
+		                <h:outputLabel rendered="#{!inscripcionController.validateCedulaRepresentante}" styleClass="text-danger"  value="Identificaci&#243;n incorrecta." />
 		                <p:message for="ide" id="msmIde"/>
 						</h:panelGroup>
 		

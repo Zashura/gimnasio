@@ -119,15 +119,16 @@
 		           	<h:panelGrid columns="2" columnClasses="width30, width70">
 		                <h:outputLabel for="prefijo" value="Identificaci&#243;n:" />
 		                <h:panelGroup>
-		                <h:inputText id="prefijo" style="width:100%" value="#{instructorController.instructor.intIdentificacion}" required="true" requiredMessage="Campo obligatorio">
-		                	<f:ajax render="@this msmDesc"  />
+		                <h:inputText id="prefijo" style="width:100%" value="#{instructorController.instructor.intIdentificacion}" maxlength="10" required="true" requiredMessage="Campo obligatorio">
+		                	<f:ajax render="@this msmDesc panelNuevo" event="change" listener="#{instructorController.validarCedula()}" />
 		                </h:inputText>
+		                <h:outputLabel rendered="#{!instructorController.validateCedula}" styleClass="text-danger"  value="Identificaci&#243;n incorrecta." />
 		                <p:message for="prefijo" id="msmDesc"/>
 						</h:panelGroup>
 		
 		                <h:outputLabel for="nombre" value="Nombre y Apellido:" />
 		                <h:panelGroup>
-		                <h:inputText id="nombre" style="width:100%" value="#{instructorController.instructor.intNombres}" required="true" requiredMessage="Campo obligatorio">
+		                <h:inputText id="nombre" style="width:100%" value="#{instructorController.instructor.intNombres}" maxlength="200" required="true" requiredMessage="Campo obligatorio">
 		                	<f:ajax render="@this msmNombre"  />
 		                </h:inputText>
 		                <p:message for="nombre" id="msmNombre"/>
@@ -135,7 +136,7 @@
 
 						<h:outputLabel for="cel" value="Celular:" />
 		                <h:panelGroup>
-		               <h:inputText id="cel" style="width:100%" value="#{instructorController.instructor.intCelular}" required="true" requiredMessage="Campo obligatorio">
+		               <h:inputText id="cel" style="width:100%" value="#{instructorController.instructor.intCelular}" maxlength="10" required="true" requiredMessage="Campo obligatorio">
 		                	<f:ajax render="@this msmCel"  />
 		                </h:inputText>
 		                <p:message for="cel" id="msmCel"/>
@@ -143,24 +144,26 @@
 						
 						<h:outputLabel for="con" value="Convencional:" />
 		                <h:panelGroup>
-		               <h:inputText id="con" style="width:100%" value="#{instructorController.instructor.intConvencional}" required="true" requiredMessage="Campo obligatorio">
+		               <h:inputText id="con" style="width:100%" value="#{instructorController.instructor.intConvencional}" maxlength="15" required="true" requiredMessage="Campo obligatorio">
 		                	<f:ajax render="@this msmCon"  />
 		                </h:inputText>
 		                <p:message for="con" id="msmCon"/>
 						</h:panelGroup>
 						
-						<h:outputLabel for="dir" value="Direccion:" />
+						<h:outputLabel for="dir" value="Direcci&#243;n:" />
 		                <h:panelGroup>
-		               <h:inputText id="dir" style="width:100%" value="#{instructorController.instructor.intDireccion}" required="true" requiredMessage="Campo obligatorio">
+		               <h:inputTextarea id="dir" style="width:100%" value="#{instructorController.instructor.intDireccion}" required="true" 
+		               requiredMessage="Campo obligatorio" validatorMessage="Ingrese 250 caracteres.">
+		                	<f:validateLength maximum="250"/>
 		                	<f:ajax render="@this msmDir"  />
-		                </h:inputText>
+		                </h:inputTextarea>
 		                <p:message for="dir" id="msmDir"/>
 						</h:panelGroup>
 		              
 					</h:panelGrid>
 					<br/>
 		           	<div align="center">
-		            	<p:commandButton  action="#{instructorController.save()}" value="Aceptar" update="panelNuevo principal:tablaAplicaciones" oncomplete="if (!args.validationFailed)  {PF('popupNuevaAplicacion').hide()}"/>
+		            	<p:commandButton  action="#{instructorController.save()}" value="Aceptar" update="panelNuevo principal:tablaAplicaciones" oncomplete="if (#{instructorController.validateCedula}) &#38;&#38; if(!args.validationFailed)  {PF('popupNuevaAplicacion').hide()}"/>
 		            	<p:commandButton value="Cancelar" action="#{instructorController.cancel()}" oncomplete="PF('popupNuevaAplicacion').hide()"/>
 		        	</div>
 		        	<br/>

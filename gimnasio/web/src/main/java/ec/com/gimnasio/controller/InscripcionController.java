@@ -2,6 +2,7 @@
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,6 +31,7 @@ import ec.com.gimnasio.model.ClubSexo;
 import ec.com.gimnasio.model.ClubTipIde;
 import ec.com.gimnasio.resources.Constantes;
 import ec.com.gimnasio.resources.ServiceLocator;
+import ec.com.gimnasio.resources.Validator;
 import ec.com.gimnasio.scope.ViewScoped;
 import ec.com.gimnasio.service.ClubDisXSedInsService;
 import ec.com.gimnasio.service.ClubDisciplinaService;
@@ -101,9 +103,15 @@ public class InscripcionController extends BaseController implements Serializabl
 	
 	private boolean update;
 	private String nombreBuscar="";
+	private boolean validateCedulaInscrito;
+	private boolean validateCedulaRepresentante;
+	private boolean validateEdad;
 	
 	@PostConstruct
 	public void init(){
+		validateCedulaInscrito=Boolean.TRUE;
+		validateCedulaRepresentante=Boolean.TRUE;
+		validateEdad=Boolean.TRUE;
 		UsuarioServiceRemote servicioUsuario = ServiceLocator.buscarInstancia(ec.com.gimnasio.resources.Constantes.URL_SEGURIDADES, UsuarioServiceRemote.class, true); 
 		Usuario usuario = servicioUsuario.buscarPorIdentificacion(sessionController.getUserSecurity().getUsername());
 		clubInstitucion=clubInstitucionService.findByCodigoCas(usuario.getSede().getCodigo());
@@ -140,6 +148,26 @@ public class InscripcionController extends BaseController implements Serializabl
 	
 	public void findHorarios(){
 		listHorario=clubHodiXDisService.findBySedeDisciplina(sede.getSedCodigo(), disciplina.getDisCodigo());
+	}
+	
+	public void validarCedula(){
+		if(tipoIdentificacion.getTiinCodigo()==1l){
+			validateCedulaInscrito=Validator.esCedulaValida(persona.getPerIdentificacion());
+		}else{
+			validateCedulaInscrito=Boolean.TRUE;
+		}
+	}
+	
+	public void validarCedulaRepresentante(){
+		validateCedulaRepresentante=Validator.esCedulaValida(representante.getRepIdentificacion());
+	}
+	
+	public void validarEdad(){
+		try {
+			validateEdad=(Validator.calcularEdad(persona.getPerFecNacimiento())).intValue()>=3;
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void cancel(){
@@ -421,5 +449,29 @@ public class InscripcionController extends BaseController implements Serializabl
 
 	public void setHoraDia(ClubHorDia horaDia) {
 		this.horaDia = horaDia;
+	}
+
+	public boolean isValidateCedulaInscrito() {
+		return validateCedulaInscrito;
+	}
+
+	public void setValidateCedulaInscrito(boolean validateCedulaInscrito) {
+		this.validateCedulaInscrito = validateCedulaInscrito;
+	}
+
+	public boolean isValidateCedulaRepresentante() {
+		return validateCedulaRepresentante;
+	}
+
+	public void setValidateCedulaRepresentante(boolean validateCedulaRepresentante) {
+		this.validateCedulaRepresentante = validateCedulaRepresentante;
+	}
+
+	public boolean isValidateEdad() {
+		return validateEdad;
+	}
+
+	public void setValidateEdad(boolean validateEdad) {
+		this.validateEdad = validateEdad;
 	}
 }

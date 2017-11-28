@@ -35,7 +35,7 @@ public class RecursoDAOImpl extends GenericDAOImpl<Recurso, Long> implements Rec
         		cb.and(
         				predicates.toArray(new Predicate[predicates.size()])
         		)
-        	).orderBy(cb.asc(recurso.get("nombre")));
+        	).orderBy(cb.asc(recurso.get("orden")));
         
         return getEntityManager().createQuery(criteria).getResultList();
 	}
@@ -52,10 +52,10 @@ public class RecursoDAOImpl extends GenericDAOImpl<Recurso, Long> implements Rec
 	        			cb.equal(recurso.get("estado"), Constantes.REGISTRO_ACTIVO),
 	        			cb.equal(recurso.get("padre"), padre)
 	        		)
-	        	).orderBy(cb.asc(recurso.get("nombre")));
+	        	).orderBy(cb.asc(recurso.get("orden")));
         } else {
         	criteria.select(recurso)
-        	.where(cb.equal(recurso.get("padre"), padre)).orderBy(cb.asc(recurso.get("nombre")));
+        	.where(cb.equal(recurso.get("padre"), padre)).orderBy(cb.asc(recurso.get("orden")));
         }
         return getEntityManager().createQuery(criteria).getResultList();
 	}

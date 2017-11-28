@@ -37,6 +37,7 @@ public class Recurso implements java.io.Serializable {
 	private String descripcion;
 	private String url;
 	private Integer nivel;
+	private int orden;
 	private String estado;
 	private List<Recurso> recursos = new ArrayList<Recurso>(0);
 	private List<RolAplicacionRecurso> rolAplicacionRecursos = new ArrayList<RolAplicacionRecurso>(
@@ -48,7 +49,7 @@ public class Recurso implements java.io.Serializable {
 	}
 
 	public Recurso(Long codigo, Recurso padre, Aplicacion aplicacion,
-			String nombre, String url, Integer nivel, String estado) {
+			String nombre, String url, Integer nivel, String estado, int orden) {
 		this.codigo = codigo;
 		this.padre = padre;
 		this.aplicacion = aplicacion;
@@ -56,11 +57,12 @@ public class Recurso implements java.io.Serializable {
 		this.url = url;
 		this.nivel = nivel;
 		this.estado = estado;
+		this.orden=orden;
 	}
 
 	public Recurso(Long codigo, Recurso padre, Aplicacion aplicacion,
 			String nombre, String descripcion, String url, Integer nivel,
-			String estado, List<Recurso> recursos,
+			String estado,int orden, List<Recurso> recursos,
 			List<RolAplicacionRecurso> rolAplicacionRecursos) {
 		this.codigo = codigo;
 		this.padre = padre;
@@ -70,6 +72,7 @@ public class Recurso implements java.io.Serializable {
 		this.url = url;
 		this.nivel = nivel;
 		this.estado = estado;
+		this.orden=orden;
 		this.recursos = recursos;
 		this.rolAplicacionRecursos = rolAplicacionRecursos;
 	}
@@ -167,6 +170,15 @@ public class Recurso implements java.io.Serializable {
 	public void setRolAplicacionRecursos(
 			List<RolAplicacionRecurso> rolAplicacionRecursos) {
 		this.rolAplicacionRecursos = rolAplicacionRecursos;
+	}
+	
+	@Column(name = "ORDEN")
+	public int getOrden() {
+		return orden;
+	}
+
+	public void setOrden(int orden) {
+		this.orden = orden;
 	}
 
 	@Transient

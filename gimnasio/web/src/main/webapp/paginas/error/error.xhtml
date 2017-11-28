@@ -16,19 +16,21 @@
 	            <span class="ui-messages-error-detail">#{errorController.mensaje}</span>
 	        </div>
 	        <br/>
-	        <p:commandButton value="Ver Detalle" onclick="PF('panelDetalle').show();"/>
+	        <p:commandButton value="Ver Detalle" update="panelDetalle" onclick="PF('panelDetalle').show()"/>
 	        <p:commandButton value="Volver" onclick="history.back();"/>
 	        <br/>
 	    	</h:form>
-        	<h:form>
-        	<p:dialog header="Detalle de Error" widgetVar="panelDetalle" modal="true" width="750" height="400">
+        	
+        	<p:dialog header="Detalle de Error" widgetVar="panelDetalle" id="panelDetalle" modal="true" width="750" height="400">
     			<f:facet name="controls">
-			            <h:outputLink value="#" onclick="PF('panelDetalle').hide(); return false;">
+			            <h:outputLink value="#" oncomplete="PF('panelDetalle').hide()">
 			                X
 			            </h:outputLink>
 			     </f:facet>
+			     <h:form>
 			     <pre style="font-size: 10px;">#{errorController.stackTrace}</pre>
+			     </h:form>
 			</p:dialog>   
-            </h:form>
+            
     </ui:define>
 </ui:composition>
